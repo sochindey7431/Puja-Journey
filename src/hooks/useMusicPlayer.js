@@ -65,8 +65,9 @@ export function useYouTubePlayer(elementId) {
   const nextTrackRef = useRef(nextTrack);
   const setErrorMessageRef = useRef(setErrorMessage);
   const timeIntervalRef = useRef(null);
+  const lastLoadedIdRef = useRef(null);
 
-  // Keep refs synchronized
+  // Keep refs synchronized without recreating effects
   useEffect(() => {
     trackIdRef.current = currentTrack?.youtubeId || currentTrack?.id || 'YQFNRoi7rEc';
   }, [currentTrack?.youtubeId, currentTrack?.id]);
@@ -91,7 +92,7 @@ export function useYouTubePlayer(elementId) {
     setErrorMessageRef.current = setErrorMessage;
   }, [setErrorMessage]);
 
-  // Poll current playback time and duration
+  // Poll current playback time and duration smoothly
   const startTimePolling = useCallback(() => {
     if (timeIntervalRef.current) clearInterval(timeIntervalRef.current);
     timeIntervalRef.current = setInterval(() => {
@@ -99,8 +100,10 @@ export function useYouTubePlayer(elementId) {
         try {
           const cur = playerInstanceRef.current.getCurrentTime() || 0;
           const dur = playerInstanceRef.current.getDuration() || 0;
-          setCurrentTime(cur);
-          if (dur > 0) {
+          if (typeof cur === 'number' && !isNaN(cur) && isFinite(cur)) {
+            setCurrentTime(cur);
+          }
+          if (typeof dur === 'number' && !isNaN(dur) && isFinite(dur) && dur > 0) {
             setDuration(dur);
           }
         } catch (e) {}
@@ -115,7 +118,7 @@ export function useYouTubePlayer(elementId) {
     }
   }, []);
 
-  // Initialize official YT.Player (stable, created once per element)
+  // Initialize official YT.Player strictly ONCE per element container
   const initPlayer = useCallback(() => {
     if (!elementId) return;
     if (playerInstanceRef.current) return;
@@ -123,6 +126,7 @@ export function useYouTubePlayer(elementId) {
     if (!el || typeof window === 'undefined' || !window.YT || !window.YT.Player) return;
 
     const initialVideoId = trackIdRef.current || 'YQFNRoi7rEc';
+    lastLoadedIdRef.current = initialVideoId;
 
     try {
       const player = new window.YT.Player(elementId, {
@@ -195,7 +199,7 @@ export function useYouTubePlayer(elementId) {
               setErrorMessageRef.current(msg);
             }
 
-            // Gracefully move to next track after small delay
+            // Gracefully move to next track after brief delay
             setTimeout(() => {
               if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
                 nextTrackRef.current();
@@ -218,14 +222,12 @@ export function useYouTubePlayer(elementId) {
     stopTimePolling,
   ]);
 
-  // Init when player container mounts or becomes available
+  // Init player when API is ready and container is mounted
   useEffect(() => {
-    if (isPlayerOpen) {
-      runWhenYTReady(() => {
-        setTimeout(initPlayer, 100);
-      });
-    }
-  }, [isPlayerOpen, initPlayer]);
+    runWhenYTReady(() => {
+      setTimeout(initPlayer, 100);
+    });
+  }, [initPlayer]);
 
   // Clean up timer on unmount
   useEffect(() => {
@@ -234,19 +236,17 @@ export function useYouTubePlayer(elementId) {
     };
   }, [stopTimePolling]);
 
-  // Load new video when current track changes (NO PAGE RELOAD)
+  // Load new video when current track changes (IN-MEMORY without destroying player)
   useEffect(() => {
     const videoId = currentTrack?.youtubeId || currentTrack?.id;
     if (!videoId || !playerInstanceRef.current) return;
+    if (lastLoadedIdRef.current === videoId) return;
 
+    lastLoadedIdRef.current = videoId;
     try {
       if (typeof playerInstanceRef.current.loadVideoById === 'function') {
-        playerInstanceRef.current.loadVideoById({
-          videoId,
-          startSeconds: 0,
-        });
+        playerInstanceRef.current.loadVideoById(videoId, 0);
         if (isPlaying) {
-          playerInstanceRef.current.playVideo?.();
           startTimePolling();
         }
       }
@@ -255,7 +255,7 @@ export function useYouTubePlayer(elementId) {
     }
   }, [currentTrack?.youtubeId, currentTrack?.id]); // eslint-disable-line
 
-  // Handle external play/pause triggers
+  // Handle external play/pause triggers safely
   useEffect(() => {
     if (!playerInstanceRef.current) return;
     try {
@@ -275,7 +275,7 @@ export function useYouTubePlayer(elementId) {
     } catch (e) {}
   }, [isPlaying, startTimePolling, stopTimePolling]);
 
-  // Handle volume changes
+  // Handle volume changes smoothly
   useEffect(() => {
     if (!playerInstanceRef.current?.setVolume) return;
     try {

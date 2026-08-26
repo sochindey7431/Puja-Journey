@@ -14,7 +14,7 @@ export default function YouTubePlayer() {
     isBuffering,
   } = useMusicContext();
 
-  // Mount official YT.Player instance on the container div
+  // Mount official YT.Player instance once on the container div
   useYouTubePlayer('puja-journey-yt-player-container');
 
   const videoId = currentTrack?.youtubeId || currentTrack?.id;
@@ -82,7 +82,7 @@ export default function YouTubePlayer() {
           </div>
         )}
 
-        {/* The YouTube IFrame API Target Element (persistent to prevent recreation) */}
+        {/* The YouTube IFrame API Target Element (persistent in DOM) */}
         <div id="puja-journey-yt-player-container" className="w-full h-full" />
 
         {/* Video Info when expanded */}
@@ -110,7 +110,7 @@ export default function YouTubePlayer() {
         )}
       </div>
 
-      {/* Dim backdrop when video is expanded */}
+      {/* Dim backdrop ONLY when video is expanded in theater mode */}
       <AnimatePresence>
         {isPlayerOpen && isVideoExpanded && (
           <motion.div
@@ -121,7 +121,7 @@ export default function YouTubePlayer() {
               e.preventDefault();
               toggleVideo();
             }}
-            className="fixed inset-0 bg-black/85 backdrop-blur-md z-[494]"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[494]"
           />
         )}
       </AnimatePresence>

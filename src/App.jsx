@@ -8,19 +8,18 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
+    const timer = setTimeout(() => setLoading(false), 1400);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <LanguageProvider>
       <MusicProvider>
+        {/* Loading overlay for initial entrance */}
         {loading && <LoadingScreen onDone={() => setLoading(false)} />}
-        <div style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.6s ease' }}>
-          <Home />
-        </div>
+        {/* Main application is always mounted and visible */}
+        <Home />
       </MusicProvider>
     </LanguageProvider>
   );
 }
-
