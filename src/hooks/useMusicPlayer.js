@@ -19,7 +19,9 @@ function loadYTAPI() {
     isScriptLoaded = true;
     isScriptLoading = false;
     readyQueue.forEach(cb => {
-      try { cb(); } catch (e) {}
+      try { cb(); } catch (e) {
+        console.warn('[Music] ready callback error:', e);
+      }
     });
     readyQueue.length = 0;
   };
@@ -54,11 +56,10 @@ export function useYouTubePlayer(elementId) {
     volume,
     isMuted,
     setErrorMessage,
-    isPlayerOpen,
   } = useMusicContext();
 
   const playerInstanceRef = useRef(null);
-  const trackIdRef = useRef(currentTrack?.youtubeId || currentTrack?.id || 'YQFNRoi7rEc');
+  const trackIdRef = useRef(currentTrack?.youtubeId || currentTrack?.id || null);
   const isPlayingRef = useRef(isPlaying);
   const volumeRef = useRef(volume);
   const isMutedRef = useRef(isMuted);
@@ -66,10 +67,11 @@ export function useYouTubePlayer(elementId) {
   const setErrorMessageRef = useRef(setErrorMessage);
   const timeIntervalRef = useRef(null);
   const lastLoadedIdRef = useRef(null);
+  const isInitializingRef = useRef(false);
 
-  // Keep refs synchronized without recreating effects
+  // Keep refs synchronized without triggering effect re-runs
   useEffect(() => {
-    trackIdRef.current = currentTrack?.youtubeId || currentTrack?.id || 'YQFNRoi7rEc';
+    trackIdRef.current = currentTrack?.youtubeId || currentTrack?.id || null;
   }, [currentTrack?.youtubeId, currentTrack?.id]);
 
   useEffect(() => {
@@ -92,15 +94,15 @@ export function useYouTubePlayer(elementId) {
     setErrorMessageRef.current = setErrorMessage;
   }, [setErrorMessage]);
 
-  // Poll current playback time and duration smoothly
+  // Poll playback position smoothly
   const startTimePolling = useCallback(() => {
     if (timeIntervalRef.current) clearInterval(timeIntervalRef.current);
     timeIntervalRef.current = setInterval(() => {
       if (playerInstanceRef.current && typeof playerInstanceRef.current.getCurrentTime === 'function') {
         try {
-          const cur = playerInstanceRef.current.getCurrentTime() || 0;
-          const dur = playerInstanceRef.current.getDuration() || 0;
-          if (typeof cur === 'number' && !isNaN(cur) && isFinite(cur)) {
+          const cur = playerInstanceRef.current.getCurrentTime();
+          const dur = playerInstanceRef.current.getDuration();
+          if (typeof cur === 'number' && !isNaN(cur) && isFinite(cur) && cur >= 0) {
             setCurrentTime(cur);
           }
           if (typeof dur === 'number' && !isNaN(dur) && isFinite(dur) && dur > 0) {
@@ -118,14 +120,17 @@ export function useYouTubePlayer(elementId) {
     }
   }, []);
 
-  // Initialize official YT.Player strictly ONCE per element container
+  // Initialize YT.Player once with the selected track
   const initPlayer = useCallback(() => {
     if (!elementId) return;
-    if (playerInstanceRef.current) return;
+    if (playerInstanceRef.current || isInitializingRef.current) return;
     const el = document.getElementById(elementId);
     if (!el || typeof window === 'undefined' || !window.YT || !window.YT.Player) return;
 
-    const initialVideoId = trackIdRef.current || 'YQFNRoi7rEc';
+    const initialVideoId = trackIdRef.current;
+    if (!initialVideoId) return; // Wait until a festival track is selected
+
+    isInitializingRef.current = true;
     lastLoadedIdRef.current = initialVideoId;
 
     try {
@@ -147,6 +152,7 @@ export function useYouTubePlayer(elementId) {
           onReady: (e) => {
             playerInstanceRef.current = e.target;
             playerRef.current = e.target;
+            isInitializingRef.current = false;
             setPlayerReady(true);
             setIsLoading(false);
             try {
@@ -185,7 +191,7 @@ export function useYouTubePlayer(elementId) {
             }
           },
           onError: (e) => {
-            console.warn('YouTube Player notification error code:', e.data);
+            console.warn('[Music] YouTube Player notice code:', e.data);
             setIsBuffering(false);
             setIsLoading(false);
 
@@ -199,7 +205,7 @@ export function useYouTubePlayer(elementId) {
               setErrorMessageRef.current(msg);
             }
 
-            // Gracefully move to next track after brief delay
+            // Move to next track after brief delay without reloading
             setTimeout(() => {
               if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
                 nextTrackRef.current();
@@ -209,7 +215,8 @@ export function useYouTubePlayer(elementId) {
         },
       });
     } catch (err) {
-      console.warn('YT.Player initialization error:', err);
+      isInitializingRef.current = false;
+      console.warn('[Music] YT.Player init error:', err);
     }
   }, [
     elementId,
@@ -222,13 +229,6 @@ export function useYouTubePlayer(elementId) {
     stopTimePolling,
   ]);
 
-  // Init player when API is ready and container is mounted
-  useEffect(() => {
-    runWhenYTReady(() => {
-      setTimeout(initPlayer, 100);
-    });
-  }, [initPlayer]);
-
   // Clean up timer on unmount
   useEffect(() => {
     return () => {
@@ -236,13 +236,22 @@ export function useYouTubePlayer(elementId) {
     };
   }, [stopTimePolling]);
 
-  // Load new video when current track changes (IN-MEMORY without destroying player)
+  // Load new video when current track changes (IN-MEMORY on existing player instance)
   useEffect(() => {
     const videoId = currentTrack?.youtubeId || currentTrack?.id;
-    if (!videoId || !playerInstanceRef.current) return;
-    if (lastLoadedIdRef.current === videoId) return;
+    if (!videoId) return;
 
+    // If player is not initialized yet, initialize it
+    if (!playerInstanceRef.current) {
+      runWhenYTReady(() => {
+        setTimeout(initPlayer, 50);
+      });
+      return;
+    }
+
+    if (lastLoadedIdRef.current === videoId) return;
     lastLoadedIdRef.current = videoId;
+
     try {
       if (typeof playerInstanceRef.current.loadVideoById === 'function') {
         playerInstanceRef.current.loadVideoById(videoId, 0);
@@ -251,9 +260,9 @@ export function useYouTubePlayer(elementId) {
         }
       }
     } catch (e) {
-      console.warn('Error loading YouTube video by ID:', e);
+      console.warn('[Music] Error loading video by ID:', e);
     }
-  }, [currentTrack?.youtubeId, currentTrack?.id]); // eslint-disable-line
+  }, [currentTrack?.youtubeId, currentTrack?.id, initPlayer, isPlaying, startTimePolling]);
 
   // Handle external play/pause triggers safely
   useEffect(() => {

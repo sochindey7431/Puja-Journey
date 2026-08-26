@@ -131,15 +131,19 @@ export default function FloatingMusicPlayer() {
 
   // Window-level move and up handlers for smooth seeking without page reload or dropped events
   const calculateSeekTime = useCallback((clientX) => {
-    if (!progressBarRef.current || durationRef.current <= 0) return 0;
+    if (!progressBarRef.current || !durationRef.current || durationRef.current <= 0 || isNaN(durationRef.current)) return 0;
     const rect = progressBarRef.current.getBoundingClientRect();
+    if (!rect.width || rect.width <= 0) return 0;
     const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    return ratio * durationRef.current;
+    const time = ratio * durationRef.current;
+    return (typeof time === 'number' && isFinite(time) && !isNaN(time) && time >= 0) ? time : 0;
   }, []);
 
   const handleSeekStart = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!durationRef.current || durationRef.current <= 0) return;
+
     setIsSeeking(true);
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     const target = calculateSeekTime(clientX);
@@ -160,7 +164,9 @@ export default function FloatingMusicPlayer() {
 
       const endX = endEvent.changedTouches ? endEvent.changedTouches[0].clientX : endEvent.clientX;
       const finalTarget = typeof endX === 'number' ? calculateSeekTime(endX) : target;
-      seek(finalTarget);
+      if (typeof finalTarget === 'number' && !isNaN(finalTarget) && isFinite(finalTarget)) {
+        seek(finalTarget);
+      }
       setIsSeeking(false);
     };
 
@@ -172,7 +178,7 @@ export default function FloatingMusicPlayer() {
 
   if (!isPlayerOpen || !currentPlaylist) return null;
 
-  // Track exploration helper - only when exploring a festival that has music and is different from current
+  // Track exploration helper
   const exploringFestival = exploringFestivalId
     ? festivals.find(f => f.id === exploringFestivalId)
     : null;

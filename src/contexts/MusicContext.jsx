@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
+import { createContext, useContext, useState, useCallback, useRef } from 'react';
 import { getPlaylistForFestival, hasPlaylistForFestival } from '../data/festivalPlaylists.js';
 
 const MusicContext = createContext(null);
@@ -38,6 +38,7 @@ export function MusicProvider({ children }) {
 
     setErrorMessage(null);
     setIsPlayerOpen(true);
+    setIsVideoExpanded(false); // Never start in expanded mode
     setIsPlayerMinimized(false);
 
     // If same festival playlist is already loaded, toggle/resume
@@ -88,6 +89,7 @@ export function MusicProvider({ children }) {
     }
   }, [isPlaying, play, pause]);
 
+  // Next Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const nextTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
     setErrorMessage(null);
@@ -97,6 +99,7 @@ export function MusicProvider({ children }) {
     setIsLoading(true);
   }, [currentPlaylist]);
 
+  // Previous Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const prevTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
     setErrorMessage(null);
@@ -106,7 +109,9 @@ export function MusicProvider({ children }) {
     setIsLoading(true);
   }, [currentPlaylist]);
 
+  // Select Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const selectTrack = useCallback((index) => {
+    if (typeof index !== 'number' || index < 0) return;
     setErrorMessage(null);
     setCurrentTime(0);
     setCurrentTrackIndex(index);
@@ -114,12 +119,16 @@ export function MusicProvider({ children }) {
     setIsLoading(true);
   }, []);
 
+  // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
   const seek = useCallback((seconds) => {
+    if (typeof seconds !== 'number' || isNaN(seconds) || !isFinite(seconds) || seconds < 0) return;
     setCurrentTime(seconds);
-    if (playerRef.current?.seekTo) {
+    if (playerRef.current && typeof playerRef.current.seekTo === 'function') {
       try {
         playerRef.current.seekTo(seconds, true);
-      } catch (e) {}
+      } catch (e) {
+        console.warn('[Music] seekTo error:', e);
+      }
     }
   }, []);
 
