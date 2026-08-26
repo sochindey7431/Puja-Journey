@@ -16,6 +16,7 @@ import { ENABLE_YOUTUBE_MUSIC } from '../config/musicConfig.js';
 import { festivals, getFestivalById } from '../data/festivals.js';
 import { useFestivalProgress } from '../hooks/useFestivalProgress.js';
 import { useLanguage } from '../hooks/useLanguage.jsx';
+import ErrorBoundary from '../components/ui/ErrorBoundary.jsx';
 
 export default function Home() {
   const { t, isBn } = useLanguage();
@@ -263,8 +264,13 @@ export default function Home() {
         )}
       </AnimatePresence>
       {/* YouTube music player bar + video window (when enabled) */}
-      {ENABLE_YOUTUBE_MUSIC && <FloatingMusicPlayer />}
-      {ENABLE_YOUTUBE_MUSIC && <YouTubePlayer />}
+      {ENABLE_YOUTUBE_MUSIC && (
+        <ErrorBoundary>
+          <FloatingMusicPlayer />
+          <YouTubePlayer />
+        </ErrorBoundary>
+      )}
     </div>
   );
 }
+

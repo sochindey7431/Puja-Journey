@@ -53,6 +53,7 @@ export function MusicProvider({ children }) {
     }
 
     // Load new festival playlist - reset track index
+    console.log('[YT] LOAD FESTIVAL PLAYLIST:', festivalId);
     setCurrentPlaylistKey(festivalId);
     setCurrentTrackIndex(0);
     setCurrentTime(0);
@@ -92,6 +93,7 @@ export function MusicProvider({ children }) {
   // Next Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const nextTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
+    console.log('[YT] NEXT track requested');
     setErrorMessage(null);
     setCurrentTime(0);
     setCurrentTrackIndex(i => (i + 1) % currentPlaylist.tracks.length);
@@ -102,6 +104,7 @@ export function MusicProvider({ children }) {
   // Previous Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const prevTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
+    console.log('[YT] PREVIOUS track requested');
     setErrorMessage(null);
     setCurrentTime(0);
     setCurrentTrackIndex(i => (i === 0 ? currentPlaylist.tracks.length - 1 : i - 1));
@@ -112,6 +115,7 @@ export function MusicProvider({ children }) {
   // Select Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const selectTrack = useCallback((index) => {
     if (typeof index !== 'number' || index < 0) return;
+    console.log('[YT] SELECT track at index:', index);
     setErrorMessage(null);
     setCurrentTime(0);
     setCurrentTrackIndex(index);
@@ -122,12 +126,13 @@ export function MusicProvider({ children }) {
   // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
   const seek = useCallback((seconds) => {
     if (typeof seconds !== 'number' || isNaN(seconds) || !isFinite(seconds) || seconds < 0) return;
+    console.log('[YT] SEEK to second:', seconds);
     setCurrentTime(seconds);
     if (playerRef.current && typeof playerRef.current.seekTo === 'function') {
       try {
         playerRef.current.seekTo(seconds, true);
       } catch (e) {
-        console.warn('[Music] seekTo error:', e);
+        console.warn('[YT] seekTo error:', e);
       }
     }
   }, []);
@@ -164,6 +169,7 @@ export function MusicProvider({ children }) {
   }, [volume]);
 
   const closePlayer = useCallback(() => {
+    console.log('[YT] CLOSE player');
     setIsPlayerOpen(false);
     setIsPlaylistOpen(false);
     setIsVideoExpanded(false);
@@ -175,7 +181,11 @@ export function MusicProvider({ children }) {
   }, []);
 
   const toggleVideo = useCallback(() => {
-    setIsVideoExpanded(o => !o);
+    setIsVideoExpanded(o => {
+      const next = !o;
+      console.log(next ? '[YT] EXPANDED' : '[YT] MINIMIZED');
+      return next;
+    });
   }, []);
 
   const toggleMinimize = useCallback(() => {
