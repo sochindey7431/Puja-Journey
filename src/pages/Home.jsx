@@ -10,8 +10,9 @@ import NextPujaWidget from '../components/widgets/NextPujaWidget.jsx';
 import CalendarPanel from '../components/ui/CalendarPanel.jsx';
 import SearchBar from '../components/ui/SearchBar.jsx';
 import CategoryFilter from '../components/ui/CategoryFilter.jsx';
-import FloatingLocalPlayer from '../components/music/FloatingLocalPlayer.jsx';
-import { ENABLE_LOCAL_MUSIC } from '../config/musicConfig.js';
+import FloatingMusicPlayer from '../components/music/FloatingMusicPlayer.jsx';
+import YouTubePlayer from '../components/music/YouTubePlayer.jsx';
+import { ENABLE_YOUTUBE_MUSIC } from '../config/musicConfig.js';
 import { festivals, getFestivalById } from '../data/festivals.js';
 import { useFestivalProgress } from '../hooks/useFestivalProgress.js';
 import { useLanguage } from '../hooks/useLanguage.jsx';
@@ -261,8 +262,9 @@ export default function Home() {
           />
         )}
       </AnimatePresence>
-      {/* Mini floating local music player (when enabled) */}
-      {ENABLE_LOCAL_MUSIC && <FloatingLocalPlayer />}
+      {/* YouTube music player bar + video window (when enabled) */}
+      {ENABLE_YOUTUBE_MUSIC && <FloatingMusicPlayer />}
+      {ENABLE_YOUTUBE_MUSIC && <YouTubePlayer />}
     </div>
   );
 }

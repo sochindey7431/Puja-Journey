@@ -1,7 +1,7 @@
 /**
  * PUJA JOURNEY — Central Festival Music Playlists
  *
- * All verified YouTube music video IDs with direct embed support.
+ * Official YouTube IFrame Player API tracks for each festival.
  */
 
 const getThumb = (id) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
@@ -17,26 +17,47 @@ export const festivalPlaylists = {
     accentColor: '#c9a84c',
     tracks: [
       {
+        id: 'zZ4dYYcPxUY',
+        youtubeId: 'zZ4dYYcPxUY',
+        youtubeUrl: 'https://www.youtube.com/watch?v=zZ4dYYcPxUY',
+        title: 'Ahang Rudre - Sourendro-Soumyojit',
+        titleBn: 'অহং রুদ্রে — সৌরেন্দ্র-সৌম্যজিৎ',
+        artist: 'Sourendro-Soumyojit',
+        thumbnail: getThumb('zZ4dYYcPxUY'),
+      },
+      {
         id: '57O9a_Y5vE0',
+        youtubeId: '57O9a_Y5vE0',
+        youtubeUrl: 'https://www.youtube.com/watch?v=57O9a_Y5vE0',
         title: 'মহিষাসুরমর্দিনী — সম্পূর্ণ মূল অনুষ্ঠান',
+        titleBn: 'মহিষাসুরমর্দিনী — সম্পূর্ণ মূল অনুষ্ঠান',
         artist: 'বীরেন্দ্রকৃষ্ণ ভদ্র (Birendra Krishna Bhadra)',
         thumbnail: getThumb('57O9a_Y5vE0'),
       },
       {
         id: '1F_4bWq1g3I',
+        youtubeId: '1F_4bWq1g3I',
+        youtubeUrl: 'https://www.youtube.com/watch?v=1F_4bWq1g3I',
         title: 'মহালয়া — অল ইন্ডিয়া রেডিও ও সারেগামা অ্যালবাম',
+        titleBn: 'মহালয়া — অল ইন্ডিয়া রেডিও ও সারেগামা অ্যালবাম',
         artist: 'বীরেন্দ্রকৃষ্ণ ভদ্র ও পঙ্কজ মল্লিক',
         thumbnail: getThumb('1F_4bWq1g3I'),
       },
       {
         id: 'S0Tq4z8Z_1U',
+        youtubeId: 'S0Tq4z8Z_1U',
+        youtubeUrl: 'https://www.youtube.com/watch?v=S0Tq4z8Z_1U',
         title: 'দেবী স্তুতি ও মহিষাসুরমর্দিনী স্তোত্রম্',
+        titleBn: 'দেবী স্তুতি ও মহিষাসুরমর্দিনী স্তোত্রম্',
         artist: 'ঐতিহ্যবাহী স্তোত্র (Traditional Stotram)',
         thumbnail: getThumb('S0Tq4z8Z_1U'),
       },
       {
         id: '6P3O1gH1qFw',
+        youtubeId: '6P3O1gH1qFw',
+        youtubeUrl: 'https://www.youtube.com/watch?v=6P3O1gH1qFw',
         title: 'ভোরের আগমনী সুর — মা আসছেন',
+        titleBn: 'ভোরের আগমনী সুর — মা আসছেন',
         artist: 'বাংলা ভক্তিগীতি (Agomoni)',
         thumbnail: getThumb('6P3O1gH1qFw'),
       },
@@ -504,6 +525,11 @@ export const festivalPlaylists = {
 };
 
 /**
+ * festivalMusic alias matching requirement format
+ */
+export const festivalMusic = festivalPlaylists;
+
+/**
  * Get playlist by festival ID with robust fallbacks
  */
 export function getPlaylistForFestival(festivalId) {
@@ -518,3 +544,4 @@ export function getPlaylistForFestival(festivalId) {
 }
 
 export default festivalPlaylists;
+

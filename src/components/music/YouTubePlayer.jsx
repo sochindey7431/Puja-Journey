@@ -1,6 +1,7 @@
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
+import { useYouTubePlayer } from '../../hooks/useMusicPlayer.js';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, Minimize2, ExternalLink, Music2 } from 'lucide-react';
+import { Maximize2, Minimize2, ExternalLink, Sparkles } from 'lucide-react';
 
 export default function YouTubePlayer() {
   const {
@@ -9,23 +10,29 @@ export default function YouTubePlayer() {
     toggleVideo,
     currentTrack,
     currentPlaylist,
-    isPlaying,
+    isLoading,
+    isBuffering,
   } = useMusicContext();
 
-  if (!isPlayerOpen || !currentTrack?.id) return null;
+  // Mount official YT.Player instance on the container div
+  useYouTubePlayer('puja-journey-yt-player-container');
+
+  const videoId = currentTrack?.youtubeId || currentTrack?.id;
+  if (!isPlayerOpen || !videoId) return null;
 
   return (
     <>
       {/* 
         Official YouTube Video Player Container:
-        - When collapsed: Renders as a mini docked video card (220x124px) in the bottom-left corner with gold border & glow.
-        - When expanded: Renders as a cinematic full video modal with dark backdrop.
+        - Complies with YouTube Terms of Service by remaining visible and interactive.
+        - Compact Docked Mode: 220px x 124px in bottom-left corner with glowing puja-gold border.
+        - Expanded Mode: Centered cinematic theater modal with dark backdrop.
       */}
       <div
         className={`fixed z-[495] transition-all duration-300 ease-out ${
           isVideoExpanded
             ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-3xl aspect-video rounded-xl border-2 border-puja-gold/60 bg-black overflow-hidden'
-            : 'bottom-[76px] left-3 md:left-6 w-44 h-24 md:w-56 md:h-32 rounded-lg border border-puja-gold/30 bg-black overflow-hidden'
+            : 'bottom-[92px] left-3 md:left-6 w-48 h-28 md:w-60 md:h-34 rounded-lg border border-puja-gold/30 bg-black overflow-hidden'
         }`}
         style={{
           boxShadow: isVideoExpanded
@@ -34,10 +41,10 @@ export default function YouTubePlayer() {
         }}
         aria-label="YouTube Music Player"
       >
-        {/* Top Mini Header with Expand / Fullscreen & YouTube link */}
-        <div className="absolute top-1.5 right-1.5 z-20 flex items-center gap-1 bg-black/80 backdrop-blur-md rounded px-1.5 py-0.5 border border-puja-gold/25">
+        {/* Top Mini Toolbar: Direct YouTube link & Expand/Collapse */}
+        <div className="absolute top-1.5 right-1.5 z-20 flex items-center gap-1.5 bg-black/80 backdrop-blur-md rounded px-2 py-0.5 border border-puja-gold/25">
           <a
-            href={`https://www.youtube.com/watch?v=${currentTrack.id}`}
+            href={currentTrack.youtubeUrl || `https://www.youtube.com/watch?v=${videoId}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-puja-ivory/60 hover:text-puja-gold p-0.5 transition-colors"
@@ -56,25 +63,27 @@ export default function YouTubePlayer() {
           </button>
         </div>
 
-        {/* The Direct YouTube Video Embed */}
-        <iframe
-          key={currentTrack.id}
-          src={`https://www.youtube.com/embed/${currentTrack.id}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1`}
-          title={currentTrack.title || 'Puja Devotional Music'}
-          className="w-full h-full border-0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          loading="eager"
-        />
+        {/* Buffering/Loading subtle badge */}
+        {(isLoading || isBuffering) && (
+          <div className="absolute top-1.5 left-1.5 z-20 flex items-center gap-1 bg-puja-gold/20 backdrop-blur-md rounded px-2 py-0.5 border border-puja-gold/40 text-[10px] text-puja-gold font-medium">
+            <Sparkles size={10} className="animate-spin" />
+            <span>Loading…</span>
+          </div>
+        )}
+
+        {/* The YouTube IFrame API Target Element */}
+        <div id="puja-journey-yt-player-container" className="w-full h-full" />
 
         {/* Video Info when expanded */}
         {isVideoExpanded && (
           <div className="absolute -bottom-14 left-0 right-0 flex items-center justify-between px-2 text-puja-ivory">
             <div className="min-w-0 flex-1">
               <p className="bn-text text-sm md:text-base text-puja-gold truncate font-semibold">
-                {currentTrack.title}
+                {currentTrack.titleBn || currentTrack.title}
               </p>
-              <p className="text-xs text-puja-ivory/50 truncate">{currentTrack.artist}</p>
+              <p className="text-xs text-puja-ivory/50 truncate">
+                {currentTrack.artist} {currentPlaylist?.title ? `· ${currentPlaylist.title}` : ''}
+              </p>
             </div>
             <button
               onClick={toggleVideo}
@@ -86,7 +95,7 @@ export default function YouTubePlayer() {
         )}
       </div>
 
-      {/* Dim overlay when video is expanded */}
+      {/* Dim backdrop when video is expanded */}
       <AnimatePresence>
         {isVideoExpanded && (
           <motion.div
@@ -101,3 +110,4 @@ export default function YouTubePlayer() {
     </>
   );
 }
+

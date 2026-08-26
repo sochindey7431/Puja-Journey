@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { festivals } from '../../data/festivals.js';
@@ -6,18 +6,27 @@ import { getPlaylistForFestival, festivalPlaylists } from '../../data/festivalPl
 import {
   Play, Pause, SkipBack, SkipForward,
   ListMusic, X, ChevronDown, Music2,
-  Volume2, VolumeX, Video, ChevronUp
+  Volume2, VolumeX, Video, AlertCircle, Sparkles,
+  Minimize2, Maximize2
 } from 'lucide-react';
+
+// Format seconds into MM:SS
+function formatTime(s) {
+  if (!s || isNaN(s) || !isFinite(s) || s < 0) return '0:00';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return `${m}:${sec.toString().padStart(2, '0')}`;
+}
 
 // Animated equalizer bars
 function Equalizer({ isPlaying }) {
   const heights = [4, 12, 8, 14, 6, 10];
   return (
-    <div className="flex items-end gap-[2px] h-4" aria-hidden="true">
+    <div className="flex items-end gap-[2px] h-3.5" aria-hidden="true">
       {heights.map((h, i) => (
         <span
           key={i}
-          className={`block w-[3px] rounded-full bg-puja-gold ${isPlaying ? 'music-eq-bar' : ''}`}
+          className={`block w-[2.5px] rounded-full bg-puja-gold ${isPlaying ? 'music-eq-bar' : ''}`}
           style={{
             height: isPlaying ? undefined : `${h}px`,
             animationDelay: isPlaying ? `${i * 0.12}s` : '0s',
@@ -28,8 +37,9 @@ function Equalizer({ isPlaying }) {
   );
 }
 
-// Single track item in playlist drawer
+// Single track row in playlist drawer
 function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
+  const title = track.titleBn || track.title;
   return (
     <button
       onClick={() => onSelect(index)}
@@ -45,13 +55,13 @@ function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
       <span className="w-6 flex-shrink-0 flex items-center justify-center">
         {isActive
           ? <Equalizer isPlaying={isPlaying} />
-          : <span className="text-[11px] text-puja-ivory/30 tabular-nums">{String(index + 1).padStart(2, '0')}</span>
+          : <span className="text-[11px] text-puja-ivory/30 tabular-nums font-mono">{String(index + 1).padStart(2, '0')}</span>
         }
       </span>
 
       {/* Thumbnail */}
       <img
-        src={track.thumbnail}
+        src={track.thumbnail || `https://img.youtube.com/vi/${track.youtubeId || track.id}/hqdefault.jpg`}
         alt={track.title}
         className="w-10 h-10 object-cover rounded border border-puja-gold/15 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
         loading="lazy"
@@ -60,8 +70,8 @@ function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
 
       {/* Title & Artist */}
       <div className="flex-1 min-w-0">
-        <p className={`text-sm leading-tight truncate ${isActive ? 'text-puja-gold font-medium' : 'text-puja-ivory/80 group-hover:text-puja-ivory'}`}>
-          {track.title}
+        <p className={`text-sm leading-tight truncate bn-text ${isActive ? 'text-puja-gold font-medium' : 'text-puja-ivory/80 group-hover:text-puja-ivory'}`}>
+          {title}
         </p>
         <p className="text-[11px] text-puja-ivory/35 truncate mt-0.5">{track.artist}</p>
       </div>
@@ -81,29 +91,40 @@ export default function FloatingMusicPlayer() {
     currentTrackIndex,
     currentTrack,
     isPlaying,
+    isBuffering,
+    isLoading,
+    currentTime,
+    duration,
     isPlayerOpen,
     isPlaylistOpen,
+    isPlayerMinimized,
     exploringFestivalId,
-    loadPlaylist,
+    loadFestivalMusic,
     togglePlay,
     nextTrack,
     prevTrack,
     selectTrack,
+    seek,
     closePlayer,
     togglePlaylist,
     toggleVideo,
+    toggleMinimize,
     isVideoExpanded,
     volume,
     handleVolumeChange,
     isMuted,
     toggleMute,
+    errorMessage,
+    dismissError,
   } = useMusicContext();
 
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [isSeeking, setIsSeeking] = useState(false);
+  const [seekValue, setSeekValue] = useState(0);
+  const progressBarRef = useRef(null);
 
   if (!isPlayerOpen || !currentPlaylist) return null;
 
-  // Contextual exploration hint
+  // Track exploration helper
   const exploringFestival = exploringFestivalId
     ? festivals.find(f => f.id === exploringFestivalId)
     : null;
@@ -118,9 +139,67 @@ export default function FloatingMusicPlayer() {
     currentPlaylistKey !== exploringFestivalId &&
     !exploringFestivalId.startsWith(currentPlaylistKey);
 
+  const activeTime = isSeeking ? seekValue : currentTime;
+  const progressPercent = duration > 0 ? (activeTime / duration) * 100 : 0;
+
+  const handleSeekStart = (e) => {
+    setIsSeeking(true);
+    handleSeekMove(e);
+  };
+
+  const handleSeekMove = (e) => {
+    if (!progressBarRef.current || duration <= 0) return;
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    setSeekValue(ratio * duration);
+  };
+
+  const handleSeekEnd = () => {
+    if (isSeeking) {
+      seek(seekValue);
+      setIsSeeking(false);
+    }
+  };
+
+  const trackTitle = currentTrack?.titleBn || currentTrack?.title || 'Predefined Festival Track';
+  const festivalTitle = currentPlaylist.title || 'Devotional Music';
+
   return (
     <>
-      {/* Playlist Drawer (Bottom Sheet) */}
+      {/* ── Error Banner Toast ──────────────────────────────────── */}
+      <AnimatePresence>
+        {errorMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-[94px] left-1/2 -translate-x-1/2 z-[520] max-w-md w-[92vw] px-4 py-3 rounded-lg bg-red-950/90 border border-red-500/40 backdrop-blur-xl shadow-2xl flex items-center justify-between gap-3 text-red-200 text-xs"
+          >
+            <div className="flex items-center gap-2 min-w-0">
+              <AlertCircle size={16} className="text-red-400 shrink-0" />
+              <p className="truncate font-medium">{errorMessage}</p>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                onClick={nextTrack}
+                className="px-2 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-100 rounded text-[11px] font-semibold tracking-wider uppercase transition-colors"
+              >
+                Next
+              </button>
+              <button
+                onClick={dismissError}
+                className="p-1 hover:text-white transition-colors"
+                aria-label="Dismiss error"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Playlist Drawer (Bottom Sheet) ────────────────────────── */}
       <AnimatePresence>
         {isPlaylistOpen && (
           <motion.div
@@ -129,8 +208,8 @@ export default function FloatingMusicPlayer() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="fixed bottom-[74px] left-1/2 -translate-x-1/2 z-[490]
-              w-[94vw] max-w-lg max-h-[65vh] overflow-hidden
+            className="fixed bottom-[84px] left-1/2 -translate-x-1/2 z-[490]
+              w-[94vw] max-w-lg max-h-[62vh] overflow-hidden
               flex flex-col
               bg-[rgba(12,9,5,0.98)] border border-puja-gold/25
               backdrop-blur-2xl rounded-t-xl"
@@ -162,16 +241,16 @@ export default function FloatingMusicPlayer() {
 
             {/* Festival Switcher Bar inside Playlist Drawer */}
             <div className="flex items-center gap-1.5 px-4 py-2 bg-black/40 overflow-x-auto scrollbar-thin border-b border-puja-gold/10 flex-shrink-0">
-              {Object.keys(festivalPlaylists).slice(0, 8).map(key => {
+              {Object.keys(festivalPlaylists).slice(0, 10).map(key => {
                 const p = festivalPlaylists[key];
                 const isCur = currentPlaylistKey === key;
                 return (
                   <button
                     key={key}
-                    onClick={() => loadPlaylist(key, true)}
+                    onClick={() => loadFestivalMusic(key, true)}
                     className={`px-2.5 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
                       isCur
-                        ? 'bg-puja-gold text-puja-black font-semibold'
+                        ? 'bg-puja-gold text-puja-black font-semibold shadow-sm'
                         : 'bg-white/5 text-puja-ivory/50 hover:text-puja-gold hover:bg-white/10'
                     }`}
                   >
@@ -185,7 +264,7 @@ export default function FloatingMusicPlayer() {
             <div className="overflow-y-auto flex-1 divide-y divide-puja-gold/8 scrollbar-thin py-1">
               {currentPlaylist.tracks?.map((track, i) => (
                 <TrackRow
-                  key={track.id + '-' + i}
+                  key={(track.youtubeId || track.id) + '-' + i}
                   track={track}
                   index={i}
                   isActive={i === currentTrackIndex}
@@ -198,29 +277,55 @@ export default function FloatingMusicPlayer() {
         )}
       </AnimatePresence>
 
-      {/* Floating Player Main Bar */}
+      {/* ── Main Floating Music Player Bar ────────────────────────── */}
       <motion.div
         initial={{ y: 80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 80, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 260 }}
         className="fixed bottom-0 left-0 right-0 z-[500]
-          bg-[rgba(10,8,5,0.96)] border-t border-puja-gold/25
-          backdrop-blur-xl"
-        style={{ boxShadow: '0 -4px 35px rgba(0,0,0,0.8), 0 0 20px rgba(212,160,23,0.1)' }}
-        aria-label="Floating music player"
+          bg-[rgba(10,8,5,0.97)] border-t border-puja-gold/30
+          backdrop-blur-2xl"
+        style={{ boxShadow: '0 -4px 35px rgba(0,0,0,0.85), 0 0 25px rgba(212,160,23,0.15)' }}
+        aria-label="Puja Journey custom music player"
         role="region"
       >
+        {/* Top Progress Scrub Bar (Clickable & Draggable) */}
+        <div
+          ref={progressBarRef}
+          onMouseDown={handleSeekStart}
+          onMouseMove={isSeeking ? handleSeekMove : undefined}
+          onMouseUp={handleSeekEnd}
+          onTouchStart={handleSeekStart}
+          onTouchMove={isSeeking ? handleSeekMove : undefined}
+          onTouchEnd={handleSeekEnd}
+          className="group relative w-full h-1.5 bg-puja-gold/15 hover:h-2.5 transition-all duration-200 cursor-pointer"
+          role="slider"
+          aria-label="Music progress seek bar"
+          aria-valuenow={Math.round(activeTime)}
+          aria-valuemin={0}
+          aria-valuemax={Math.round(duration || 100)}
+        >
+          {/* Progress fill */}
+          <div
+            className="h-full bg-gradient-to-r from-puja-gold-light via-puja-gold to-amber-400 relative transition-[width] duration-75"
+            style={{ width: `${progressPercent}%` }}
+          >
+            {/* Scrubber Knob */}
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3 h-3 rounded-full bg-puja-gold border border-black opacity-0 group-hover:opacity-100 shadow-md transition-opacity" />
+          </div>
+        </div>
+
         {/* Contextual "Now exploring" Banner */}
         {exploringFestival && isDifferentFromExploring && (
-          <div className="px-4 py-1 bg-puja-gold/8 border-b border-puja-gold/10 flex items-center justify-between">
+          <div className="px-4 py-1 bg-puja-gold/10 border-b border-puja-gold/10 flex items-center justify-between">
             <div className="flex items-center gap-2 min-w-0">
-              <span className="text-[10px] uppercase tracking-wider text-puja-ivory/30">Now exploring:</span>
+              <span className="text-[10px] uppercase tracking-wider text-puja-ivory/40">Now exploring:</span>
               <span className="bn-text text-xs text-puja-gold truncate font-medium">{exploringFestival.nameBn}</span>
             </div>
             <button
-              onClick={() => loadPlaylist(exploringFestivalId, true)}
-              className="text-[11px] text-puja-gold hover:text-puja-gold-light tracking-wider font-medium uppercase transition-colors px-2 py-0.5 rounded bg-puja-gold/10 hover:bg-puja-gold/20"
+              onClick={() => loadFestivalMusic(exploringFestivalId, true)}
+              className="text-[11px] text-puja-gold hover:text-puja-gold-light tracking-wider font-medium uppercase transition-colors px-2 py-0.5 rounded bg-puja-gold/15 hover:bg-puja-gold/25"
               aria-label={`Play ${exploringFestival.nameEn} music`}
             >
               ▶ Play {exploringFestival.nameEn}
@@ -228,16 +333,16 @@ export default function FloatingMusicPlayer() {
           </div>
         )}
 
-        {/* Player Controls Bar */}
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 px-3 md:px-6 py-2.5">
+        {/* Controls Container */}
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 py-2.5">
           
-          {/* Left: Thumbnail, Track Info & Equalizer */}
-          <div className="flex items-center gap-3 min-w-0 max-w-[45%] md:max-w-sm">
-            <div className="relative flex-shrink-0 w-11 h-11 rounded border border-puja-gold/25 overflow-hidden bg-black/60 shadow-md">
+          {/* Left: Thumbnail, Track & Festival Info */}
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 max-w-[48%] sm:max-w-xs md:max-w-sm">
+            <div className="relative flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded border border-puja-gold/30 overflow-hidden bg-black shadow-md">
               {currentTrack?.thumbnail ? (
                 <img
                   src={currentTrack.thumbnail}
-                  alt={currentTrack.title}
+                  alt={trackTitle}
                   className="w-full h-full object-cover"
                   onError={e => { e.target.style.display = 'none'; }}
                 />
@@ -247,65 +352,86 @@ export default function FloatingMusicPlayer() {
                 </div>
               )}
               {isPlaying && (
-                <div className="absolute inset-0 bg-black/40 flex items-end justify-center pb-1">
+                <div className="absolute inset-0 bg-black/45 flex items-end justify-center pb-1">
                   <Equalizer isPlaying={isPlaying} />
                 </div>
               )}
             </div>
 
             <div className="min-w-0">
-              <p className="bn-text text-xs md:text-sm text-puja-ivory font-medium leading-tight truncate">
-                {currentTrack?.title || 'Selected Track'}
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs" aria-hidden="true">{currentPlaylist.festivalEmoji || '🪔'}</span>
+                <p className="text-[10px] sm:text-xs text-puja-gold/80 truncate font-semibold uppercase tracking-wider">
+                  {festivalTitle}
+                </p>
+              </div>
+              <p className="bn-text text-xs sm:text-sm text-puja-ivory font-medium leading-tight truncate mt-0.5">
+                {trackTitle}
               </p>
-              <p className="text-[10px] md:text-xs text-puja-ivory/40 truncate mt-0.5">
+              <p className="text-[10px] text-puja-ivory/40 truncate hidden xs:block">
                 {currentTrack?.artist || currentPlaylist.subtitle}
               </p>
             </div>
           </div>
 
-          {/* Center: Playback Controls */}
-          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
-            {/* Previous */}
-            <button
-              onClick={prevTrack}
-              className="p-2 text-puja-ivory/50 hover:text-puja-gold transition-colors rounded"
-              title="Previous Track"
-              aria-label="Previous track"
-            >
-              <SkipBack size={18} />
-            </button>
+          {/* Center: Playback Controls & Time Display */}
+          <div className="flex flex-col items-center gap-0.5 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2">
+              {/* Previous */}
+              <button
+                onClick={prevTrack}
+                className="p-2 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded active:scale-95"
+                title="Previous Track"
+                aria-label="Previous track"
+              >
+                <SkipBack size={18} />
+              </button>
 
-            {/* Play / Pause */}
-            <button
-              onClick={togglePlay}
-              className="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center rounded-full
-                bg-puja-gold hover:bg-puja-gold-light text-puja-black font-bold
-                transition-transform active:scale-95 shadow-[0_0_15px_rgba(212,160,23,0.4)]"
-              title={isPlaying ? 'Pause' : 'Play'}
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isPlaying ? <Pause size={20} /> : <Play size={20} className="ml-0.5" />}
-            </button>
+              {/* Play / Pause with Glow */}
+              <button
+                onClick={togglePlay}
+                className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full
+                  bg-gradient-to-br from-puja-gold-light to-puja-gold text-puja-black font-bold
+                  transition-transform active:scale-95 shadow-[0_0_18px_rgba(212,160,23,0.45)] hover:shadow-[0_0_24px_rgba(212,160,23,0.6)]"
+                title={isPlaying ? 'Pause' : 'Play'}
+                aria-label={isPlaying ? 'Pause' : 'Play'}
+              >
+                {isLoading || isBuffering ? (
+                  <Sparkles size={18} className="animate-spin text-puja-black" />
+                ) : isPlaying ? (
+                  <Pause size={20} fill="currentColor" />
+                ) : (
+                  <Play size={20} fill="currentColor" className="ml-0.5" />
+                )}
+              </button>
 
-            {/* Next */}
-            <button
-              onClick={nextTrack}
-              className="p-2 text-puja-ivory/50 hover:text-puja-gold transition-colors rounded"
-              title="Next Track"
-              aria-label="Next track"
-            >
-              <SkipForward size={18} />
-            </button>
+              {/* Next */}
+              <button
+                onClick={nextTrack}
+                className="p-2 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded active:scale-95"
+                title="Next Track"
+                aria-label="Next track"
+              >
+                <SkipForward size={18} />
+              </button>
+            </div>
+
+            {/* Time Indicator */}
+            <div className="flex items-center gap-1 text-[10px] text-puja-ivory/40 font-mono tracking-tight tabular-nums">
+              <span>{formatTime(activeTime)}</span>
+              <span>/</span>
+              <span>{formatTime(duration)}</span>
+            </div>
           </div>
 
-          {/* Right: Extra Controls (Volume, Video, Playlist, Close) */}
-          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+          {/* Right: Extra Controls (Volume, Video toggle, Playlist, Close) */}
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             
-            {/* Volume Control (Desktop) */}
-            <div className="relative hidden sm:flex items-center">
+            {/* Volume Control (Desktop / Tablet) */}
+            <div className="relative hidden md:flex items-center gap-1.5">
               <button
                 onClick={toggleMute}
-                className="p-2 text-puja-ivory/50 hover:text-puja-gold transition-colors rounded"
+                className="p-1.5 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded"
                 title={isMuted ? 'Unmute' : 'Mute'}
                 aria-label={isMuted ? 'Unmute' : 'Mute'}
               >
@@ -325,10 +451,10 @@ export default function FloatingMusicPlayer() {
             {/* Video View Toggle */}
             <button
               onClick={toggleVideo}
-              className={`p-2 rounded transition-colors hidden xs:flex ${
+              className={`p-2 rounded transition-colors hidden sm:flex ${
                 isVideoExpanded
                   ? 'text-puja-gold bg-puja-gold/15'
-                  : 'text-puja-ivory/50 hover:text-puja-gold'
+                  : 'text-puja-ivory/60 hover:text-puja-gold'
               }`}
               title="Toggle Video Screen"
               aria-label="Toggle video screen"
@@ -341,15 +467,15 @@ export default function FloatingMusicPlayer() {
               onClick={togglePlaylist}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded transition-all ${
                 isPlaylistOpen
-                  ? 'bg-puja-gold/20 text-puja-gold border border-puja-gold/40'
-                  : 'bg-white/5 text-puja-ivory/60 hover:text-puja-gold hover:bg-white/10 border border-puja-gold/15'
+                  ? 'bg-puja-gold/25 text-puja-gold border border-puja-gold/50'
+                  : 'bg-white/5 text-puja-ivory/70 hover:text-puja-gold hover:bg-white/10 border border-puja-gold/20'
               }`}
               title="Open Playlist"
               aria-label="Open playlist"
               aria-expanded={isPlaylistOpen}
             >
               <ListMusic size={17} />
-              <span className="text-xs hidden md:inline font-medium">
+              <span className="text-xs hidden sm:inline font-medium">
                 {currentPlaylist.tracks?.length || 0}
               </span>
             </button>
@@ -357,11 +483,11 @@ export default function FloatingMusicPlayer() {
             {/* Close Player */}
             <button
               onClick={closePlayer}
-              className="p-2 text-puja-ivory/30 hover:text-puja-ivory transition-colors rounded ml-1"
+              className="p-2 text-puja-ivory/40 hover:text-puja-ivory transition-colors rounded ml-0.5"
               title="Close Player"
               aria-label="Close music player"
             >
-              <X size={16} />
+              <X size={17} />
             </button>
           </div>
 
@@ -370,3 +496,4 @@ export default function FloatingMusicPlayer() {
     </>
   );
 }
+

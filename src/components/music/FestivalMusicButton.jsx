@@ -3,51 +3,55 @@ import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 
 /**
- * Per-section button that loads a festival's playlist into the global player.
- * Used inside FestivalSection via the updated MusicPlayer.jsx wrapper.
+ * Per-section "🎵 Play Music" button that connects every festival card
+ * directly to the predefined YouTube playlist.
  */
-export default function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn }) {
-  const { loadPlaylist, currentPlaylistKey, isPlayerOpen, isPlaying } = useMusicContext();
+export default function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, className = '' }) {
+  const { loadFestivalMusic, currentPlaylistKey, isPlayerOpen, isPlaying, togglePlay } = useMusicContext();
   const { isBn } = useLanguage();
 
   const isThisActive = isPlayerOpen && currentPlaylistKey === festivalId;
 
   const handleClick = () => {
-    loadPlaylist(festivalId, true);
+    if (isThisActive) {
+      togglePlay();
+    } else {
+      loadFestivalMusic(festivalId, true);
+    }
   };
 
   return (
     <button
       onClick={handleClick}
-      className={`group flex items-center gap-2 px-4 py-2.5 text-xs border transition-all duration-300
-        ${isThisActive
-          ? 'border-puja-gold/60 bg-puja-gold/10 text-puja-gold'
-          : 'border-puja-gold/20 hover:border-puja-gold/50 hover:bg-puja-gold/5 text-puja-ivory/50 hover:text-puja-gold'
-        }`}
-      aria-label={`Listen to ${festivalNameEn} music`}
+      className={`group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md active:scale-95 ${
+        isThisActive && isPlaying
+          ? 'border-puja-gold bg-puja-gold/25 text-puja-gold shadow-[0_0_20px_rgba(212,160,23,0.35)]'
+          : isThisActive
+            ? 'border-puja-gold/60 bg-puja-gold/15 text-puja-gold'
+            : 'border-puja-gold/30 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold hover:border-puja-gold/60'
+      } ${className}`}
+      aria-label={`Listen to ${festivalNameEn} predefined devotional music`}
       aria-pressed={isThisActive}
     >
-      <Music2
-        size={13}
-        className={`transition-colors flex-shrink-0 ${isThisActive ? 'text-puja-gold' : 'text-puja-ivory/30 group-hover:text-puja-gold'}`}
-      />
-      <span className={isBn && festivalNameBn ? 'bn-text' : 'tracking-wider uppercase'}>
-        {isThisActive
+      <span className="text-sm" aria-hidden="true">🎵</span>
+      <span className={isBn ? 'bn-text tracking-normal text-sm font-medium' : 'font-medium tracking-wider'}>
+        {isThisActive && isPlaying
           ? (isBn ? 'চলছে…' : 'Playing…')
-          : (isBn && festivalNameBn
-              ? `শুনুন — ${festivalNameBn}`
-              : `Listen — ${festivalNameEn}`
-            )
-        }
+          : (isBn ? `${festivalNameBn || ''} সঙ্গীত` : `Play Music`)}
       </span>
+
       {isThisActive && isPlaying && (
         <span className="flex items-end gap-[2px] h-3 ml-1" aria-hidden="true">
-          {[2,4,3,5,2].map((h, i) => (
-            <span key={i} className="block w-[2px] bg-puja-gold rounded-full music-eq-bar"
-              style={{ animationDelay: `${i * 0.08}s` }} />
+          {[2, 4, 3, 5, 2].map((h, i) => (
+            <span
+              key={i}
+              className="block w-[2px] bg-puja-gold rounded-full music-eq-bar"
+              style={{ animationDelay: `${i * 0.08}s` }}
+            />
           ))}
         </span>
       )}
     </button>
   );
 }
+

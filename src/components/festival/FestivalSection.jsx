@@ -7,9 +7,7 @@ import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { formatDate, isPast } from '../../utils/dateUtils.js';
 import { getAssetUrl } from '../../utils/assetUtils.js';
 import Countdown from '../ui/Countdown.jsx';
-import FestivalMusicPlayer from '../music/FestivalMusicPlayer.jsx';
-import MahalayaSpotifySection from '../music/MahalayaSpotifySection.jsx';
-import { ENABLE_LOCAL_MUSIC, ENABLE_SPOTIFY_MAHALAYA } from '../../config/musicConfig.js';
+import FestivalMusicButton from '../music/FestivalMusicButton.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -211,29 +209,14 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
             <button onClick={() => onExplore(festival)} className="btn-primary" aria-label={`Explore ${festival.nameEn}`}>
               {t('explore')}
             </button>
-            {festival.music?.embedUrl && (
-              <a
-                href={festival.music.embedUrl.replace('/embed/videoseries', '/playlist').replace('/embed/', '/watch?v=')}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-puja-gold/25 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm hover:border-puja-gold/50 shadow-[0_2px_10px_rgba(0,0,0,0.3)]"
-                aria-label={`Listen to ${festival.nameEn} devotional music`}
-              >
-                <span>🎵</span>
-                <span className={isBn ? 'bn-text tracking-normal text-sm font-medium' : 'font-medium'}>
-                  {isBn ? 'উৎসবের সঙ্গীত' : 'Festival Music'}
-                </span>
-              </a>
-            )}
+            <FestivalMusicButton
+              festivalId={festival.id}
+              festivalNameEn={festival.nameEn}
+              festivalNameBn={festival.nameBn}
+            />
           </div>
-
-          {/* Dedicated Local Music Player (when enabled) */}
-          {ENABLE_LOCAL_MUSIC && (
-            <div className="reveal-item">
-              <FestivalMusicPlayer festival={festival} />
-            </div>
-          )}
         </div>
+
 
         {/* Right: countdown + next */}
         <div className="flex flex-col gap-8 items-start md:items-end">
@@ -406,33 +389,14 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
 
         <div className="flex flex-wrap items-center gap-4 mt-3 justify-center">
           <button onClick={() => onExplore(festival)} className="btn-primary">{t('explore')}</button>
-          {festival.music?.embedUrl && (
-            <a
-              href={festival.music.embedUrl.replace('/embed/videoseries', '/playlist').replace('/embed/', '/watch?v=')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-puja-gold/25 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm hover:border-puja-gold/50 shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
-              aria-label="Listen to Mahalaya special songs and Mahishasura Mardini"
-            >
-              <span>🎵</span>
-              <span className={isBn ? 'bn-text tracking-normal text-sm font-medium' : 'font-medium'}>
-                {isBn ? 'মহালয়া সঙ্গীত ও স্তোত্র' : 'Mahalaya Songs'}
-              </span>
-            </a>
-          )}
+          <FestivalMusicButton
+            festivalId="mahalaya"
+            festivalNameEn="Mahalaya"
+            festivalNameBn="মহালয়া"
+            className="px-6 py-3 text-sm shadow-[0_0_25px_rgba(201,168,76,0.25)]"
+          />
         </div>
 
-        {/* Official Spotify Embed Player for Mahalaya (when enabled) */}
-        {ENABLE_SPOTIFY_MAHALAYA && (
-          <MahalayaSpotifySection />
-        )}
-
-        {/* Dedicated Local Music Player for Mahalaya (when enabled) */}
-        {ENABLE_LOCAL_MUSIC && (
-          <div className="w-full max-w-md mt-4">
-            <FestivalMusicPlayer festival={festival} />
-          </div>
-        )}
 
         {nextFestival && (
           <motion.div className="mt-10 flex flex-col items-center gap-2 text-puja-ivory/20"
