@@ -1,0 +1,195 @@
+import { useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { useLanguage } from '../../hooks/useLanguage.jsx';
+
+export default function Hero() {
+  const { t, isBn } = useLanguage();
+  const containerRef = useRef(null);
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const scrollRef = useRef(null);
+  const canvasRef = useRef(null);
+  const animFrameRef = useRef(null);
+
+  // Particle ambient background
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const particles = Array.from({ length: 55 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 1.5 + 0.3,
+      dx: (Math.random() - 0.5) * 0.2,
+      dy: -(Math.random() * 0.4 + 0.1),
+      alpha: Math.random() * 0.5 + 0.1,
+      pulse: Math.random() * Math.PI * 2,
+    }));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.pulse += 0.015;
+        p.alpha = 0.15 + Math.sin(p.pulse) * 0.1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212, 160, 23, ${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.y < -10) { p.y = height + 10; p.x = Math.random() * width; }
+        if (p.x < -10) p.x = width + 10;
+        if (p.x > width + 10) p.x = -10;
+      });
+      animFrameRef.current = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    const onResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      cancelAnimationFrame(animFrameRef.current);
+      window.removeEventListener('resize', onResize);
+    };
+  }, []);
+
+  // GSAP entrance
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.3 });
+      tl.fromTo(titleRef.current,
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.4, ease: 'power3.out' }
+      )
+      .fromTo(subtitleRef.current,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power2.out' },
+        '-=0.7'
+      )
+      .fromTo(scrollRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8 },
+        '-=0.3'
+      );
+    }, containerRef);
+    return () => ctx.revert();
+  }, []);
+
+  const scrollToJourney = () => {
+    document.querySelector('#journey')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  return (
+    <section
+      ref={containerRef}
+      className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden"
+      style={{ background: 'linear-gradient(to bottom, #050402 0%, #0a0805 50%, #0d0b06 100%)' }}
+      aria-label="Puja Journey — Hero"
+      id="top"
+    >
+      {/* Particle canvas */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+      />
+
+      {/* Radial gold glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background: 'radial-gradient(ellipse 70% 50% at 50% 60%, rgba(212,160,23,0.07) 0%, transparent 70%)',
+        }}
+      />
+
+      {/* Top vignette */}
+      <div
+        className="absolute inset-x-0 top-0 h-32 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, #050402, transparent)' }}
+        aria-hidden="true"
+      />
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6">
+        {/* Pre-title */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="flex items-center gap-3 mb-10"
+          aria-hidden="true"
+        >
+          <div className="h-px w-12 bg-gradient-to-r from-transparent to-puja-gold/50" />
+          <span className="text-xs tracking-[0.35em] text-puja-gold/60 uppercase font-body">
+            {new Date().getFullYear()}
+          </span>
+          <div className="h-px w-12 bg-gradient-to-l from-transparent to-puja-gold/50" />
+        </motion.div>
+
+        {/* Main title */}
+        <h1
+          ref={titleRef}
+          className="font-display text-fluid-5xl md:text-[clamp(5rem,14vw,14rem)] leading-none tracking-[0.05em] text-puja-ivory uppercase mb-6"
+          style={{ opacity: 0 }}
+        >
+          <span className="block text-gradient-gold">PUJA</span>
+          <span className="block">JOURNEY</span>
+        </h1>
+
+        {/* Bengali subtitle */}
+        <div ref={subtitleRef} style={{ opacity: 0 }}>
+          <p className="bn-text text-lg md:text-2xl text-puja-ivory/40 mb-3 font-light tracking-wide">
+            পূজা যাত্রা
+          </p>
+          <p className={`text-sm md:text-base text-puja-ivory/50 tracking-[0.12em] max-w-md leading-relaxed ${isBn ? 'bn-text' : 'font-light'}`}>
+            {t('heroTagline')}
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="mt-12 mb-10 flex items-center gap-4" aria-hidden="true">
+          <div className="h-px w-16 bg-gradient-to-r from-transparent to-puja-gold/30" />
+          <div className="w-1 h-1 rounded-full bg-puja-gold/50" />
+          <div className="h-px w-16 bg-gradient-to-l from-transparent to-puja-gold/30" />
+        </div>
+
+        {/* Scroll CTA */}
+        <div ref={scrollRef} style={{ opacity: 0 }}>
+          <button
+            onClick={scrollToJourney}
+            className="group flex flex-col items-center gap-3 text-puja-ivory/40 hover:text-puja-gold transition-colors duration-500"
+            aria-label="Scroll to begin the journey"
+          >
+            <span className="text-xs tracking-[0.3em] uppercase font-body">
+              {t('heroScroll')}
+            </span>
+            {/* Animated scroll indicator */}
+            <div className="relative w-px h-12 bg-puja-ivory/10">
+              <motion.div
+                className="absolute top-0 left-0 w-full bg-puja-gold"
+                animate={{ height: ['0%', '100%', '100%'], opacity: [1, 1, 0] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom vignette */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-40 pointer-events-none"
+        aria-hidden="true"
+        style={{ background: 'linear-gradient(to top, #0a0805, transparent)' }}
+      />
+    </section>
+  );
+}
