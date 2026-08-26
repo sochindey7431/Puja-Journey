@@ -58,17 +58,38 @@ export function useYouTubePlayer(elementId) {
   } = useMusicContext();
 
   const playerInstanceRef = useRef(null);
-  const trackIdRef = useRef(currentTrack?.youtubeId || currentTrack?.id);
+  const trackIdRef = useRef(currentTrack?.youtubeId || currentTrack?.id || 'YQFNRoi7rEc');
   const isPlayingRef = useRef(isPlaying);
+  const volumeRef = useRef(volume);
+  const isMutedRef = useRef(isMuted);
+  const nextTrackRef = useRef(nextTrack);
+  const setErrorMessageRef = useRef(setErrorMessage);
   const timeIntervalRef = useRef(null);
 
+  // Keep refs synchronized
   useEffect(() => {
-    trackIdRef.current = currentTrack?.youtubeId || currentTrack?.id;
+    trackIdRef.current = currentTrack?.youtubeId || currentTrack?.id || 'YQFNRoi7rEc';
   }, [currentTrack?.youtubeId, currentTrack?.id]);
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
+
+  useEffect(() => {
+    volumeRef.current = volume;
+  }, [volume]);
+
+  useEffect(() => {
+    isMutedRef.current = isMuted;
+  }, [isMuted]);
+
+  useEffect(() => {
+    nextTrackRef.current = nextTrack;
+  }, [nextTrack]);
+
+  useEffect(() => {
+    setErrorMessageRef.current = setErrorMessage;
+  }, [setErrorMessage]);
 
   // Poll current playback time and duration
   const startTimePolling = useCallback(() => {
@@ -94,13 +115,14 @@ export function useYouTubePlayer(elementId) {
     }
   }, []);
 
-  // Initialize official YT.Player
+  // Initialize official YT.Player (stable, created once per element)
   const initPlayer = useCallback(() => {
-    if (!elementId || playerInstanceRef.current) return;
+    if (!elementId) return;
+    if (playerInstanceRef.current) return;
     const el = document.getElementById(elementId);
     if (!el || typeof window === 'undefined' || !window.YT || !window.YT.Player) return;
 
-    const initialVideoId = trackIdRef.current || 'zZ4dYYcPxUY';
+    const initialVideoId = trackIdRef.current || 'YQFNRoi7rEc';
 
     try {
       const player = new window.YT.Player(elementId, {
@@ -124,8 +146,8 @@ export function useYouTubePlayer(elementId) {
             setPlayerReady(true);
             setIsLoading(false);
             try {
-              e.target.setVolume(volume);
-              if (isMuted) e.target.mute();
+              e.target.setVolume(volumeRef.current);
+              if (isMutedRef.current) e.target.mute();
               if (isPlayingRef.current) {
                 e.target.playVideo();
                 startTimePolling();
@@ -148,8 +170,8 @@ export function useYouTubePlayer(elementId) {
               setIsPlaying(false);
               setIsBuffering(false);
               stopTimePolling();
-              if (AUTO_ADVANCE_PLAYLIST) {
-                nextTrack();
+              if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
+                nextTrackRef.current();
               }
             } else if (e.data === YT.PlayerState.BUFFERING) {
               setIsBuffering(true);
@@ -163,18 +185,20 @@ export function useYouTubePlayer(elementId) {
             setIsBuffering(false);
             setIsLoading(false);
 
-            let msg = 'This devotional track is temporarily unavailable. Loading next track...';
+            let msg = 'This devotional track is currently unavailable. Playing next track...';
             if (e.data === 101 || e.data === 150) {
               msg = 'This track has YouTube playback restrictions. Switching to next track...';
             } else if (e.data === 100) {
               msg = 'This track was not found or removed. Switching to next track...';
             }
-            setErrorMessage(msg);
+            if (typeof setErrorMessageRef.current === 'function') {
+              setErrorMessageRef.current(msg);
+            }
 
             // Gracefully move to next track after small delay
             setTimeout(() => {
-              if (AUTO_ADVANCE_PLAYLIST) {
-                nextTrack();
+              if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
+                nextTrackRef.current();
               }
             }, 2000);
           },
@@ -185,20 +209,16 @@ export function useYouTubePlayer(elementId) {
     }
   }, [
     elementId,
-    nextTrack,
     playerRef,
     setIsPlaying,
     setIsBuffering,
     setIsLoading,
     setPlayerReady,
-    setErrorMessage,
     startTimePolling,
     stopTimePolling,
-    volume,
-    isMuted,
   ]);
 
-  // Init when player container becomes visible or ready
+  // Init when player container mounts or becomes available
   useEffect(() => {
     if (isPlayerOpen) {
       runWhenYTReady(() => {
@@ -214,19 +234,19 @@ export function useYouTubePlayer(elementId) {
     };
   }, [stopTimePolling]);
 
-  // Load new video when current track changes
+  // Load new video when current track changes (NO PAGE RELOAD)
   useEffect(() => {
     const videoId = currentTrack?.youtubeId || currentTrack?.id;
     if (!videoId || !playerInstanceRef.current) return;
 
     try {
-      if (playerInstanceRef.current.loadVideoById) {
+      if (typeof playerInstanceRef.current.loadVideoById === 'function') {
         playerInstanceRef.current.loadVideoById({
           videoId,
           startSeconds: 0,
         });
         if (isPlaying) {
-          playerInstanceRef.current.playVideo();
+          playerInstanceRef.current.playVideo?.();
           startTimePolling();
         }
       }
@@ -272,4 +292,3 @@ export function useYouTubePlayer(elementId) {
 }
 
 export default useYouTubePlayer;
-

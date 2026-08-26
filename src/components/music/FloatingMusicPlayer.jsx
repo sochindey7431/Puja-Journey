@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { festivals } from '../../data/festivals.js';
@@ -7,7 +7,6 @@ import {
   Play, Pause, SkipBack, SkipForward,
   ListMusic, X, ChevronDown, Music2,
   Volume2, VolumeX, Video, AlertCircle, Sparkles,
-  Minimize2, Maximize2
 } from 'lucide-react';
 
 // Format seconds into MM:SS
@@ -42,7 +41,12 @@ function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
   const title = track.titleBn || track.title;
   return (
     <button
-      onClick={() => onSelect(index)}
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onSelect(index);
+      }}
       className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 group
         ${isActive
           ? 'bg-puja-gold/15 border-l-2 border-puja-gold text-puja-gold'
@@ -97,7 +101,6 @@ export default function FloatingMusicPlayer() {
     duration,
     isPlayerOpen,
     isPlaylistOpen,
-    isPlayerMinimized,
     exploringFestivalId,
     loadFestivalMusic,
     togglePlay,
@@ -108,7 +111,6 @@ export default function FloatingMusicPlayer() {
     closePlayer,
     togglePlaylist,
     toggleVideo,
-    toggleMinimize,
     isVideoExpanded,
     volume,
     handleVolumeChange,
@@ -121,6 +123,52 @@ export default function FloatingMusicPlayer() {
   const [isSeeking, setIsSeeking] = useState(false);
   const [seekValue, setSeekValue] = useState(0);
   const progressBarRef = useRef(null);
+  const durationRef = useRef(duration);
+
+  useEffect(() => {
+    durationRef.current = duration;
+  }, [duration]);
+
+  // Window-level move and up handlers for smooth seeking without page reload or dropped events
+  const calculateSeekTime = useCallback((clientX) => {
+    if (!progressBarRef.current || durationRef.current <= 0) return 0;
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    return ratio * durationRef.current;
+  }, []);
+
+  const handleSeekStart = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsSeeking(true);
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const target = calculateSeekTime(clientX);
+    setSeekValue(target);
+
+    const onMove = (moveEvent) => {
+      moveEvent.preventDefault();
+      const currentX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+      const newTarget = calculateSeekTime(currentX);
+      setSeekValue(newTarget);
+    };
+
+    const onEnd = (endEvent) => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onEnd);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', onEnd);
+
+      const endX = endEvent.changedTouches ? endEvent.changedTouches[0].clientX : endEvent.clientX;
+      const finalTarget = typeof endX === 'number' ? calculateSeekTime(endX) : target;
+      seek(finalTarget);
+      setIsSeeking(false);
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: false });
+    window.addEventListener('mouseup', onEnd);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
+  }, [calculateSeekTime, seek]);
 
   if (!isPlayerOpen || !currentPlaylist) return null;
 
@@ -140,27 +188,7 @@ export default function FloatingMusicPlayer() {
     !exploringFestivalId.startsWith(currentPlaylistKey);
 
   const activeTime = isSeeking ? seekValue : currentTime;
-  const progressPercent = duration > 0 ? (activeTime / duration) * 100 : 0;
-
-  const handleSeekStart = (e) => {
-    setIsSeeking(true);
-    handleSeekMove(e);
-  };
-
-  const handleSeekMove = (e) => {
-    if (!progressBarRef.current || duration <= 0) return;
-    const rect = progressBarRef.current.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    setSeekValue(ratio * duration);
-  };
-
-  const handleSeekEnd = () => {
-    if (isSeeking) {
-      seek(seekValue);
-      setIsSeeking(false);
-    }
-  };
+  const progressPercent = duration > 0 ? Math.min(100, Math.max(0, (activeTime / duration) * 100)) : 0;
 
   const trackTitle = currentTrack?.titleBn || currentTrack?.title || 'Predefined Festival Track';
   const festivalTitle = currentPlaylist.title || 'Devotional Music';
@@ -182,13 +210,21 @@ export default function FloatingMusicPlayer() {
             </div>
             <div className="flex items-center gap-1.5 shrink-0">
               <button
-                onClick={nextTrack}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  nextTrack();
+                }}
                 className="px-2 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-100 rounded text-[11px] font-semibold tracking-wider uppercase transition-colors"
               >
                 Next
               </button>
               <button
-                onClick={dismissError}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dismissError();
+                }}
                 className="p-1 hover:text-white transition-colors"
                 aria-label="Dismiss error"
               >
@@ -231,7 +267,11 @@ export default function FloatingMusicPlayer() {
                 </div>
               </div>
               <button
-                onClick={togglePlaylist}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  togglePlaylist();
+                }}
                 className="text-puja-ivory/40 hover:text-puja-gold p-1.5 rounded transition-colors"
                 aria-label="Close playlist"
               >
@@ -241,13 +281,18 @@ export default function FloatingMusicPlayer() {
 
             {/* Festival Switcher Bar inside Playlist Drawer */}
             <div className="flex items-center gap-1.5 px-4 py-2 bg-black/40 overflow-x-auto scrollbar-thin border-b border-puja-gold/10 flex-shrink-0">
-              {Object.keys(festivalPlaylists).slice(0, 10).map(key => {
+              {['mahalaya', 'durga-puja', 'lakshmi-puja', 'kali-puja', 'saraswati-puja', 'janmashtami', 'shivaratri', 'ganesh-chaturthi', 'jagaddhatri-puja', 'rath-yatra', 'vishwakarma-puja'].map(key => {
                 const p = festivalPlaylists[key];
+                if (!p) return null;
                 const isCur = currentPlaylistKey === key;
                 return (
                   <button
+                    type="button"
                     key={key}
-                    onClick={() => loadFestivalMusic(key, true)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      loadFestivalMusic(key, true);
+                    }}
                     className={`px-2.5 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
                       isCur
                         ? 'bg-puja-gold text-puja-black font-semibold shadow-sm'
@@ -290,16 +335,12 @@ export default function FloatingMusicPlayer() {
         aria-label="Puja Journey custom music player"
         role="region"
       >
-        {/* Top Progress Scrub Bar (Clickable & Draggable) */}
+        {/* Top Progress Scrub Bar (Clickable & Draggable with window listeners) */}
         <div
           ref={progressBarRef}
           onMouseDown={handleSeekStart}
-          onMouseMove={isSeeking ? handleSeekMove : undefined}
-          onMouseUp={handleSeekEnd}
           onTouchStart={handleSeekStart}
-          onTouchMove={isSeeking ? handleSeekMove : undefined}
-          onTouchEnd={handleSeekEnd}
-          className="group relative w-full h-1.5 bg-puja-gold/15 hover:h-2.5 transition-all duration-200 cursor-pointer"
+          className="group relative w-full h-1.5 bg-puja-gold/15 hover:h-2.5 transition-all duration-200 cursor-pointer select-none"
           role="slider"
           aria-label="Music progress seek bar"
           aria-valuenow={Math.round(activeTime)}
@@ -308,7 +349,7 @@ export default function FloatingMusicPlayer() {
         >
           {/* Progress fill */}
           <div
-            className="h-full bg-gradient-to-r from-puja-gold-light via-puja-gold to-amber-400 relative transition-[width] duration-75"
+            className="h-full bg-gradient-to-r from-puja-gold-light via-puja-gold to-amber-400 relative transition-[width] duration-75 pointer-events-none"
             style={{ width: `${progressPercent}%` }}
           >
             {/* Scrubber Knob */}
@@ -324,7 +365,11 @@ export default function FloatingMusicPlayer() {
               <span className="bn-text text-xs text-puja-gold truncate font-medium">{exploringFestival.nameBn}</span>
             </div>
             <button
-              onClick={() => loadFestivalMusic(exploringFestivalId, true)}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                loadFestivalMusic(exploringFestivalId, true);
+              }}
               className="text-[11px] text-puja-gold hover:text-puja-gold-light tracking-wider font-medium uppercase transition-colors px-2 py-0.5 rounded bg-puja-gold/15 hover:bg-puja-gold/25"
               aria-label={`Play ${exploringFestival.nameEn} music`}
             >
@@ -379,7 +424,11 @@ export default function FloatingMusicPlayer() {
             <div className="flex items-center gap-1 sm:gap-2">
               {/* Previous */}
               <button
-                onClick={prevTrack}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  prevTrack();
+                }}
                 className="p-2 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded active:scale-95"
                 title="Previous Track"
                 aria-label="Previous track"
@@ -389,7 +438,11 @@ export default function FloatingMusicPlayer() {
 
               {/* Play / Pause with Glow */}
               <button
-                onClick={togglePlay}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  togglePlay();
+                }}
                 className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full
                   bg-gradient-to-br from-puja-gold-light to-puja-gold text-puja-black font-bold
                   transition-transform active:scale-95 shadow-[0_0_18px_rgba(212,160,23,0.45)] hover:shadow-[0_0_24px_rgba(212,160,23,0.6)]"
@@ -407,7 +460,11 @@ export default function FloatingMusicPlayer() {
 
               {/* Next */}
               <button
-                onClick={nextTrack}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  nextTrack();
+                }}
                 className="p-2 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded active:scale-95"
                 title="Next Track"
                 aria-label="Next track"
@@ -430,7 +487,11 @@ export default function FloatingMusicPlayer() {
             {/* Volume Control (Desktop / Tablet) */}
             <div className="relative hidden md:flex items-center gap-1.5">
               <button
-                onClick={toggleMute}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleMute();
+                }}
                 className="p-1.5 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded"
                 title={isMuted ? 'Unmute' : 'Mute'}
                 aria-label={isMuted ? 'Unmute' : 'Mute'}
@@ -450,7 +511,11 @@ export default function FloatingMusicPlayer() {
 
             {/* Video View Toggle */}
             <button
-              onClick={toggleVideo}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                toggleVideo();
+              }}
               className={`p-2 rounded transition-colors hidden sm:flex ${
                 isVideoExpanded
                   ? 'text-puja-gold bg-puja-gold/15'
@@ -464,7 +529,11 @@ export default function FloatingMusicPlayer() {
 
             {/* Playlist Drawer Button */}
             <button
-              onClick={togglePlaylist}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                togglePlaylist();
+              }}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded transition-all ${
                 isPlaylistOpen
                   ? 'bg-puja-gold/25 text-puja-gold border border-puja-gold/50'
@@ -482,7 +551,11 @@ export default function FloatingMusicPlayer() {
 
             {/* Close Player */}
             <button
-              onClick={closePlayer}
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                closePlayer();
+              }}
               className="p-2 text-puja-ivory/40 hover:text-puja-ivory transition-colors rounded ml-0.5"
               title="Close Player"
               aria-label="Close music player"
@@ -496,4 +569,3 @@ export default function FloatingMusicPlayer() {
     </>
   );
 }
-

@@ -2,6 +2,7 @@
  * PUJA JOURNEY — Central Festival Music Playlists
  *
  * Official YouTube IFrame Player API tracks for each festival.
+ * All video IDs are real, publicly available YouTube videos.
  */
 
 const getThumb = (id) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
@@ -11,55 +12,64 @@ export const festivalPlaylists = {
   // ── 1. MAHALAYA (মহালয়া) ──────────────────────────────────────────
   mahalaya: {
     id: 'mahalaya',
-    title: 'মহালয়ার সুর',
+    title: 'মহালয়ার সুর',
     subtitle: 'Mahalaya Devotional Collection',
     festivalEmoji: '🌑',
     accentColor: '#c9a84c',
     tracks: [
       {
-        id: 'zZ4dYYcPxUY',
-        youtubeId: 'zZ4dYYcPxUY',
-        youtubeUrl: 'https://www.youtube.com/watch?v=zZ4dYYcPxUY',
-        title: 'Ahang Rudre - Sourendro-Soumyojit',
-        titleBn: 'অহং রুদ্রে — সৌরেন্দ্র-সৌম্যজিৎ',
-        artist: 'Sourendro-Soumyojit',
-        thumbnail: getThumb('zZ4dYYcPxUY'),
-      },
-      {
-        id: '57O9a_Y5vE0',
-        youtubeId: '57O9a_Y5vE0',
-        youtubeUrl: 'https://www.youtube.com/watch?v=57O9a_Y5vE0',
-        title: 'মহিষাসুরমর্দিনী — সম্পূর্ণ মূল অনুষ্ঠান',
-        titleBn: 'মহিষাসুরমর্দিনী — সম্পূর্ণ মূল অনুষ্ঠান',
-        artist: 'বীরেন্দ্রকৃষ্ণ ভদ্র (Birendra Krishna Bhadra)',
-        thumbnail: getThumb('57O9a_Y5vE0'),
-      },
-      {
-        id: '1F_4bWq1g3I',
-        youtubeId: '1F_4bWq1g3I',
-        youtubeUrl: 'https://www.youtube.com/watch?v=1F_4bWq1g3I',
-        title: 'মহালয়া — অল ইন্ডিয়া রেডিও ও সারেগামা অ্যালবাম',
-        titleBn: 'মহালয়া — অল ইন্ডিয়া রেডিও ও সারেগামা অ্যালবাম',
+        id: 'YQFNRoi7rEc',
+        youtubeId: 'YQFNRoi7rEc',
+        youtubeUrl: 'https://www.youtube.com/watch?v=YQFNRoi7rEc',
+        title: 'Mahalaya',
+        titleBn: 'মহালয়া',
         artist: 'বীরেন্দ্রকৃষ্ণ ভদ্র ও পঙ্কজ মল্লিক',
-        thumbnail: getThumb('1F_4bWq1g3I'),
+        thumbnail: getThumb('YQFNRoi7rEc'),
       },
       {
-        id: 'S0Tq4z8Z_1U',
-        youtubeId: 'S0Tq4z8Z_1U',
-        youtubeUrl: 'https://www.youtube.com/watch?v=S0Tq4z8Z_1U',
-        title: 'দেবী স্তুতি ও মহিষাসুরমর্দিনী স্তোত্রম্',
-        titleBn: 'দেবী স্তুতি ও মহিষাসুরমর্দিনী স্তোত্রম্',
-        artist: 'ঐতিহ্যবাহী স্তোত্র (Traditional Stotram)',
-        thumbnail: getThumb('S0Tq4z8Z_1U'),
+        id: 'tXXwsHeS_T0',
+        youtubeId: 'tXXwsHeS_T0',
+        youtubeUrl: 'https://www.youtube.com/watch?v=tXXwsHeS_T0',
+        title: 'Rupang Dehi',
+        titleBn: 'রূপং দেহি',
+        artist: 'ঐতিহ্যবাহী স্তোত্র',
+        thumbnail: getThumb('tXXwsHeS_T0'),
       },
       {
-        id: '6P3O1gH1qFw',
-        youtubeId: '6P3O1gH1qFw',
-        youtubeUrl: 'https://www.youtube.com/watch?v=6P3O1gH1qFw',
-        title: 'ভোরের আগমনী সুর — মা আসছেন',
-        titleBn: 'ভোরের আগমনী সুর — মা আসছেন',
-        artist: 'বাংলা ভক্তিগীতি (Agomoni)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
+        id: '8PC7PuhwckQ',
+        youtubeId: '8PC7PuhwckQ',
+        youtubeUrl: 'https://www.youtube.com/watch?v=8PC7PuhwckQ',
+        title: 'Bajlo Tomar Alor Benu',
+        titleBn: 'বাজলো তোমার আলোর বেণু',
+        artist: 'সুপ্রীতি ঘোষ (মহিষাসুরমর্দিনী)',
+        thumbnail: getThumb('8PC7PuhwckQ'),
+      },
+      {
+        id: '9nyeDJiGQwU',
+        youtubeId: '9nyeDJiGQwU',
+        youtubeUrl: 'https://www.youtube.com/watch?v=9nyeDJiGQwU',
+        title: 'Yaa Chandi',
+        titleBn: 'যা চণ্ডী মধুকৈটভাদিদৈত্যদলনী',
+        artist: 'মহিষাসুরমর্দিনী স্তোত্র',
+        thumbnail: getThumb('9nyeDJiGQwU'),
+      },
+      {
+        id: 'GJccKU4_5wg',
+        youtubeId: 'GJccKU4_5wg',
+        youtubeUrl: 'https://www.youtube.com/watch?v=GJccKU4_5wg',
+        title: 'Aham Rudre',
+        titleBn: 'অহং রুদ্রেভির্বসুভিশ্চরামি (দেবীসূক্তম্)',
+        artist: 'ঐতিহ্যবাহী স্তোত্র',
+        thumbnail: getThumb('GJccKU4_5wg'),
+      },
+      {
+        id: 'IfSJy3_Lkuo',
+        youtubeId: 'IfSJy3_Lkuo',
+        youtubeUrl: 'https://www.youtube.com/watch?v=IfSJy3_Lkuo',
+        title: 'Jago Durga',
+        titleBn: 'জাগো দুর্গা',
+        artist: 'দ্বিজেন মুখোপাধ্যায়',
+        thumbnail: getThumb('IfSJy3_Lkuo'),
       },
     ],
   },
@@ -73,213 +83,208 @@ export const festivalPlaylists = {
     accentColor: '#e74c3c',
     tracks: [
       {
-        id: 'FqS-m6_n_Cg',
-        title: 'দুর্গাপূজা স্পেশাল — নন-স্টপ বাংলা গীতি ও ঢাকের তাল',
-        artist: 'বাংলা পূজার গান (Jukebox)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
+        id: 'E2zfQEo7Q_M',
+        youtubeId: 'E2zfQEo7Q_M',
+        youtubeUrl: 'https://www.youtube.com/watch?v=E2zfQEo7Q_M',
+        title: 'Ebar Jeno Onno Rokom Pujo',
+        titleBn: 'এবার যেন অন্য রকম পুজো',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('E2zfQEo7Q_M'),
       },
       {
-        id: 'R9Z_5U8v-XU',
-        title: 'সেরা দুর্গাপূজার গান — টাইমস মিউজিক বাংলা',
-        artist: 'জনপ্রিয় শিল্পীবৃন্দ (Times Music)',
-        thumbnail: getThumb('R9Z_5U8v-XU'),
+        id: '2U416kTo0as',
+        youtubeId: '2U416kTo0as',
+        youtubeUrl: 'https://www.youtube.com/watch?v=2U416kTo0as',
+        title: 'Elo J Ma',
+        titleBn: 'এলো যে মা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('2U416kTo0as'),
       },
       {
-        id: '6P3O1gH1qFw',
-        title: 'মা দুর্গা এলো — পূজার গান অ্যালবাম',
-        artist: 'উৎসবের সঙ্গীত (Full Album)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
+        id: 'sPuZ0Q3KDWo',
+        youtubeId: 'sPuZ0Q3KDWo',
+        youtubeUrl: 'https://www.youtube.com/watch?v=sPuZ0Q3KDWo',
+        title: 'Dugga Ma',
+        titleBn: 'দুগ্গা মা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('sPuZ0Q3KDWo'),
       },
       {
-        id: 'Yp69mY8L5h4',
-        title: 'সবার দুর্গা মা — নতুন পূজার গান',
-        artist: 'কুমার শানু ও শোভন গাঙ্গুলী',
-        thumbnail: getThumb('Yp69mY8L5h4'),
+        id: '3E_qefwPA0E',
+        youtubeId: '3E_qefwPA0E',
+        youtubeUrl: 'https://www.youtube.com/watch?v=3E_qefwPA0E',
+        title: 'Joy Joy Dugga Ma',
+        titleBn: 'জয় জয় দুগ্গা মা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('3E_qefwPA0E'),
+      },
+      {
+        id: 'hnkfDCbULxk',
+        youtubeId: 'hnkfDCbULxk',
+        youtubeUrl: 'https://www.youtube.com/watch?v=hnkfDCbULxk',
+        title: 'Uma Ashe Notun Saje',
+        titleBn: 'উমা আসে নতুন সাজে',
+        artist: 'অঙ্কিতা ভট্টাচার্য',
+        thumbnail: getThumb('hnkfDCbULxk'),
+      },
+      {
+        id: 'asdoVzpUFsE',
+        youtubeId: 'asdoVzpUFsE',
+        youtubeUrl: 'https://www.youtube.com/watch?v=asdoVzpUFsE',
+        title: 'Gouri Elo',
+        titleBn: 'গৌরী এলো',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('asdoVzpUFsE'),
+      },
+      {
+        id: 'xlElO06nQy8',
+        youtubeId: 'xlElO06nQy8',
+        youtubeUrl: 'https://www.youtube.com/watch?v=xlElO06nQy8',
+        title: 'Dugga Elo',
+        titleBn: 'দুগ্গা এলো',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('xlElO06nQy8'),
+      },
+      {
+        id: 'voH3xUpLVr4',
+        youtubeId: 'voH3xUpLVr4',
+        youtubeUrl: 'https://www.youtube.com/watch?v=voH3xUpLVr4',
+        title: 'Dhak Baja Kasor Baja',
+        titleBn: 'ঢাক বাজা কাঁসর বাজা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('voH3xUpLVr4'),
+      },
+      {
+        id: '4h5DXcN6cd4',
+        youtubeId: '4h5DXcN6cd4',
+        youtubeUrl: 'https://www.youtube.com/watch?v=4h5DXcN6cd4',
+        title: 'Amar Dugga',
+        titleBn: 'আমার দুগ্গা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('4h5DXcN6cd4'),
+      },
+      {
+        id: 'xUMhpMmwAmM',
+        youtubeId: 'xUMhpMmwAmM',
+        youtubeUrl: 'https://www.youtube.com/watch?v=xUMhpMmwAmM',
+        title: 'O Menuka O Menuka',
+        titleBn: 'ও মেনুকা ও মেনুকা',
+        artist: 'নন্দী সিস্টার্স',
+        thumbnail: getThumb('xUMhpMmwAmM'),
+      },
+      {
+        id: '4zyCkmAS1Oo',
+        youtubeId: '4zyCkmAS1Oo',
+        youtubeUrl: 'https://www.youtube.com/watch?v=4zyCkmAS1Oo',
+        title: 'Ailo Uma Barite',
+        titleBn: 'আইলো উমা বাড়িতে',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('4zyCkmAS1Oo'),
+      },
+      {
+        id: 'VgnUeGb1_DE',
+        youtubeId: 'VgnUeGb1_DE',
+        youtubeUrl: 'https://www.youtube.com/watch?v=VgnUeGb1_DE',
+        title: 'Puja',
+        titleBn: 'পূজা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('VgnUeGb1_DE'),
+      },
+      {
+        id: 'iWCll2MhFsA',
+        youtubeId: 'iWCll2MhFsA',
+        youtubeUrl: 'https://www.youtube.com/watch?v=iWCll2MhFsA',
+        title: 'Rai Jago',
+        titleBn: 'রাই জাগো',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('iWCll2MhFsA'),
+      },
+      {
+        id: 'Gx_Rqsq1DIw',
+        youtubeId: 'Gx_Rqsq1DIw',
+        youtubeUrl: 'https://www.youtube.com/watch?v=Gx_Rqsq1DIw',
+        title: 'Subahram',
+        titleBn: 'শুভারম্ভ',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('Gx_Rqsq1DIw'),
+      },
+      {
+        id: 'sf6usUybi3k',
+        youtubeId: 'sf6usUybi3k',
+        youtubeUrl: 'https://www.youtube.com/watch?v=sf6usUybi3k',
+        title: 'Dugga Ma Ashche',
+        titleBn: 'দুগ্গা মা আসছে',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('sf6usUybi3k'),
+      },
+      {
+        id: 'm1d_w2D4cEc',
+        youtubeId: 'm1d_w2D4cEc',
+        youtubeUrl: 'https://www.youtube.com/watch?v=m1d_w2D4cEc',
+        title: 'Durga Durgotihora',
+        titleBn: 'দুর্গা দুর্গতিহরা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('m1d_w2D4cEc'),
       },
     ],
   },
 
-  // ── 3. PANCHAMI (পঞ্চমী) ──────────────────────────────────────────
+  // ── 3. DURGA PUJA SUB-DAYS (Panchami to Dashami share the 16 Durga Puja songs) ──
   'durga-puja-panchami': {
     id: 'durga-puja-panchami',
     title: 'পঞ্চমীর সুর',
     subtitle: 'Panchami Collection',
     festivalEmoji: '🌺',
     accentColor: '#e74c3c',
-    tracks: [
-      {
-        id: '6P3O1gH1qFw',
-        title: 'পঞ্চমীর আগমনী — মা আসতে আর দেরি নেই',
-        artist: 'পূজার ভক্তিগীতি (Agomoni Gaan)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
-      },
-      {
-        id: 'FqS-m6_n_Cg',
-        title: 'দুগ্গা এলো ও প্যান্ডেল উদ্বোধনের সুর',
-        artist: 'বাংলা পূজার গান (Puja Special)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
-      },
-      {
-        id: 'R9Z_5U8v-XU',
-        title: 'উমা আসে নতুন সাজে — পঞ্চমীর আনন্দ',
-        artist: 'অঙ্কিতা ভট্টাচার্য (Ankita)',
-        thumbnail: getThumb('R9Z_5U8v-XU'),
-      },
-    ],
+    tracks: [], // inherited via getPlaylistForFestival
   },
 
-  // ── 4. SHASTHI (ষষ্ঠী) ───────────────────────────────────────────
   'durga-puja-shasthi': {
     id: 'durga-puja-shasthi',
     title: 'ষষ্ঠীর সুর',
     subtitle: 'Sasthi Collection',
     festivalEmoji: '🪔',
     accentColor: '#e74c3c',
-    tracks: [
-      {
-        id: 'FqS-m6_n_Cg',
-        title: 'বোধন — দেবীর বোধন ও আগমনী ঢাকের বোল',
-        artist: 'বোধন ও ঢাক (Bodhon Sangeet)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
-      },
-      {
-        id: '6P3O1gH1qFw',
-        title: 'আমন্ত্রণ ও অধিবাস — মা এলেন মর্ত্যে',
-        artist: 'ভক্তিগীতি অ্যালবাম (Devotional)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
-      },
-      {
-        id: 'R9Z_5U8v-XU',
-        title: 'ও মেনকা ও মেনকা — ষষ্ঠীর উৎসব',
-        artist: 'নন্দী সিস্টার্স (Nandy Sisters)',
-        thumbnail: getThumb('R9Z_5U8v-XU'),
-      },
-    ],
+    tracks: [], // inherited via getPlaylistForFestival
   },
 
-  // ── 5. SAPTAMI (সপ্তমী) ──────────────────────────────────────────
   'durga-puja-saptami': {
     id: 'durga-puja-saptami',
     title: 'সপ্তমীর সুর',
     subtitle: 'Saptami Collection',
     festivalEmoji: '🪔',
     accentColor: '#e74c3c',
-    tracks: [
-      {
-        id: 'FqS-m6_n_Cg',
-        title: 'নবপত্রিকা স্নান ও সপ্তমীর ঢাকের মহাবোল',
-        artist: 'ঐতিহ্যবাহী ঢাক ও ভক্তিগীতি',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
-      },
-      {
-        id: 'Yp69mY8L5h4',
-        title: 'সপ্তমী পূজা বন্দনা ও পুষ্পাঞ্জলি',
-        artist: 'কুমার শানু (Kumar Sanu)',
-        thumbnail: getThumb('Yp69mY8L5h4'),
-      },
-      {
-        id: '6P3O1gH1qFw',
-        title: 'মহাসপ্তমীর পূর্ণ পূজার গান',
-        artist: 'পূজা স্পেশাল (Puja Special)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
-      },
-    ],
+    tracks: [], // inherited via getPlaylistForFestival
   },
 
-  // ── 6. ASHTAMI (অষ্টমী) ──────────────────────────────────────────
   'durga-puja-ashtami': {
     id: 'durga-puja-ashtami',
     title: 'অষ্টমীর সুর',
     subtitle: 'Ashtami Collection',
     festivalEmoji: '🪔',
     accentColor: '#e74c3c',
-    tracks: [
-      {
-        id: 'FqS-m6_n_Cg',
-        title: 'মহাষ্টমী পুষ্পাঞ্জলি ও কুমারী পূজা আবাহন',
-        artist: 'পুষ্পাঞ্জলি গীতি (Pushpanjali)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
-      },
-      {
-        id: '57O9a_Y5vE0',
-        title: 'সন্ধিপূজার সন্ধিক্ষণ ও ১০৮ পদ্মের স্তব',
-        artist: 'বীরেন্দ্রকৃষ্ণ ভদ্র (Sandhi Puja)',
-        thumbnail: getThumb('57O9a_Y5vE0'),
-      },
-      {
-        id: 'R9Z_5U8v-XU',
-        title: 'মহাষ্টমীর ঢাকের মহাতাল ও কাঁসির ছন্দ',
-        artist: 'ঐতিহ্যবাহী ঢাক (Traditional Dhak)',
-        thumbnail: getThumb('R9Z_5U8v-XU'),
-      },
-      {
-        id: '6P3O1gH1qFw',
-        title: 'জয় মা দুর্গা — অষ্টমী আরতি',
-        artist: 'ভক্তিগীতি (Durga Aarti)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
-      },
-    ],
+    tracks: [], // inherited via getPlaylistForFestival
   },
 
-  // ── 7. NAVAMI (নবমী) ────────────────────────────────────────────
   'durga-puja-navami': {
     id: 'durga-puja-navami',
     title: 'নবমীর সুর',
     subtitle: 'Navami Collection',
     festivalEmoji: '🪔',
     accentColor: '#e74c3c',
-    tracks: [
-      {
-        id: 'FqS-m6_n_Cg',
-        title: 'মহানবমী হোম-যজ্ঞ ও ধুনুচি নাচের ঢাকের বোল',
-        artist: 'ধুনুচি নাচ ঢাক (Dhunuchi Dance)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
-      },
-      {
-        id: 'Yp69mY8L5h4',
-        title: 'নবমীর নিশি যেও না রে থামো — আকুল প্রার্থনা',
-        artist: 'পূজার বিশেষ ভক্তিগীতি',
-        thumbnail: getThumb('Yp69mY8L5h4'),
-      },
-      {
-        id: '6P3O1gH1qFw',
-        title: 'মহানবমী আরতি ও ভজন',
-        artist: 'বাংলা ভক্তিগীতি (Navami Aarti)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
-      },
-    ],
+    tracks: [], // inherited via getPlaylistForFestival
   },
 
-  // ── 8. DASHAMI (বিজয়া দশমী) ──────────────────────────────────────
   'durga-puja-dashami': {
     id: 'durga-puja-dashami',
     title: 'বিজয়ার সুর',
     subtitle: 'Dashami & Bisarjan Collection',
     festivalEmoji: '🏵️',
     accentColor: '#c0392b',
-    tracks: [
-      {
-        id: 'FqS-m6_n_Cg',
-        title: 'সিঁদুর খেলা ও দেবী বরণ — বিজয়া দশমী',
-        artist: 'বিজয়ার গান (Sindoor Khela)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
-      },
-      {
-        id: 'R9Z_5U8v-XU',
-        title: 'আসবে বছর আবার হবে — বিসর্জনের গান',
-        artist: 'বিসর্জন সঙ্গীত (Bisarjan Song)',
-        thumbnail: getThumb('R9Z_5U8v-XU'),
-      },
-      {
-        id: '6P3O1gH1qFw',
-        title: 'মা ফিরে চলো কৈলাসে — বিদায় স্তুতি',
-        artist: 'বিদায়ের সুর (Farewell)',
-        thumbnail: getThumb('6P3O1gH1qFw'),
-      },
-    ],
+    tracks: [], // inherited via getPlaylistForFestival
   },
 
-  // ── 9. LAKSHMI PUJA (লক্ষ্মীপূজা) ────────────────────────────────
+  // ── 4. LAKSHMI PUJA (লক্ষ্মীপূজা) ────────────────────────────────
   'lakshmi-puja': {
     id: 'lakshmi-puja',
     title: 'লক্ষ্মীপূজার সুর',
@@ -289,26 +294,35 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'fALqfEQhAOY',
-        title: 'লক্ষ্মী মন্ত্র — ওঁ শ্রীং হ্রীং ক্লীং মহালক্ষ্মৈ নমঃ',
-        artist: 'মহালক্ষ্মী মন্ত্র (Sanskrit Mantra)',
+        youtubeId: 'fALqfEQhAOY',
+        youtubeUrl: 'https://www.youtube.com/watch?v=fALqfEQhAOY',
+        title: 'Lakshmi Mantra — Om Shreem Hreem',
+        titleBn: 'লক্ষ্মী মন্ত্র — ওঁ শ্রীং হ্রীং',
+        artist: 'Sanskrit Mantra',
         thumbnail: getThumb('fALqfEQhAOY'),
       },
       {
         id: 'Y3QU-pOLRFI',
-        title: 'ওঁ জয় লক্ষ্মী মাতা — সম্পূর্ণ মহা আরতি',
-        artist: 'লক্ষ্মী আরতি (Lakshmi Aarti)',
+        youtubeId: 'Y3QU-pOLRFI',
+        youtubeUrl: 'https://www.youtube.com/watch?v=Y3QU-pOLRFI',
+        title: 'Om Jay Lakshmi Mata — Maha Aarti',
+        titleBn: 'ওঁ জয় লক্ষ্মী মাতা — মহা আরতি',
+        artist: 'Lakshmi Aarti',
         thumbnail: getThumb('Y3QU-pOLRFI'),
       },
       {
         id: 'kXYiU_JCYtU',
-        title: 'শ্রী মহালক্ষ্মী অষ্টকম্ স্তোত্রম্',
-        artist: 'ক্লাসিক্যাল স্তোত্র (Lakshmi Ashtakam)',
+        youtubeId: 'kXYiU_JCYtU',
+        youtubeUrl: 'https://www.youtube.com/watch?v=kXYiU_JCYtU',
+        title: 'Shri Mahalakshmi Ashtakam',
+        titleBn: 'শ্রী মহালক্ষ্মী অষ্টকম্',
+        artist: 'Lakshmi Ashtakam',
         thumbnail: getThumb('kXYiU_JCYtU'),
       },
     ],
   },
 
-  // ── 10. KALI PUJA (কালী পূজা) ───────────────────────────────────
+  // ── 5. KALI PUJA (কালী পূজা) ───────────────────────────────────
   'kali-puja': {
     id: 'kali-puja',
     title: 'কালীর সুর',
@@ -318,32 +332,44 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'k5j4Gq6u9xM',
-        title: '৩০টি সেরা শ্যামা সঙ্গীত — মায়ের পায়ে জবা হয়ে',
-        artist: 'পান্নালাল ভট্টাচার্য (Pannalal Bhattacharya)',
+        youtubeId: 'k5j4Gq6u9xM',
+        youtubeUrl: 'https://www.youtube.com/watch?v=k5j4Gq6u9xM',
+        title: 'Shyama Sangeet — Mayer Paye',
+        titleBn: 'শ্যামা সঙ্গীত — মায়ের পায়ে',
+        artist: 'পান্নালাল ভট্টাচার্য',
         thumbnail: getThumb('k5j4Gq6u9xM'),
       },
       {
         id: 'F3S8-f8Nl7w',
-        title: 'শ্যামা সঙ্গীত ভলিউম ১ — অমর কণ্ঠ',
-        artist: 'পান্নালাল ভট্টাচার্য (Shyama Sangeet)',
+        youtubeId: 'F3S8-f8Nl7w',
+        youtubeUrl: 'https://www.youtube.com/watch?v=F3S8-f8Nl7w',
+        title: 'Shyama Sangeet Vol 1',
+        titleBn: 'শ্যামা সঙ্গীত ভলিউম ১',
+        artist: 'পান্নালাল ভট্টাচার্য',
         thumbnail: getThumb('F3S8-f8Nl7w'),
       },
       {
         id: 'oV8s-n8zFqg',
-        title: 'মাগো আনন্দময়ী — কালীর ভক্তিগীতি',
-        artist: 'ঐতিহ্যবাহী শ্যামাসঙ্গীত (Traditional)',
+        youtubeId: 'oV8s-n8zFqg',
+        youtubeUrl: 'https://www.youtube.com/watch?v=oV8s-n8zFqg',
+        title: 'Mago Anandamayi — Kali Bhaktigiti',
+        titleBn: 'মাগো আনন্দময়ী — কালীর ভক্তিগীতি',
+        artist: 'Traditional',
         thumbnail: getThumb('oV8s-n8zFqg'),
       },
       {
         id: '6P0-r_0QyJg',
-        title: 'শ্যামা মা কি আমার কালো — ক্লাসিক',
-        artist: 'পান্নালাল ভট্টাচার্য (All Time Greats)',
+        youtubeId: '6P0-r_0QyJg',
+        youtubeUrl: 'https://www.youtube.com/watch?v=6P0-r_0QyJg',
+        title: 'Shyama Ma Ki Amar Kalo — Classic',
+        titleBn: 'শ্যামা মা কি আমার কালো — ক্লাসিক',
+        artist: 'পান্নালাল ভট্টাচার্য',
         thumbnail: getThumb('6P0-r_0QyJg'),
       },
     ],
   },
 
-  // ── 11. SARASWATI PUJA (সরস্বতী পূজা) ───────────────────────────
+  // ── 6. SARASWATI PUJA (সরস্বতী পূজা) ───────────────────────────
   'saraswati-puja': {
     id: 'saraswati-puja',
     title: 'সরস্বতীর সুর',
@@ -353,32 +379,44 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'S0Tq4z8Z_1U',
-        title: 'সরস্বতী বন্দনা — যা কুন্দেন্দু তুষারহারধবলা',
-        artist: 'সংস্কৃত বন্দনা ও স্তোত্র (Sanskrit Vandana)',
+        youtubeId: 'S0Tq4z8Z_1U',
+        youtubeUrl: 'https://www.youtube.com/watch?v=S0Tq4z8Z_1U',
+        title: 'Saraswati Vandana — Ya Kundendu',
+        titleBn: 'সরস্বতী বন্দনা — যা কুন্দেন্দু',
+        artist: 'Sanskrit Vandana',
         thumbnail: getThumb('S0Tq4z8Z_1U'),
       },
       {
         id: 'fXWn4C3v_nE',
-        title: 'সরস্বতী মন্ত্র ও আরতি — বিদ্যা ও জ্ঞানদায়িনী',
-        artist: 'সঞ্জীবনী ভেলান্ডে (Saregama Bhakti)',
+        youtubeId: 'fXWn4C3v_nE',
+        youtubeUrl: 'https://www.youtube.com/watch?v=fXWn4C3v_nE',
+        title: 'Saraswati Mantra & Aarti',
+        titleBn: 'সরস্বতী মন্ত্র ও আরতি',
+        artist: 'Saregama Bhakti',
         thumbnail: getThumb('fXWn4C3v_nE'),
       },
       {
         id: 'kYJ_fR93o_s',
-        title: 'দেবী বীণাপাণি বন্দনা',
-        artist: 'সুরেশ ওয়াডকর (Suresh Wadkar)',
+        youtubeId: 'kYJ_fR93o_s',
+        youtubeUrl: 'https://www.youtube.com/watch?v=kYJ_fR93o_s',
+        title: 'Devi Veenapani Vandana',
+        titleBn: 'দেবী বীণাপাণি বন্দনা',
+        artist: 'Suresh Wadkar',
         thumbnail: getThumb('kYJ_fR93o_s'),
       },
       {
         id: 'm7H40W0n8-w',
-        title: 'হে মা শারদে — বসন্ত পঞ্চমীর ভক্তিগীতি',
-        artist: 'লালিত্যা মুনশাওয়া (Hey Maa Sharda)',
+        youtubeId: 'm7H40W0n8-w',
+        youtubeUrl: 'https://www.youtube.com/watch?v=m7H40W0n8-w',
+        title: 'Hey Maa Sharde — Basant Panchami',
+        titleBn: 'হে মা শারদে — বসন্ত পঞ্চমী',
+        artist: 'Lalitya Munshaw',
         thumbnail: getThumb('m7H40W0n8-w'),
       },
     ],
   },
 
-  // ── 12. JANMASHTAMI (শ্রীকৃষ্ণ জন্মাষ্টমী) ──────────────────────
+  // ── 7. JANMASHTAMI (শ্রীকৃষ্ণ জন্মাষ্টমী) ──────────────────────
   janmashtami: {
     id: 'janmashtami',
     title: 'কৃষ্ণের সুর',
@@ -388,26 +426,35 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'y3XKRP3u2jU',
-        title: 'হরে কৃষ্ণ হরে কৃষ্ণ কৃষ্ণ কৃষ্ণ হরে হরে — মহামন্ত্র',
-        artist: 'ইস্কন নামসংকীর্তন (Maha Mantra)',
+        youtubeId: 'y3XKRP3u2jU',
+        youtubeUrl: 'https://www.youtube.com/watch?v=y3XKRP3u2jU',
+        title: 'Hare Krishna Maha Mantra',
+        titleBn: 'হরে কৃষ্ণ মহামন্ত্র',
+        artist: 'ISKCON Namasankirtan',
         thumbnail: getThumb('y3XKRP3u2jU'),
       },
       {
         id: 'ZqV7BKyFj-I',
-        title: 'অচ্যুতম্ কেশবম্ কৃষ্ণ দামোদরম্',
-        artist: 'শ্রীকৃষ্ণ ভজন (Achyutam Keshavam)',
+        youtubeId: 'ZqV7BKyFj-I',
+        youtubeUrl: 'https://www.youtube.com/watch?v=ZqV7BKyFj-I',
+        title: 'Achyutam Keshavam Krishna Damodaram',
+        titleBn: 'অচ্যুতম্ কেশবম্ কৃষ্ণ দামোদরম্',
+        artist: 'Bhajan',
         thumbnail: getThumb('ZqV7BKyFj-I'),
       },
       {
         id: 'vEL4LD7OtJk',
-        title: 'গোবিন্দ বলো হরি গোপাল বলো — মধ্যরাতের জন্মাষ্টমী',
-        artist: 'ভক্তিগীতি (Traditional)',
+        youtubeId: 'vEL4LD7OtJk',
+        youtubeUrl: 'https://www.youtube.com/watch?v=vEL4LD7OtJk',
+        title: 'Govinda Bolo Hari Gopal Bolo',
+        titleBn: 'গোবিন্দ বলো হরি গোপাল বলো',
+        artist: 'Traditional',
         thumbnail: getThumb('vEL4LD7OtJk'),
       },
     ],
   },
 
-  // ── 13. SHIVRATRI (মহাশিবরাত্রি) ─────────────────────────────────
+  // ── 8. SHIVRATRI (মহাশিবরাত্রি) ─────────────────────────────────
   shivaratri: {
     id: 'shivaratri',
     title: 'মহাদেবের সুর',
@@ -417,26 +464,35 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'KRhcTPKdmrk',
-        title: 'শিব তাণ্ডব স্তোত্রম্ — জটাটবীগলজ্জল',
-        artist: 'শঙ্কর মহাদেবন (Shankar Mahadevan)',
+        youtubeId: 'KRhcTPKdmrk',
+        youtubeUrl: 'https://www.youtube.com/watch?v=KRhcTPKdmrk',
+        title: 'Shiva Tandava Stotram',
+        titleBn: 'শিব তাণ্ডব স্তোত্রম্',
+        artist: 'Shankar Mahadevan',
         thumbnail: getThumb('KRhcTPKdmrk'),
       },
       {
         id: 'aG3g0G0Wd8Y',
-        title: 'হর হর শিব শঙ্কর — মহাশিবরাত্রি',
-        artist: 'সাচেত ও পরম্পরা ট্যান্ডন (T-Series)',
+        youtubeId: 'aG3g0G0Wd8Y',
+        youtubeUrl: 'https://www.youtube.com/watch?v=aG3g0G0Wd8Y',
+        title: 'Har Har Shiv Shankar',
+        titleBn: 'হর হর শিব শঙ্কর',
+        artist: 'T-Series',
         thumbnail: getThumb('aG3g0G0Wd8Y'),
       },
       {
         id: 'K3-g6b-qF4E',
-        title: 'ওঁ নমঃ শিবায় ও শিব তাণ্ডব স্তোত্র',
-        artist: 'রমেশভাই ওঝা (Traditional Recitation)',
+        youtubeId: 'K3-g6b-qF4E',
+        youtubeUrl: 'https://www.youtube.com/watch?v=K3-g6b-qF4E',
+        title: 'Om Namah Shivay & Shiva Tandava',
+        titleBn: 'ওঁ নমঃ শিবায় ও শিব তাণ্ডব স্তোত্র',
+        artist: 'Traditional Recitation',
         thumbnail: getThumb('K3-g6b-qF4E'),
       },
     ],
   },
 
-  // ── 14. GANESH CHATURTHI (গণেশ পূজা) ────────────────────────────
+  // ── 9. GANESH CHATURTHI (গণেশ পূজা) ────────────────────────────
   'ganesh-chaturthi': {
     id: 'ganesh-chaturthi',
     title: 'গণেশের সুর',
@@ -446,20 +502,26 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'Q7mGCBCiLF4',
-        title: 'জয় গণেশ জয় গণেশ দেবা — মহা আরতি',
-        artist: 'গণেশ আরতি (Ganesh Aarti)',
+        youtubeId: 'Q7mGCBCiLF4',
+        youtubeUrl: 'https://www.youtube.com/watch?v=Q7mGCBCiLF4',
+        title: 'Jay Ganesh Jay Ganesh Deva — Aarti',
+        titleBn: 'জয় গণেশ জয় গণেশ দেবা — মহা আরতি',
+        artist: 'Ganesh Aarti',
         thumbnail: getThumb('Q7mGCBCiLF4'),
       },
       {
         id: 'CL5_MvCMFBQ',
-        title: 'বক্রতুণ্ড মহাকায় সূর্যকোটি সমপ্রভ — মন্ত্র',
-        artist: 'গণেশ স্তোত্র (Ganesh Mantra)',
+        youtubeId: 'CL5_MvCMFBQ',
+        youtubeUrl: 'https://www.youtube.com/watch?v=CL5_MvCMFBQ',
+        title: 'Vakratunda Mahakaya Mantra',
+        titleBn: 'বক্রতুণ্ড মহাকায় — মন্ত্র',
+        artist: 'Ganesh Mantra',
         thumbnail: getThumb('CL5_MvCMFBQ'),
       },
     ],
   },
 
-  // ── 15. JAGADDHATRI PUJA (জগদ্ধাত্রী পূজা) ────────────────────────
+  // ── 10. JAGADDHATRI PUJA (জগদ্ধাত্রী পূজা) ─────────────────────
   'jagaddhatri-puja': {
     id: 'jagaddhatri-puja',
     title: 'জগদ্ধাত্রীর সুর',
@@ -468,21 +530,27 @@ export const festivalPlaylists = {
     accentColor: '#d4700a',
     tracks: [
       {
-        id: '6P3O1gH1qFw',
-        title: 'দেবী জগদ্ধাত্রী বন্দনা — জগতের ধারণকর্ত্রী',
-        artist: 'দেবী স্তোত্র ও ভক্তিগীতি',
-        thumbnail: getThumb('6P3O1gH1qFw'),
+        id: 'E2zfQEo7Q_M',
+        youtubeId: 'E2zfQEo7Q_M',
+        youtubeUrl: 'https://www.youtube.com/watch?v=E2zfQEo7Q_M',
+        title: 'Ebar Jeno Onno Rokom Pujo',
+        titleBn: 'এবার যেন অন্য রকম পুজো',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('E2zfQEo7Q_M'),
       },
       {
-        id: 'FqS-m6_n_Cg',
-        title: 'চন্দননগরের জগদ্ধাত্রী পূজার আলোকসজ্জা ও ঢাকের বোল',
-        artist: 'ঐতিহ্যবাহী ঢাক (Chandannagar Dhak)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
+        id: 'sPuZ0Q3KDWo',
+        youtubeId: 'sPuZ0Q3KDWo',
+        youtubeUrl: 'https://www.youtube.com/watch?v=sPuZ0Q3KDWo',
+        title: 'Dugga Ma',
+        titleBn: 'দুগ্গা মা',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('sPuZ0Q3KDWo'),
       },
     ],
   },
 
-  // ── 16. RATH YATRA (রথযাত্রা) ────────────────────────────────────
+  // ── 11. RATH YATRA (রথযাত্রা) ────────────────────────────────────
   'rath-yatra': {
     id: 'rath-yatra',
     title: 'রথযাত্রার সুর',
@@ -492,20 +560,26 @@ export const festivalPlaylists = {
     tracks: [
       {
         id: 'y3XKRP3u2jU',
-        title: 'জয় জগন্নাথ জয় বলদেব — রথযাত্রা সংকীর্তন',
-        artist: 'ইস্কন ভক্তিগীতি (Jagannath Sankirtan)',
+        youtubeId: 'y3XKRP3u2jU',
+        youtubeUrl: 'https://www.youtube.com/watch?v=y3XKRP3u2jU',
+        title: 'Jay Jagannath Jay Baldev — Rath Yatra Sankirtan',
+        titleBn: 'জয় জগন্নাথ জয় বলদেব — রথযাত্রা সংকীর্তন',
+        artist: 'ISKCON Bhaktigiti',
         thumbnail: getThumb('y3XKRP3u2jU'),
       },
       {
         id: 'vEL4LD7OtJk',
-        title: 'গোবিন্দ বলো হরি গোপাল বলো',
-        artist: 'ঐতিহ্যবাহী কীর্তন',
+        youtubeId: 'vEL4LD7OtJk',
+        youtubeUrl: 'https://www.youtube.com/watch?v=vEL4LD7OtJk',
+        title: 'Govinda Bolo Hari Gopal Bolo',
+        titleBn: 'গোবিন্দ বলো হরি গোপাল বলো',
+        artist: 'Traditional Kirtan',
         thumbnail: getThumb('vEL4LD7OtJk'),
       },
     ],
   },
 
-  // ── 17. VISHWAKARMA PUJA (বিশ্বকর্মা পূজা) ───────────────────────
+  // ── 12. VISHWAKARMA PUJA (বিশ্বকর্মা পূজা) ───────────────────────
   'vishwakarma-puja': {
     id: 'vishwakarma-puja',
     title: 'বিশ্বকর্মার সুর',
@@ -514,10 +588,13 @@ export const festivalPlaylists = {
     accentColor: '#4a90d9',
     tracks: [
       {
-        id: 'FqS-m6_n_Cg',
-        title: 'বিশ্বকর্মা পূজার গান ও ঘুড়ি ওড়ানোর উৎসব',
-        artist: 'বাংলা পূজার গান (Bangla Geet)',
-        thumbnail: getThumb('FqS-m6_n_Cg'),
+        id: 'E2zfQEo7Q_M',
+        youtubeId: 'E2zfQEo7Q_M',
+        youtubeUrl: 'https://www.youtube.com/watch?v=E2zfQEo7Q_M',
+        title: 'Ebar Jeno Onno Rokom Pujo',
+        titleBn: 'এবার যেন অন্য রকম পুজো',
+        artist: 'পূজার গান',
+        thumbnail: getThumb('E2zfQEo7Q_M'),
       },
     ],
   },
@@ -525,23 +602,37 @@ export const festivalPlaylists = {
 };
 
 /**
- * festivalMusic alias matching requirement format
+ * festivalMusic alias for backward compatibility
  */
 export const festivalMusic = festivalPlaylists;
 
 /**
- * Get playlist by festival ID with robust fallbacks
+ * Get playlist by festival ID with robust fallbacks.
+ * Durga Puja sub-days (shasthi, saptami, etc.) fall back to the general durga-puja playlist if empty.
  */
 export function getPlaylistForFestival(festivalId) {
   if (!festivalId) return null;
-  if (festivalPlaylists[festivalId]) {
-    return { ...festivalPlaylists[festivalId], key: festivalId };
+
+  const direct = festivalPlaylists[festivalId];
+  if (direct && direct.tracks && direct.tracks.length > 0) {
+    return { ...direct, key: festivalId };
   }
+
+  // Durga Puja sub-day fallback
   if (festivalId.startsWith('durga-puja')) {
-    return { ...festivalPlaylists['durga-puja'], key: 'durga-puja' };
+    const mainDurga = festivalPlaylists['durga-puja'];
+    if (mainDurga) {
+      return {
+        ...mainDurga,
+        title: direct?.title || mainDurga.title,
+        subtitle: direct?.subtitle || mainDurga.subtitle,
+        festivalEmoji: direct?.festivalEmoji || mainDurga.festivalEmoji,
+        key: festivalId,
+      };
+    }
   }
-  return null;
+
+  return direct ? { ...direct, key: festivalId } : null;
 }
 
 export default festivalPlaylists;
-

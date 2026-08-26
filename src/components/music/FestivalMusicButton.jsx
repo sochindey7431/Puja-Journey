@@ -1,4 +1,3 @@
-import { Music2 } from 'lucide-react';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 
@@ -12,7 +11,9 @@ export default function FestivalMusicButton({ festivalId, festivalNameEn, festiv
 
   const isThisActive = isPlayerOpen && currentPlaylistKey === festivalId;
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (isThisActive) {
       togglePlay();
     } else {
@@ -22,6 +23,7 @@ export default function FestivalMusicButton({ festivalId, festivalNameEn, festiv
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       className={`group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md active:scale-95 ${
         isThisActive && isPlaying
@@ -54,4 +56,3 @@ export default function FestivalMusicButton({ festivalId, festivalNameEn, festiv
     </button>
   );
 }
-
