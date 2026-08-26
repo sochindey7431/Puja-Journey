@@ -1,20 +1,35 @@
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
+import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festivalPlaylists.js';
 
 /**
- * Per-section "🎵 Play Music" button that connects every festival card
- * directly to the predefined YouTube playlist.
+ * Per-section "🎵 Play Music" button that connects festival cards
+ * directly to their predefined YouTube playlist.
  */
 export default function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, className = '' }) {
   const { loadFestivalMusic, currentPlaylistKey, isPlayerOpen, isPlaying, togglePlay } = useMusicContext();
   const { isBn } = useLanguage();
 
-  const isThisActive = isPlayerOpen && currentPlaylistKey === festivalId;
+  // If this festival has no configured playlist, do not show music button
+  if (!hasPlaylistForFestival(festivalId)) {
+    return null;
+  }
+
+  const thisPlaylist = getPlaylistForFestival(festivalId);
+  const activePlaylist = currentPlaylistKey ? getPlaylistForFestival(currentPlaylistKey) : null;
+
+  // Active if player is open and either matching exact festivalId or sharing the same target playlist
+  const isThisActive = Boolean(
+    isPlayerOpen &&
+    activePlaylist &&
+    thisPlaylist &&
+    activePlaylist.targetPlaylistId === thisPlaylist.targetPlaylistId
+  );
 
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isThisActive) {
+    if (isThisActive && currentPlaylistKey === festivalId) {
       togglePlay();
     } else {
       loadFestivalMusic(festivalId, true);
@@ -32,14 +47,14 @@ export default function FestivalMusicButton({ festivalId, festivalNameEn, festiv
             ? 'border-puja-gold/60 bg-puja-gold/15 text-puja-gold'
             : 'border-puja-gold/30 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold hover:border-puja-gold/60'
       } ${className}`}
-      aria-label={`Listen to ${festivalNameEn} predefined devotional music`}
+      aria-label={`Listen to ${festivalNameEn || thisPlaylist?.title} predefined devotional music`}
       aria-pressed={isThisActive}
     >
       <span className="text-sm" aria-hidden="true">🎵</span>
       <span className={isBn ? 'bn-text tracking-normal text-sm font-medium' : 'font-medium tracking-wider'}>
         {isThisActive && isPlaying
           ? (isBn ? 'চলছে…' : 'Playing…')
-          : (isBn ? `${festivalNameBn || ''} সঙ্গীত` : `Play Music`)}
+          : (isBn ? `${festivalNameBn || thisPlaylist?.title || ''} সঙ্গীত` : `Play Music`)}
       </span>
 
       {isThisActive && isPlaying && (

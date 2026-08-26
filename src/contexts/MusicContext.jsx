@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
-import { festivalPlaylists, getPlaylistForFestival } from '../data/festivalPlaylists.js';
+import { getPlaylistForFestival, hasPlaylistForFestival } from '../data/festivalPlaylists.js';
 
 const MusicContext = createContext(null);
 
 export function MusicProvider({ children }) {
-  const [currentPlaylistKey, setCurrentPlaylistKey] = useState('mahalaya');
+  const [currentPlaylistKey, setCurrentPlaylistKey] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
@@ -24,26 +24,24 @@ export function MusicProvider({ children }) {
 
   const playerRef = useRef(null); // Reference to YT.Player instance
 
-  const currentPlaylist = currentPlaylistKey
-    ? (festivalPlaylists[currentPlaylistKey] || getPlaylistForFestival(currentPlaylistKey) || festivalPlaylists.mahalaya)
-    : festivalPlaylists.mahalaya;
-
+  // Derive playlist from the current key
+  const currentPlaylist = currentPlaylistKey ? getPlaylistForFestival(currentPlaylistKey) : null;
   const currentTrack = currentPlaylist?.tracks?.[currentTrackIndex] || currentPlaylist?.tracks?.[0] || null;
 
   // Load a festival playlist & immediately play first track
   const loadFestivalMusic = useCallback((festivalId, autoPlay = true) => {
-    const playlist = getPlaylistForFestival(festivalId) || festivalPlaylists[festivalId];
-    if (!playlist) return;
-
-    const key = festivalPlaylists[festivalId]
-      ? festivalId
-      : Object.keys(festivalPlaylists).find(k => festivalId?.startsWith(k)) || festivalId;
+    if (!festivalId) return;
+    const playlist = getPlaylistForFestival(festivalId);
+    if (!playlist || !playlist.tracks || playlist.tracks.length === 0) {
+      return;
+    }
 
     setErrorMessage(null);
     setIsPlayerOpen(true);
     setIsPlayerMinimized(false);
 
-    if (currentPlaylistKey === key) {
+    // If same festival playlist is already loaded, toggle/resume
+    if (currentPlaylistKey === festivalId) {
       if (autoPlay) {
         setIsPlaying(true);
         if (playerRef.current?.playVideo) {
@@ -53,7 +51,8 @@ export function MusicProvider({ children }) {
       return;
     }
 
-    setCurrentPlaylistKey(key);
+    // Load new festival playlist - reset track index
+    setCurrentPlaylistKey(festivalId);
     setCurrentTrackIndex(0);
     setCurrentTime(0);
     setDuration(0);
@@ -242,4 +241,3 @@ export function useMusicContext() {
   if (!ctx) throw new Error('useMusicContext must be used within MusicProvider');
   return ctx;
 }
-

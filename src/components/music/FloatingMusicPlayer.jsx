@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { festivals } from '../../data/festivals.js';
-import { getPlaylistForFestival, festivalPlaylists } from '../../data/festivalPlaylists.js';
+import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festivalPlaylists.js';
 import {
   Play, Pause, SkipBack, SkipForward,
   ListMusic, X, ChevronDown, Music2,
@@ -172,26 +172,32 @@ export default function FloatingMusicPlayer() {
 
   if (!isPlayerOpen || !currentPlaylist) return null;
 
-  // Track exploration helper
+  // Track exploration helper - only when exploring a festival that has music and is different from current
   const exploringFestival = exploringFestivalId
     ? festivals.find(f => f.id === exploringFestivalId)
     : null;
 
-  const exploringHasPlaylist = exploringFestivalId
-    ? !!getPlaylistForFestival(exploringFestivalId)
-    : false;
+  const exploringHasMusic = exploringFestivalId ? hasPlaylistForFestival(exploringFestivalId) : false;
+  const exploringPlaylist = exploringFestivalId ? getPlaylistForFestival(exploringFestivalId) : null;
 
   const isDifferentFromExploring =
     exploringFestivalId &&
-    exploringHasPlaylist &&
-    currentPlaylistKey !== exploringFestivalId &&
-    !exploringFestivalId.startsWith(currentPlaylistKey);
+    exploringHasMusic &&
+    exploringPlaylist &&
+    currentPlaylist &&
+    currentPlaylist.targetPlaylistId !== exploringPlaylist.targetPlaylistId;
 
   const activeTime = isSeeking ? seekValue : currentTime;
   const progressPercent = duration > 0 ? Math.min(100, Math.max(0, (activeTime / duration) * 100)) : 0;
 
   const trackTitle = currentTrack?.titleBn || currentTrack?.title || 'Predefined Festival Track';
   const festivalTitle = currentPlaylist.title || 'Devotional Music';
+
+  // Configured festival keys for switching in drawer
+  const availablePlaylists = [
+    { key: 'mahalaya', label: 'মহালয়া', emoji: '🌑' },
+    { key: 'durga-puja-shasthi', label: 'দুর্গাপূজা', emoji: '🪔' },
+  ];
 
   return (
     <>
@@ -281,25 +287,24 @@ export default function FloatingMusicPlayer() {
 
             {/* Festival Switcher Bar inside Playlist Drawer */}
             <div className="flex items-center gap-1.5 px-4 py-2 bg-black/40 overflow-x-auto scrollbar-thin border-b border-puja-gold/10 flex-shrink-0">
-              {['mahalaya', 'durga-puja', 'lakshmi-puja', 'kali-puja', 'saraswati-puja', 'janmashtami', 'shivaratri', 'ganesh-chaturthi', 'jagaddhatri-puja', 'rath-yatra', 'vishwakarma-puja'].map(key => {
-                const p = festivalPlaylists[key];
-                if (!p) return null;
-                const isCur = currentPlaylistKey === key;
+              {availablePlaylists.map(item => {
+                const targetPl = getPlaylistForFestival(item.key);
+                const isCur = currentPlaylist?.targetPlaylistId === targetPl?.targetPlaylistId;
                 return (
                   <button
                     type="button"
-                    key={key}
+                    key={item.key}
                     onClick={(e) => {
                       e.preventDefault();
-                      loadFestivalMusic(key, true);
+                      loadFestivalMusic(item.key, true);
                     }}
-                    className={`px-2.5 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
+                    className={`px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
                       isCur
                         ? 'bg-puja-gold text-puja-black font-semibold shadow-sm'
                         : 'bg-white/5 text-puja-ivory/50 hover:text-puja-gold hover:bg-white/10'
                     }`}
                   >
-                    {p.festivalEmoji} {p.title?.split(' ')[0]}
+                    {item.emoji} {item.label}
                   </button>
                 );
               })}
