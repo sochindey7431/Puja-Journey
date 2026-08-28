@@ -89,34 +89,40 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
     >
       {/* ── Background image with parallax & subtle zoom ── */}
       {festival.image && !imgError && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="festival-hero-img-container" aria-hidden="true">
           <img
             ref={imgRef}
             src={getAssetUrl(festival.image)}
             alt={festival.imageAlt || festival.nameEn}
-            className="absolute inset-0 w-full h-[120%] -top-[10%] object-contain object-center transition-transform duration-1000 ease-out"
+            data-festival={festival.id}
+            className="festival-hero-img"
             style={{
-              willChange: 'transform',
               backgroundColor: festival.theme?.bg || '#0a0805',
               filter: 'brightness(1.10) contrast(1.05) saturate(1.08)',
             }}
             loading="lazy"
             onError={() => setImgError(true)}
           />
-          {/* ── Deity subject highlight — soft-light blend, natural centre lighting ── */}
+          {/* ── Deity subject highlight — desktop: right side; mobile: top-center ── */}
           <div
             aria-hidden="true"
+            className="hidden md:block absolute inset-0 pointer-events-none"
             style={{
-              position: 'absolute',
-              inset: 0,
               background: 'radial-gradient(ellipse 42% 58% at 62% 42%, rgba(255,248,230,0.13) 0%, rgba(255,248,230,0.05) 50%, transparent 72%)',
               mixBlendMode: 'soft-light',
-              pointerEvents: 'none',
             }}
           />
-          {/* Multi-stage dark gradient overlay for crystal clear text readability */}
           <div
-            className="absolute inset-0"
+            aria-hidden="true"
+            className="md:hidden absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 55% 50% at 50% 28%, rgba(255,248,230,0.16) 0%, rgba(255,248,230,0.05) 48%, transparent 70%)',
+              mixBlendMode: 'soft-light',
+            }}
+          />
+          {/* Desktop Multi-stage horizontal dark gradient */}
+          <div
+            className="hidden md:block absolute inset-0"
             style={{
               background: `linear-gradient(
                 to right,
@@ -127,9 +133,22 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
               )`,
             }}
           />
+          {/* Mobile vertical gradient: clear at the top, smoothly blending into solid theme background */}
+          <div
+            className="md:hidden absolute inset-0"
+            style={{
+              background: `linear-gradient(
+                to bottom,
+                ${festival.theme?.bg}15 0%,
+                ${festival.theme?.bg}40 25%,
+                ${festival.theme?.bg}cc 65%,
+                ${festival.theme?.bg} 100%
+              )`,
+            }}
+          />
           {/* Subtle vertical vignette */}
           <div
-            className="absolute inset-0"
+            className="hidden md:block absolute inset-0"
             style={{
               background: `linear-gradient(
                 to bottom,
@@ -159,7 +178,7 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
       {/* ── Main Content ── */}
       <div
         ref={contentRef}
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-16 py-24 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-16 pt-28 pb-16 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20 items-center"
       >
         {/* Left: text column */}
         <div className="flex flex-col gap-5">
@@ -313,14 +332,14 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
     >
       {/* Background image */}
       {festival.image && !imgError && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="festival-hero-img-container" aria-hidden="true">
           <img
             ref={imgRef}
             src={getAssetUrl(festival.image)}
             alt={festival.imageAlt || 'Mahalaya night sky'}
-            className="absolute inset-0 w-full h-[120%] -top-[10%] object-contain object-center opacity-45 transition-transform duration-1000 ease-out"
+            data-festival="mahalaya"
+            className="festival-hero-img opacity-45"
             style={{
-              willChange: 'transform',
               backgroundColor: '#020408',
               filter: 'brightness(1.10) contrast(1.05) saturate(1.08)',
             }}
@@ -333,12 +352,13 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'radial-gradient(ellipse 38% 52% at 50% 40%, rgba(255,248,230,0.11) 0%, rgba(255,248,230,0.04) 50%, transparent 70%)',
+              background: 'radial-gradient(ellipse 38% 52% at 50% 35%, rgba(255,248,230,0.14) 0%, rgba(255,248,230,0.04) 50%, transparent 70%)',
               mixBlendMode: 'soft-light',
               pointerEvents: 'none',
             }}
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #020408d9 0%, #02040888 50%, #020408f0 100%)' }} />
+          <div className="hidden md:block absolute inset-0" style={{ background: 'linear-gradient(to bottom, #020408d9 0%, #02040888 50%, #020408f0 100%)' }} />
+          <div className="md:hidden absolute inset-0" style={{ background: 'linear-gradient(to bottom, #02040815 0%, #02040855 35%, #020408d9 70%, #020408 100%)' }} />
         </div>
       )}
 
