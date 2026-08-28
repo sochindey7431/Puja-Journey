@@ -233,42 +233,17 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
         </div>
 
 
-        {/* Right: countdown + next */}
-        <div className="flex flex-col gap-8 items-start md:items-end">
-          {/* Countdown */}
-          {!past && date && (
+        {/* Right: countdown */}
+        {!past && date && (
+          <div className="flex flex-col gap-8 items-start md:items-end">
             <div className="reveal-item flex flex-col gap-2">
               <p className="text-xs tracking-[0.2em] uppercase text-puja-ivory/20 mb-2">
                 {isBn ? 'আর কতদিন' : 'COUNTING DOWN'}
               </p>
               <Countdown targetDate={date} festivalName={festival.nameEn} festivalNameBn={festival.nameBn} />
             </div>
-          )}
-
-          {past && (
-            <div className="reveal-item">
-              <span className="text-xs tracking-[0.2em] uppercase text-puja-ivory/15">
-                {isBn ? 'এই বছর সম্পন্ন হয়েছে' : 'COMPLETED THIS YEAR'}
-              </span>
-            </div>
-          )}
-
-          {/* Next festival arrow */}
-          {nextFestival && (
-            <div className="reveal-item mt-2">
-              <div className="flex items-center gap-2 text-puja-ivory/20">
-                <span className="text-xs tracking-[0.2em] uppercase">{t('nextFestival')}</span>
-                <ChevronRight size={13} />
-              </div>
-              <button
-                onClick={() => document.querySelector(`[data-festival-id="${nextFestival.id}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-                className="mt-1 bn-text text-sm text-puja-ivory/35 hover:text-puja-gold transition-colors duration-300"
-              >
-                {nextFestival.nameBn}
-              </button>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Bottom fade */}
@@ -426,16 +401,6 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
             className="px-6 py-3 text-sm shadow-[0_0_25px_rgba(201,168,76,0.25)]"
           />
         </div>
-
-
-        {nextFestival && (
-          <motion.div className="mt-10 flex flex-col items-center gap-2 text-puja-ivory/20"
-            animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2.5 }}>
-            <p className="text-xs tracking-[0.2em] uppercase">{isBn ? 'এরপর আসছে' : 'Coming next'}</p>
-            <p className="bn-text text-sm text-puja-gold/35">{nextFestival.nameBn}</p>
-            <ChevronRight size={16} className="rotate-90" />
-          </motion.div>
-        )}
       </motion.div>
 
       <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
