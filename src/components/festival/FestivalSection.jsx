@@ -235,11 +235,14 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
 
         {/* Right: countdown */}
         {!past && date && (
-          <div className="flex flex-col gap-8 items-start md:items-end">
-            <div className="reveal-item flex flex-col gap-2">
-              <p className="text-xs tracking-[0.2em] uppercase text-puja-ivory/20 mb-2">
-                {isBn ? 'আর কতদিন' : 'COUNTING DOWN'}
-              </p>
+          <div className="flex flex-col items-start md:items-end justify-center md:self-center md:pt-8">
+            <div className="reveal-item flex flex-col items-start md:items-end gap-2">
+              <div className="flex items-center gap-2 text-puja-gold/60">
+                <span className="w-1.5 h-1.5 rounded-full bg-puja-gold/70 animate-pulse" />
+                <span className="text-[10px] sm:text-xs tracking-[0.25em] uppercase font-medium text-puja-ivory/45 font-body">
+                  {isBn ? 'আর বাকি' : 'COUNTDOWN'}
+                </span>
+              </div>
               <Countdown targetDate={date} festivalName={festival.nameEn} festivalNameBn={festival.nameBn} />
             </div>
           </div>
