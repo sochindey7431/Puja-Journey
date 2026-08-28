@@ -828,9 +828,9 @@ body {
 
 @media (max-width: 768px) {
   .festival-hero-img-container {
-    height: 58vh;
-    min-height: 350px;
-    max-height: 520px;
+    height: 60vh;
+    min-height: 380px;
+    max-height: 560px;
     top: 0;
     bottom: auto;
   }
@@ -853,25 +853,26 @@ body {
     height: 100%;
     top: 0;
     object-fit: cover;
+    transform: scale(1.05);
   }
 
-  /* Specific mobile deity focal points for optimal framing */
-  .festival-hero-img[data-festival="saraswati-puja"] { object-position: center 18%; }
-  .festival-hero-img[data-festival="shivaratri"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="dol-purnima"] { object-position: center 25%; }
-  .festival-hero-img[data-festival="rath-yatra"] { object-position: center 26%; }
-  .festival-hero-img[data-festival="janmashtami"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="ganesh-chaturthi"] { object-position: center 20%; }
-  .festival-hero-img[data-festival="vishwakarma-puja"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="mahalaya"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="durga-puja"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="durga-puja-shasthi"] { object-position: center 24%; }
-  .festival-hero-img[data-festival="durga-puja-saptami"] { object-position: center 26%; }
-  .festival-hero-img[data-festival="durga-puja-ashtami"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="durga-puja-navami"] { object-position: center 25%; }
-  .festival-hero-img[data-festival="durga-puja-dashami"] { object-position: center 25%; }
-  .festival-hero-img[data-festival="lakshmi-puja"] { object-position: center 20%; }
-  .festival-hero-img[data-festival="kali-puja"] { object-position: center 22%; }
-  .festival-hero-img[data-festival="jagaddhatri-puja"] { object-position: center 22%; }
+  /* Exact deity focal points for high-impact mobile presentation */
+  .festival-hero-img[data-festival="saraswati-puja"] { object-position: 64% 30%; }
+  .festival-hero-img[data-festival="shivaratri"] { object-position: 68% 38%; }
+  .festival-hero-img[data-festival="dol-purnima"] { object-position: 70% 38%; }
+  .festival-hero-img[data-festival="rath-yatra"] { object-position: 67% 35%; }
+  .festival-hero-img[data-festival="janmashtami"] { object-position: 68% 40%; }
+  .festival-hero-img[data-festival="ganesh-chaturthi"] { object-position: 75% 35%; }
+  .festival-hero-img[data-festival="vishwakarma-puja"] { object-position: 68% 32%; }
+  .festival-hero-img[data-festival="mahalaya"] { object-position: 82% 38%; }
+  .festival-hero-img[data-festival="durga-puja"] { object-position: 71% 32%; }
+  .festival-hero-img[data-festival="durga-puja-shasthi"] { object-position: 71% 32%; }
+  .festival-hero-img[data-festival="durga-puja-saptami"] { object-position: 69% 40%; }
+  .festival-hero-img[data-festival="durga-puja-ashtami"] { object-position: 82% 32%; }
+  .festival-hero-img[data-festival="durga-puja-navami"] { object-position: 82% 32%; }
+  .festival-hero-img[data-festival="durga-puja-dashami"] { object-position: 70% 32%; }
+  .festival-hero-img[data-festival="lakshmi-puja"] { object-position: 76% 32%; }
+  .festival-hero-img[data-festival="kali-puja"] { object-position: 54% 32%; }
+  .festival-hero-img[data-festival="jagaddhatri-puja"] { object-position: 72% 32%; }
 }
 
