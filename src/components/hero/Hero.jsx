@@ -83,8 +83,8 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  const scrollToJourney = () => {
-    document.querySelector('#journey')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const scrollToFestivals = () => {
+    document.querySelector('#festivals')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -119,61 +119,46 @@ export default function Hero() {
       />
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6">
-        {/* Pre-title */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="flex items-center gap-3 mb-10"
-          aria-hidden="true"
-        >
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-puja-gold/50" />
-          <span className="text-xs tracking-[0.35em] text-puja-gold/60 uppercase font-body">
-            {new Date().getFullYear()}
-          </span>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-puja-gold/50" />
-        </motion.div>
+      <div className="relative z-10 flex flex-col items-center text-center px-4 sm:px-6 pt-14 sm:pt-18 md:pt-20 pb-6 sm:pb-8 my-auto max-w-4xl">
+        {/* 1. Main Title & 2. 2026 */}
+        <div ref={titleRef} style={{ opacity: 0 }} className="flex flex-col items-center mb-3 sm:mb-4 md:mb-5 overflow-visible">
+          <h1 className="font-display text-[clamp(2.8rem,9vw,9.5rem)] leading-[1.06] tracking-[0.05em] text-puja-ivory uppercase overflow-visible">
+            <span className="block text-gradient-gold pb-1">PUJA</span>
+            <span className="block">JOURNEY</span>
+          </h1>
 
-        {/* Main title */}
-        <h1
-          ref={titleRef}
-          className="font-display text-fluid-5xl md:text-[clamp(5rem,14vw,14rem)] leading-none tracking-[0.05em] text-puja-ivory uppercase mb-6"
-          style={{ opacity: 0 }}
-        >
-          <span className="block text-gradient-gold">PUJA</span>
-          <span className="block">JOURNEY</span>
-        </h1>
+          {/* 2026 directly underneath */}
+          <div className="flex items-center gap-3 mt-2 sm:mt-3 md:mt-4" aria-label="Year 2026">
+            <div className="h-px w-8 sm:w-12 md:w-16 bg-gradient-to-r from-transparent to-puja-gold/50" />
+            <span className="font-display text-sm sm:text-base md:text-xl lg:text-2xl tracking-[0.35em] text-puja-gold/90 uppercase font-medium">
+              {new Date().getFullYear()}
+            </span>
+            <div className="h-px w-8 sm:w-12 md:w-16 bg-gradient-to-l from-transparent to-puja-gold/50" />
+          </div>
+        </div>
 
-        {/* Bengali subtitle */}
-        <div ref={subtitleRef} style={{ opacity: 0 }}>
-          <p className="bn-text text-lg md:text-2xl text-puja-ivory/40 mb-3 font-light tracking-wide">
+        {/* 3. Bengali subtitle & 4. Tagline */}
+        <div ref={subtitleRef} style={{ opacity: 0 }} className="flex flex-col items-center gap-1.5 sm:gap-2 mb-6 sm:mb-8">
+          <p className="bn-text text-base sm:text-lg md:text-xl text-puja-ivory/50 font-light tracking-wide">
             পূজা যাত্রা
           </p>
-          <p className={`text-sm md:text-base text-puja-ivory/50 tracking-[0.12em] max-w-md leading-relaxed ${isBn ? 'bn-text' : 'font-light'}`}>
+          <p className={`text-xs sm:text-sm md:text-base text-puja-ivory/50 tracking-[0.1em] max-w-md leading-relaxed ${isBn ? 'bn-text' : 'font-light'}`}>
             {t('heroTagline')}
           </p>
         </div>
 
-        {/* Divider */}
-        <div className="mt-12 mb-10 flex items-center gap-4" aria-hidden="true">
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-puja-gold/30" />
-          <div className="w-1 h-1 rounded-full bg-puja-gold/50" />
-          <div className="h-px w-16 bg-gradient-to-l from-transparent to-puja-gold/30" />
-        </div>
-
-        {/* Scroll CTA */}
+        {/* 5. Scroll CTA */}
         <div ref={scrollRef} style={{ opacity: 0 }}>
           <button
-            onClick={scrollToJourney}
-            className="group flex flex-col items-center gap-3 text-puja-ivory/40 hover:text-puja-gold transition-colors duration-500"
-            aria-label="Scroll to begin the journey"
+            onClick={scrollToFestivals}
+            className="group flex flex-col items-center gap-2 text-puja-ivory/40 hover:text-puja-gold transition-colors duration-500"
+            aria-label="Scroll to festivals"
           >
-            <span className="text-xs tracking-[0.3em] uppercase font-body">
+            <span className="text-[11px] sm:text-xs tracking-[0.3em] uppercase font-body">
               {t('heroScroll')}
             </span>
             {/* Animated scroll indicator */}
-            <div className="relative w-px h-12 bg-puja-ivory/10">
+            <div className="relative w-px h-8 sm:h-10 bg-puja-ivory/10">
               <motion.div
                 className="absolute top-0 left-0 w-full bg-puja-gold"
                 animate={{ height: ['0%', '100%', '100%'], opacity: [1, 1, 0] }}

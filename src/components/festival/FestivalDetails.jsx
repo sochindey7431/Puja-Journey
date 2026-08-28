@@ -175,7 +175,7 @@ export default function FestivalDetails({ festival, onClose }) {
             onClick={onClose}
             className="btn-primary w-full justify-center"
           >
-            {t('backToJourney')}
+            {t('close')}
           </button>
         </div>
       </motion.aside>
