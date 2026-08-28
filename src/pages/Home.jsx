@@ -6,7 +6,6 @@ import Hero from '../components/hero/Hero.jsx';
 import FestivalSection from '../components/festival/FestivalSection.jsx';
 import FestivalProgress from '../components/festival/FestivalProgress.jsx';
 import FestivalDetails from '../components/festival/FestivalDetails.jsx';
-import NextPujaWidget from '../components/widgets/NextPujaWidget.jsx';
 import CalendarPanel from '../components/ui/CalendarPanel.jsx';
 import SearchBar from '../components/ui/SearchBar.jsx';
 import CategoryFilter from '../components/ui/CategoryFilter.jsx';
@@ -73,10 +72,6 @@ export default function Home() {
 
       {/* Calendar panel (desktop sticky / mobile bottom sheet) */}
       <CalendarPanel onSelectFestival={handleSelectFromCalendar} />
-
-      {/* Next Puja live widget */}
-      <NextPujaWidget />
-
       {/* ── HERO ── */}
       <Hero />
 
