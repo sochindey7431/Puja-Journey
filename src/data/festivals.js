@@ -28,13 +28,13 @@ export const festivals = [
     dayBn: 'শুক্রবার',
     category: 'puja',
     emoji: '📿',
+    icon: '/images/festivals/saraswati-puja-icon.png',
     theme: {
       bg: '#0f0d08', accent: '#d4a017', accentLight: '#f0c040',
       text: '#faf3e0', particle: '#f0e8d0',
       gradient: 'from-[#0f0d08] via-[#1a1505] to-[#0a0900]',
     },
     image: '/images/festivals/Saraswati Puja.jpg',
-    icon: '/images/festivals/saraswati-puja-icon.png',
     imageAlt: 'White flowers and sacred offerings for Saraswati Puja',
     descriptionEn: 'Saraswati Puja celebrates the Hindu goddess of knowledge, music, art, wisdom, and learning. Students worship the goddess seeking blessings for academic success and artistic excellence. The festival falls on Basant Panchami — the fifth day of the bright fortnight of Magh — heralding the arrival of spring.',
     descriptionBn: 'সরস্বতী পূজা হিন্দু জ্ঞান, সঙ্গীত, শিল্প ও বিদ্যার দেবী সরস্বতীকে উৎসর্গ করা হয়। শিক্ষার্থীরা পড়াশোনায় সাফল্য ও শিল্পীসত্তার বিকাশের জন্য দেবীর আশীর্বাদ প্রার্থনা করে। উৎসবটি বসন্ত পঞ্চমীতে পড়ে এবং বসন্তের আগমনকে স্বাগত জানায়।',
@@ -70,6 +70,7 @@ export const festivals = [
     dayBn: 'রবিবার',
     category: 'puja',
     emoji: '🔱',
+    icon: '/images/festivals/shivaratri-icon.png',
     theme: {
       bg: '#08061a', accent: '#6b46c1', accentLight: '#9f7aea',
       text: '#e8e0ff', particle: '#c4b5fd',
@@ -111,6 +112,7 @@ export const festivals = [
     dayBn: 'মঙ্গলবার',
     category: 'festival',
     emoji: '🌸',
+    icon: '/images/festivals/dol-purnima-icon.png',
     theme: {
       bg: '#180512', accent: '#e84393', accentLight: '#fd79a8',
       text: '#fff0f5', particle: '#f8a5c2',
@@ -152,6 +154,7 @@ export const festivals = [
     dayBn: 'বৃহস্পতিবার',
     category: 'festival',
     emoji: '🏛️',
+    icon: '/images/festivals/rath-yatra-icon.png',
     theme: {
       bg: '#1a0d00', accent: '#e67e22', accentLight: '#f39c12',
       text: '#fdf3e3', particle: '#f5cba7',
@@ -193,6 +196,7 @@ export const festivals = [
     dayBn: 'শুক্রবার',
     category: 'festival',
     emoji: '🦚',
+    icon: '/images/festivals/janmashtami-icon.png',
     theme: {
       bg: '#050d1a', accent: '#4a90d9', accentLight: '#74b8f8',
       text: '#e8f4ff', particle: '#b3d9f7',
@@ -234,6 +238,7 @@ export const festivals = [
     dayBn: 'সোমবার',
     category: 'puja',
     emoji: '🐘',
+    icon: '/images/festivals/ganesh-chaturthi-icon.png',
     theme: {
       bg: '#1a0800', accent: '#e67e22', accentLight: '#f39c12',
       text: '#fdf3e3', particle: '#f5cba7',
@@ -275,6 +280,7 @@ export const festivals = [
     dayBn: 'বৃহস্পতিবার',
     category: 'puja',
     emoji: '🔨',
+    icon: '/images/festivals/vishwakarma-puja-icon.png',
     theme: {
       bg: '#0d0d1a', accent: '#4a90d9', accentLight: '#74b8f8',
       text: '#e8f4ff', particle: '#a8d4f5',
@@ -316,6 +322,7 @@ export const festivals = [
     dayBn: 'শনিবার',
     category: 'mahalaya',
     emoji: '🌑',
+    icon: '/images/festivals/mahalaya-icon.png',
     theme: {
       bg: '#020408', accent: '#7c6d3a', accentLight: '#c9a84c',
       text: '#e8ddc8', particle: '#d4b896',
@@ -357,6 +364,7 @@ export const festivals = [
     dayBn: 'শনিবার',
     category: 'durga-puja',
     emoji: '🪔',
+    icon: '/images/festivals/durga-puja-icon.png',
     theme: {
       bg: '#1a0200', accent: '#c0392b', accentLight: '#e74c3c',
       text: '#fdf5e6', particle: '#f5c6a0',
@@ -394,6 +402,7 @@ export const festivals = [
     dayBn: 'রবিবার',
     category: 'durga-puja',
     emoji: '🪔',
+    icon: '/images/festivals/durga-puja-icon.png',
     theme: {
       bg: '#1a0200', accent: '#c0392b', accentLight: '#e74c3c',
       text: '#fdf5e6', particle: '#f5c6a0',
@@ -431,6 +440,7 @@ export const festivals = [
     dayBn: 'সোমবার',
     category: 'durga-puja',
     emoji: '🪔',
+    icon: '/images/festivals/durga-puja-icon.png',
     theme: {
       bg: '#1a0200', accent: '#c0392b', accentLight: '#e74c3c',
       text: '#fdf5e6', particle: '#f5c6a0',
@@ -468,6 +478,7 @@ export const festivals = [
     dayBn: 'মঙ্গলবার',
     category: 'durga-puja',
     emoji: '🪔',
+    icon: '/images/festivals/durga-puja-icon.png',
     theme: {
       bg: '#1a0200', accent: '#c0392b', accentLight: '#e74c3c',
       text: '#fdf5e6', particle: '#f5c6a0',
@@ -505,6 +516,7 @@ export const festivals = [
     dayBn: 'বুধবার',
     category: 'durga-puja',
     emoji: '🏵️',
+    icon: '/images/festivals/durga-puja-icon.png',
     theme: {
       bg: '#1a0200', accent: '#c0392b', accentLight: '#e74c3c',
       text: '#fdf5e6', particle: '#f5c6a0',

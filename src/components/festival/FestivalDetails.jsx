@@ -62,12 +62,14 @@ export default function FestivalDetails({ festival, onClose }) {
 
           {/* Emoji / Icon */}
           {festival.icon ? (
-            <img
-              src={getAssetUrl(festival.icon)}
-              alt={festival.nameEn}
-              className="w-14 h-14 object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)] mb-4"
-              loading="lazy"
-            />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center mb-4">
+              <img
+                src={getAssetUrl(festival.icon)}
+                alt={festival.nameEn}
+                className="w-full h-full object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)]"
+                loading="lazy"
+              />
+            </div>
           ) : (
             <div className="text-4xl mb-4" aria-hidden="true">{festival.emoji}</div>
           )}

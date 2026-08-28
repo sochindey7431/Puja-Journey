@@ -185,12 +185,14 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
           {/* Emoji / Icon + category tag */}
           <div className="reveal-item flex items-center gap-3">
             {festival.icon ? (
-              <img
-                src={getAssetUrl(festival.icon)}
-                alt={festival.nameEn}
-                className="w-12 h-12 md:w-14 md:h-14 object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)] shrink-0"
-                loading="lazy"
-              />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex-shrink-0 flex items-center justify-center">
+                <img
+                  src={getAssetUrl(festival.icon)}
+                  alt={festival.nameEn}
+                  className="w-full h-full object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)]"
+                  loading="lazy"
+                />
+              </div>
             ) : (
               <span className="text-4xl" aria-hidden="true">{festival.emoji}</span>
             )}
@@ -393,7 +395,18 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="text-5xl mb-2" aria-hidden="true">🌑</div>
+        {festival.icon ? (
+          <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex-shrink-0 flex items-center justify-center mb-2">
+            <img
+              src={getAssetUrl(festival.icon)}
+              alt={festival.nameEn}
+              className="w-full h-full object-contain object-center drop-shadow-[0_0_15px_rgba(212,160,23,0.4)]"
+              loading="lazy"
+            />
+          </div>
+        ) : (
+          <div className="text-5xl mb-2" aria-hidden="true">🌑</div>
+        )}
         <p className="text-xs tracking-[0.45em] uppercase text-puja-gold/30">দেবীপক্ষ · Devi Paksha</p>
 
         <h2 className="bn-text font-bold mahalaya-glow"

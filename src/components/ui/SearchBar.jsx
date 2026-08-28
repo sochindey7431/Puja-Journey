@@ -128,12 +128,14 @@ export default function SearchBar({ onClose, onSelectFestival }) {
                 transition={{ delay: i * 0.04 }}
               >
                 {festival.icon ? (
-                  <img
-                    src={getAssetUrl(festival.icon)}
-                    alt={festival.nameEn}
-                    className="w-8 h-8 object-contain object-center drop-shadow-[0_0_6px_rgba(212,160,23,0.3)] shrink-0"
-                    loading="lazy"
-                  />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center">
+                    <img
+                      src={getAssetUrl(festival.icon)}
+                      alt={festival.nameEn}
+                      className="w-full h-full object-contain object-center drop-shadow-[0_0_6px_rgba(212,160,23,0.3)]"
+                      loading="lazy"
+                    />
+                  </div>
                 ) : (
                   <span className="text-2xl shrink-0">{festival.emoji}</span>
                 )}
