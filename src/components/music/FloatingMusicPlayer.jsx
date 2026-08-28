@@ -74,10 +74,13 @@ function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
 
       {/* Title & Artist */}
       <div className="flex-1 min-w-0">
-        <p className={`text-sm leading-tight truncate bn-text ${isActive ? 'text-puja-gold font-medium' : 'text-puja-ivory/80 group-hover:text-puja-ivory'}`}>
+        <p
+          title={title}
+          className={`text-sm leading-tight truncate bn-text ${isActive ? 'text-puja-gold font-medium' : 'text-puja-ivory/80 group-hover:text-puja-ivory'}`}
+        >
           {title}
         </p>
-        <p className="text-[11px] text-puja-ivory/35 truncate mt-0.5">{track.artist}</p>
+        <p title={track.artist} className="text-[11px] text-puja-ivory/35 truncate mt-0.5">{track.artist}</p>
       </div>
 
       {/* Play indicator */}
@@ -201,8 +204,18 @@ export default function FloatingMusicPlayer() {
 
   // Configured festival keys for switching in drawer
   const availablePlaylists = [
+    { key: 'saraswati-puja', label: 'সরস্বতী পূজা', emoji: '📿' },
+    { key: 'shivaratri', label: 'মহাশিবরাত্রি', emoji: '🔱' },
+    { key: 'dol-purnima', label: 'দোল পূর্ণিমা', emoji: '🌸' },
+    { key: 'rath-yatra', label: 'রথযাত্রা', emoji: '🏛️' },
+    { key: 'janmashtami', label: 'জন্মাষ্টমী', emoji: '🦚' },
+    { key: 'ganesh-chaturthi', label: 'গণেশ চতুর্থী', emoji: '🐘' },
+    { key: 'vishwakarma-puja', label: 'বিশ্বকর্মা পূজা', emoji: '🔨' },
     { key: 'mahalaya', label: 'মহালয়া', emoji: '🌑' },
     { key: 'durga-puja-shasthi', label: 'দুর্গাপূজা', emoji: '🪔' },
+    { key: 'lakshmi-puja', label: 'লক্ষ্মী পূজা', emoji: '🪷' },
+    { key: 'kali-puja', label: 'কালী পূজা', emoji: '🕉️' },
+    { key: 'jagaddhatri-puja', label: 'জগদ্ধাত্রী পূজা', emoji: '🌸' },
   ];
 
   return (
@@ -421,7 +434,10 @@ export default function FloatingMusicPlayer() {
                   {festivalTitle}
                 </p>
               </div>
-              <p className="bn-text text-xs sm:text-sm text-puja-ivory font-medium leading-tight truncate mt-0.5">
+              <p
+                title={trackTitle}
+                className="bn-text text-xs sm:text-sm text-puja-ivory font-medium leading-tight truncate mt-0.5"
+              >
                 {trackTitle}
               </p>
               <p className="text-[10px] text-puja-ivory/40 truncate hidden xs:block">

@@ -1,0 +1,926 @@
+{
+  "saraswatiPuja": {
+    "festivalName": "Saraswati Puja",
+    "tracks": [
+      {
+        "id": "X5isMK80lLg",
+        "youtubeId": "X5isMK80lLg",
+        "youtubeUrl": "https://www.youtube.com/watch?v=X5isMK80lLg",
+        "title": "Veena Vadini (বীণা বাদিনী) | Lyrical | Saraswati Vandana | Mekhla Dasgupta | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/X5isMK80lLg/hqdefault.jpg"
+      },
+      {
+        "id": "Njc1Hu6WPDU",
+        "youtubeId": "Njc1Hu6WPDU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Njc1Hu6WPDU",
+        "title": "Saraswati Vandana | Shreya Ghoshal",
+        "artist": "Shreya Ghoshal Official",
+        "thumbnail": "https://img.youtube.com/vi/Njc1Hu6WPDU/hqdefault.jpg"
+      },
+      {
+        "id": "W2lvglZaw7o",
+        "youtubeId": "W2lvglZaw7o",
+        "youtubeUrl": "https://www.youtube.com/watch?v=W2lvglZaw7o",
+        "title": "Debi Bhagabati | দেবী ভগবতী | Aditi Munshi | Baro gaane borsho japon | Saraswati Bandana |",
+        "artist": "Aditi Munshi",
+        "thumbnail": "https://img.youtube.com/vi/W2lvglZaw7o/hqdefault.jpg"
+      },
+      {
+        "id": "aXbMRb0QTKY",
+        "youtubeId": "aXbMRb0QTKY",
+        "youtubeUrl": "https://www.youtube.com/watch?v=aXbMRb0QTKY",
+        "title": "Basontika | Subhamita Banerjee | Swaraswati Puja Song 2026 | Soumili | Saunavik | Swaraswati Vandana",
+        "artist": "Suchitra Music",
+        "thumbnail": "https://img.youtube.com/vi/aXbMRb0QTKY/hqdefault.jpg"
+      },
+      {
+        "id": "0bHmnIT79B4",
+        "youtubeId": "0bHmnIT79B4",
+        "youtubeUrl": "https://www.youtube.com/watch?v=0bHmnIT79B4",
+        "title": "Shwet Shotodole (শ্বেত শতদলে) | Bibhabendu Bhattacharya | Saraswati Vandana | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/0bHmnIT79B4/hqdefault.jpg"
+      },
+      {
+        "id": "Wq4n6EjWecQ",
+        "youtubeId": "Wq4n6EjWecQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Wq4n6EjWecQ",
+        "title": "Binapani Saraswati | Jayati | Pallavi | Sanvi | Saraswati Bandana | বীণাপাণি সরস্বতী | জয়তী",
+        "artist": "Jayati Chakraborty",
+        "thumbnail": "https://img.youtube.com/vi/Wq4n6EjWecQ/hqdefault.jpg"
+      }
+    ]
+  },
+  "shivaratri": {
+    "festivalName": "Maha Shivaratri",
+    "tracks": [
+      {
+        "id": "ZIKzQJYKJV0",
+        "youtubeId": "ZIKzQJYKJV0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=ZIKzQJYKJV0",
+        "title": "Shiv Tandav Stotram (Official) | Shankar Mahadevan| Bholenath Song 2026| Shiva Song | Mahadev Bhajan",
+        "artist": "Times Music Spiritual",
+        "thumbnail": "https://img.youtube.com/vi/ZIKzQJYKJV0/hqdefault.jpg"
+      },
+      {
+        "id": "DW7BbIJUE2M",
+        "youtubeId": "DW7BbIJUE2M",
+        "youtubeUrl": "https://www.youtube.com/watch?v=DW7BbIJUE2M",
+        "title": "Kaun Hain Voh - Full Video | Baahubali - The  Beginning | Prabhas | Kailash K | MM Kreem, Manoj M",
+        "artist": "Bollywood Chartbusters",
+        "thumbnail": "https://img.youtube.com/vi/DW7BbIJUE2M/hqdefault.jpg"
+      },
+      {
+        "id": "XXjXrU1KgSU",
+        "youtubeId": "XXjXrU1KgSU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=XXjXrU1KgSU",
+        "title": "Vedsar Shiv Stav - The Sound of Mahadev’s Fury & Peace | Jatajoot Dhari | Soumya P | Vickky A",
+        "artist": "Nitya Bhakti",
+        "thumbnail": "https://img.youtube.com/vi/XXjXrU1KgSU/hqdefault.jpg"
+      },
+      {
+        "id": "o4nJ2F7yHsM",
+        "youtubeId": "o4nJ2F7yHsM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=o4nJ2F7yHsM",
+        "title": "Kantara - Rishab Rikhiram Sharma | Music Video | Rishab Shetty, Ajaneesh, Vijay Kiragandur | Hombale",
+        "artist": "Hombale Films",
+        "thumbnail": "https://img.youtube.com/vi/o4nJ2F7yHsM/hqdefault.jpg"
+      },
+      {
+        "id": "oZ72uTWla5Q",
+        "youtubeId": "oZ72uTWla5Q",
+        "youtubeUrl": "https://www.youtube.com/watch?v=oZ72uTWla5Q",
+        "title": "Shankara - Rishab Rikhiram Sharma (Official Music Video) | Sitar for Mental Health",
+        "artist": "Rishab Rikhiram Sharma",
+        "thumbnail": "https://img.youtube.com/vi/oZ72uTWla5Q/hqdefault.jpg"
+      },
+      {
+        "id": "IjlNhw29UQ0",
+        "youtubeId": "IjlNhw29UQ0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=IjlNhw29UQ0",
+        "title": "Shiv Panchakshar Stotra | Nagendraharaya Trilochanaya | Live Performance By Harish Sagane",
+        "artist": "Religious India",
+        "thumbnail": "https://img.youtube.com/vi/IjlNhw29UQ0/hqdefault.jpg"
+      }
+    ]
+  },
+  "dolPurnima": {
+    "festivalName": "Dol Purnima",
+    "tracks": [
+      {
+        "id": "Feoea8FQTI0",
+        "youtubeId": "Feoea8FQTI0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Feoea8FQTI0",
+        "title": "Tum Prem Ho - Reprise | Lyrical Video | RadhaKrishn | MOhit Lalwani | Bharat Kamal",
+        "artist": "ML Records",
+        "thumbnail": "https://img.youtube.com/vi/Feoea8FQTI0/hqdefault.jpg"
+      },
+      {
+        "id": "fbo1JO_Qmy0",
+        "youtubeId": "fbo1JO_Qmy0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=fbo1JO_Qmy0",
+        "title": "Krishna Govinda | Krishnavataram Part 1 | Sunidhi Chauhan, Irshad Kamil, Prasad S.",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/fbo1JO_Qmy0/hqdefault.jpg"
+      },
+      {
+        "id": "rhisrU8QFZk",
+        "youtubeId": "rhisrU8QFZk",
+        "youtubeUrl": "https://www.youtube.com/watch?v=rhisrU8QFZk",
+        "title": "Om Krishnaya Vasudevaya Haraye Paramatmane 💙🪷 | Tulasi | Amit Dey",
+        "artist": "Amit Dey",
+        "thumbnail": "https://img.youtube.com/vi/rhisrU8QFZk/hqdefault.jpg"
+      },
+      {
+        "id": "mGC-S7n_HkE",
+        "youtubeId": "mGC-S7n_HkE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=mGC-S7n_HkE",
+        "title": "Krish Theme | Krishna Theme  | Shri Krishna Govinda Hare Murari Soulful Flute Cover by Kiran Baral",
+        "artist": "Kiran Baral",
+        "thumbnail": "https://img.youtube.com/vi/mGC-S7n_HkE/hqdefault.jpg"
+      },
+      {
+        "id": "8clRfKww5vI",
+        "youtubeId": "8clRfKww5vI",
+        "youtubeUrl": "https://www.youtube.com/watch?v=8clRfKww5vI",
+        "title": "Shyamal Sanware | Krishnavataram Part 1 | Sonu Nigam, Neeti Mohan, Irshad Kamil, Prasad S.",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/8clRfKww5vI/hqdefault.jpg"
+      },
+      {
+        "id": "tCQHZ2kTWBo",
+        "youtubeId": "tCQHZ2kTWBo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=tCQHZ2kTWBo",
+        "title": "Kanha | Binodiini | কানহা | Rukmini | Shreya | Sourendro Soumyajit | Ram Kamal | Bengali Movie Song",
+        "artist": "Saregama Bengali",
+        "thumbnail": "https://img.youtube.com/vi/tCQHZ2kTWBo/hqdefault.jpg"
+      },
+      {
+        "id": "lAsJ_rCgbZE",
+        "youtubeId": "lAsJ_rCgbZE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=lAsJ_rCgbZE",
+        "title": "Prem Ki Leela | Krishnavataram | Shreya Ghoshal, Javed Ali, Irshad Kamil, Prasad S.",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/lAsJ_rCgbZE/hqdefault.jpg"
+      },
+      {
+        "id": "6sidltN4ox0",
+        "youtubeId": "6sidltN4ox0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=6sidltN4ox0",
+        "title": "Kunj Bihari | Krishnavataram Part 1 | Prasad S | Irshad Kamil",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/6sidltN4ox0/hqdefault.jpg"
+      },
+      {
+        "id": "_rxDkrG5CWQ",
+        "youtubeId": "_rxDkrG5CWQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=_rxDkrG5CWQ",
+        "title": "TUM PREM HO || Cover song by SIMPAL KHAREL | Krishna Bhajan 2023 | BHAKTI SONG",
+        "artist": "Simpal Kharel",
+        "thumbnail": "https://img.youtube.com/vi/_rxDkrG5CWQ/hqdefault.jpg"
+      },
+      {
+        "id": "-DEP6_CPGe8",
+        "youtubeId": "-DEP6_CPGe8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=-DEP6_CPGe8",
+        "title": "Shyama Aan Baso (Song): Jubin Nautiyal | Raaj Aashoo | Manoj Muntashir | Shri Krishna Bhajan",
+        "artist": "T-Series",
+        "thumbnail": "https://img.youtube.com/vi/-DEP6_CPGe8/hqdefault.jpg"
+      },
+      {
+        "id": "6VD0NDgN-RM",
+        "youtubeId": "6VD0NDgN-RM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=6VD0NDgN-RM",
+        "title": "O Kanha Re | Shreya Ghoshal | Shreyas Puranik | Saaveri Verma (Official Video)",
+        "artist": "Shreya Ghoshal Official",
+        "thumbnail": "https://img.youtube.com/vi/6VD0NDgN-RM/hqdefault.jpg"
+      },
+      {
+        "id": "VCvV2AvwMPs",
+        "youtubeId": "VCvV2AvwMPs",
+        "youtubeUrl": "https://www.youtube.com/watch?v=VCvV2AvwMPs",
+        "title": "Krishna Krishna | Antara Nandy | Ankita Nandy | New Krishna Song | Nandy Sisters | Janmashtami 2026",
+        "artist": "Times Music Spiritual",
+        "thumbnail": "https://img.youtube.com/vi/VCvV2AvwMPs/hqdefault.jpg"
+      },
+      {
+        "id": "Cm0MZ5WfTzw",
+        "youtubeId": "Cm0MZ5WfTzw",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Cm0MZ5WfTzw",
+        "title": "Mere Banke Bihari Laal Tum Itna Na Kario Shringar Nazar Lag Jayegi - Madhavas Rock Band Best Bhajan",
+        "artist": "Madhavas Rock Band",
+        "thumbnail": "https://img.youtube.com/vi/Cm0MZ5WfTzw/hqdefault.jpg"
+      },
+      {
+        "id": "xVU2UDaFOfE",
+        "youtubeId": "xVU2UDaFOfE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=xVU2UDaFOfE",
+        "title": "Radha Gori Gori (Lyrical Video) | Indresh Upadhyay | B Praak | Kripa Records",
+        "artist": "Kripa Record",
+        "thumbnail": "https://img.youtube.com/vi/xVU2UDaFOfE/hqdefault.jpg"
+      },
+      {
+        "id": "U7ts7eLOLxM",
+        "youtubeId": "U7ts7eLOLxM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=U7ts7eLOLxM",
+        "title": "HARE KRISHNA - Ankita Bhattacharyya |Official Music Video | Janmashtami Song",
+        "artist": "Ankita Bhattacharyya",
+        "thumbnail": "https://img.youtube.com/vi/U7ts7eLOLxM/hqdefault.jpg"
+      },
+      {
+        "id": "jOEJfsISeSQ",
+        "youtubeId": "jOEJfsISeSQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=jOEJfsISeSQ",
+        "title": "ACHYUTAM KESHAVAM || SIMPAL KHAREL NEW SONG | RADHA KRSIHNA BHAJAN 2024 | BHAKTI SONG | JANMASHTAMI",
+        "artist": "Simpal Kharel",
+        "thumbnail": "https://img.youtube.com/vi/jOEJfsISeSQ/hqdefault.jpg"
+      },
+      {
+        "id": "WTjZxav7naU",
+        "youtubeId": "WTjZxav7naU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=WTjZxav7naU",
+        "title": "Soja Zara | Anushka Shetty & Prabhas | Baahubali 2 | Madhushree, MM Kreem, Manoj Muntashir | Lyrical",
+        "artist": "Zee Music Company",
+        "thumbnail": "https://img.youtube.com/vi/WTjZxav7naU/hqdefault.jpg"
+      }
+    ]
+  },
+  "rathYatra": {
+    "festivalName": "Rath Yatra",
+    "tracks": [
+      {
+        "id": "tq-FFDUpJZc",
+        "youtubeId": "tq-FFDUpJZc",
+        "youtubeUrl": "https://www.youtube.com/watch?v=tq-FFDUpJZc",
+        "title": "Jai Jagannath जय जगन्नाथ | Rath Yatra 2026 Bhajan | Lord Jagannath Song | BCE Music",
+        "artist": "Nikava Music Group ",
+        "thumbnail": "https://img.youtube.com/vi/tq-FFDUpJZc/hqdefault.jpg"
+      },
+      {
+        "id": "HSwaWt7PCOo",
+        "youtubeId": "HSwaWt7PCOo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=HSwaWt7PCOo",
+        "title": "Jagannath Chaka Nayana जगन्नाथ चक्का नैन नीलाचल वाले | Jagannath Chaka Nain | Jagannath Bhajan 2026",
+        "artist": "Dev Spritiual India™",
+        "thumbnail": "https://img.youtube.com/vi/HSwaWt7PCOo/hqdefault.jpg"
+      },
+      {
+        "id": "OAhApT1C66U",
+        "youtubeId": "OAhApT1C66U",
+        "youtubeUrl": "https://www.youtube.com/watch?v=OAhApT1C66U",
+        "title": "Jagannath Sloka (জগন্নাথ শ্লোক) | Sainik Dey | Avik Sur | Jagannath Sloka | Jagannath Bhajan | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/OAhApT1C66U/hqdefault.jpg"
+      },
+      {
+        "id": "HEIwMwjZlTU",
+        "youtubeId": "HEIwMwjZlTU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=HEIwMwjZlTU",
+        "title": "Jagannath Swami Nayana Pathagami(জগন্নাথ স্বামী নয়ন পথগামী)- Lyrical | Female | ID | Jayati C |Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/HEIwMwjZlTU/hqdefault.jpg"
+      },
+      {
+        "id": "6x0qq8FV1i0",
+        "youtubeId": "6x0qq8FV1i0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=6x0qq8FV1i0",
+        "title": "শ্রী জগন্নাথ কীর্তন - Sree Jagannath Kirtan | Aditi Munshi | বারো গানে বর্ষযাপন | Sangitam",
+        "artist": "Aditi Munshi",
+        "thumbnail": "https://img.youtube.com/vi/6x0qq8FV1i0/hqdefault.jpg"
+      },
+      {
+        "id": "UTJ-g6DU53c",
+        "youtubeId": "UTJ-g6DU53c",
+        "youtubeUrl": "https://www.youtube.com/watch?v=UTJ-g6DU53c",
+        "title": "Laute Jagannath | Bahuda Yatra | Sonu Nigam & Shreya Ghosal Inspired | Jay Jagannath |Rathyatra Song",
+        "artist": "Heart_Beat",
+        "thumbnail": "https://img.youtube.com/vi/UTJ-g6DU53c/hqdefault.jpg"
+      },
+      {
+        "id": "aL1Y0iS5XlU",
+        "youtubeId": "aL1Y0iS5XlU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=aL1Y0iS5XlU",
+        "title": "खींचो खींचो रे रथ जगन्नाथ जी को Kheencho Kheencho Re Rath Jagannath Ji Ko | Best Rath Yatra Bhajan",
+        "artist": "Madhavas Rock Band",
+        "thumbnail": "https://img.youtube.com/vi/aL1Y0iS5XlU/hqdefault.jpg"
+      }
+    ]
+  },
+  "janmashtami": {
+    "festivalName": "Krishna Janmashtami",
+    "tracks": [
+      {
+        "id": "Feoea8FQTI0",
+        "youtubeId": "Feoea8FQTI0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Feoea8FQTI0",
+        "title": "Tum Prem Ho - Reprise | Lyrical Video | RadhaKrishn | MOhit Lalwani | Bharat Kamal",
+        "artist": "ML Records",
+        "thumbnail": "https://img.youtube.com/vi/Feoea8FQTI0/hqdefault.jpg"
+      },
+      {
+        "id": "fbo1JO_Qmy0",
+        "youtubeId": "fbo1JO_Qmy0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=fbo1JO_Qmy0",
+        "title": "Krishna Govinda | Krishnavataram Part 1 | Sunidhi Chauhan, Irshad Kamil, Prasad S.",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/fbo1JO_Qmy0/hqdefault.jpg"
+      },
+      {
+        "id": "rhisrU8QFZk",
+        "youtubeId": "rhisrU8QFZk",
+        "youtubeUrl": "https://www.youtube.com/watch?v=rhisrU8QFZk",
+        "title": "Om Krishnaya Vasudevaya Haraye Paramatmane 💙🪷 | Tulasi | Amit Dey",
+        "artist": "Amit Dey",
+        "thumbnail": "https://img.youtube.com/vi/rhisrU8QFZk/hqdefault.jpg"
+      },
+      {
+        "id": "mGC-S7n_HkE",
+        "youtubeId": "mGC-S7n_HkE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=mGC-S7n_HkE",
+        "title": "Krish Theme | Krishna Theme  | Shri Krishna Govinda Hare Murari Soulful Flute Cover by Kiran Baral",
+        "artist": "Kiran Baral",
+        "thumbnail": "https://img.youtube.com/vi/mGC-S7n_HkE/hqdefault.jpg"
+      },
+      {
+        "id": "8clRfKww5vI",
+        "youtubeId": "8clRfKww5vI",
+        "youtubeUrl": "https://www.youtube.com/watch?v=8clRfKww5vI",
+        "title": "Shyamal Sanware | Krishnavataram Part 1 | Sonu Nigam, Neeti Mohan, Irshad Kamil, Prasad S.",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/8clRfKww5vI/hqdefault.jpg"
+      },
+      {
+        "id": "tCQHZ2kTWBo",
+        "youtubeId": "tCQHZ2kTWBo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=tCQHZ2kTWBo",
+        "title": "Kanha | Binodiini | কানহা | Rukmini | Shreya | Sourendro Soumyajit | Ram Kamal | Bengali Movie Song",
+        "artist": "Saregama Bengali",
+        "thumbnail": "https://img.youtube.com/vi/tCQHZ2kTWBo/hqdefault.jpg"
+      },
+      {
+        "id": "lAsJ_rCgbZE",
+        "youtubeId": "lAsJ_rCgbZE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=lAsJ_rCgbZE",
+        "title": "Prem Ki Leela | Krishnavataram | Shreya Ghoshal, Javed Ali, Irshad Kamil, Prasad S.",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/lAsJ_rCgbZE/hqdefault.jpg"
+      },
+      {
+        "id": "6sidltN4ox0",
+        "youtubeId": "6sidltN4ox0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=6sidltN4ox0",
+        "title": "Kunj Bihari | Krishnavataram Part 1 | Prasad S | Irshad Kamil",
+        "artist": "Saregama Music",
+        "thumbnail": "https://img.youtube.com/vi/6sidltN4ox0/hqdefault.jpg"
+      },
+      {
+        "id": "_rxDkrG5CWQ",
+        "youtubeId": "_rxDkrG5CWQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=_rxDkrG5CWQ",
+        "title": "TUM PREM HO || Cover song by SIMPAL KHAREL | Krishna Bhajan 2023 | BHAKTI SONG",
+        "artist": "Simpal Kharel",
+        "thumbnail": "https://img.youtube.com/vi/_rxDkrG5CWQ/hqdefault.jpg"
+      },
+      {
+        "id": "-DEP6_CPGe8",
+        "youtubeId": "-DEP6_CPGe8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=-DEP6_CPGe8",
+        "title": "Shyama Aan Baso (Song): Jubin Nautiyal | Raaj Aashoo | Manoj Muntashir | Shri Krishna Bhajan",
+        "artist": "T-Series",
+        "thumbnail": "https://img.youtube.com/vi/-DEP6_CPGe8/hqdefault.jpg"
+      },
+      {
+        "id": "6VD0NDgN-RM",
+        "youtubeId": "6VD0NDgN-RM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=6VD0NDgN-RM",
+        "title": "O Kanha Re | Shreya Ghoshal | Shreyas Puranik | Saaveri Verma (Official Video)",
+        "artist": "Shreya Ghoshal Official",
+        "thumbnail": "https://img.youtube.com/vi/6VD0NDgN-RM/hqdefault.jpg"
+      },
+      {
+        "id": "VCvV2AvwMPs",
+        "youtubeId": "VCvV2AvwMPs",
+        "youtubeUrl": "https://www.youtube.com/watch?v=VCvV2AvwMPs",
+        "title": "Krishna Krishna | Antara Nandy | Ankita Nandy | New Krishna Song | Nandy Sisters | Janmashtami 2026",
+        "artist": "Times Music Spiritual",
+        "thumbnail": "https://img.youtube.com/vi/VCvV2AvwMPs/hqdefault.jpg"
+      },
+      {
+        "id": "Cm0MZ5WfTzw",
+        "youtubeId": "Cm0MZ5WfTzw",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Cm0MZ5WfTzw",
+        "title": "Mere Banke Bihari Laal Tum Itna Na Kario Shringar Nazar Lag Jayegi - Madhavas Rock Band Best Bhajan",
+        "artist": "Madhavas Rock Band",
+        "thumbnail": "https://img.youtube.com/vi/Cm0MZ5WfTzw/hqdefault.jpg"
+      },
+      {
+        "id": "xVU2UDaFOfE",
+        "youtubeId": "xVU2UDaFOfE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=xVU2UDaFOfE",
+        "title": "Radha Gori Gori (Lyrical Video) | Indresh Upadhyay | B Praak | Kripa Records",
+        "artist": "Kripa Record",
+        "thumbnail": "https://img.youtube.com/vi/xVU2UDaFOfE/hqdefault.jpg"
+      },
+      {
+        "id": "U7ts7eLOLxM",
+        "youtubeId": "U7ts7eLOLxM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=U7ts7eLOLxM",
+        "title": "HARE KRISHNA - Ankita Bhattacharyya |Official Music Video | Janmashtami Song",
+        "artist": "Ankita Bhattacharyya",
+        "thumbnail": "https://img.youtube.com/vi/U7ts7eLOLxM/hqdefault.jpg"
+      },
+      {
+        "id": "jOEJfsISeSQ",
+        "youtubeId": "jOEJfsISeSQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=jOEJfsISeSQ",
+        "title": "ACHYUTAM KESHAVAM || SIMPAL KHAREL NEW SONG | RADHA KRSIHNA BHAJAN 2024 | BHAKTI SONG | JANMASHTAMI",
+        "artist": "Simpal Kharel",
+        "thumbnail": "https://img.youtube.com/vi/jOEJfsISeSQ/hqdefault.jpg"
+      },
+      {
+        "id": "WTjZxav7naU",
+        "youtubeId": "WTjZxav7naU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=WTjZxav7naU",
+        "title": "Soja Zara | Anushka Shetty & Prabhas | Baahubali 2 | Madhushree, MM Kreem, Manoj Muntashir | Lyrical",
+        "artist": "Zee Music Company",
+        "thumbnail": "https://img.youtube.com/vi/WTjZxav7naU/hqdefault.jpg"
+      }
+    ]
+  },
+  "ganeshChaturthi": {
+    "festivalName": "Ganesh Chaturthi",
+    "tracks": [
+      {
+        "id": "CAKZlI5UaeQ",
+        "youtubeId": "CAKZlI5UaeQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=CAKZlI5UaeQ",
+        "title": "Sampoorna Ganesh Aarti - Rahul Vaidya  Ganpati Aarti | Sukh karta dukh harta",
+        "artist": "RAHUL VAIDYA RKV",
+        "thumbnail": "https://img.youtube.com/vi/CAKZlI5UaeQ/hqdefault.jpg"
+      },
+      {
+        "id": "N8tiIur0saA",
+        "youtubeId": "N8tiIur0saA",
+        "youtubeUrl": "https://www.youtube.com/watch?v=N8tiIur0saA",
+        "title": "Shendur Laal Chadhayo Achchha Gajmukhko | Sindoor Lal Chadhayo | Sindur Lal Chadayo | Vaastav| Aarti",
+        "artist": "T-Series",
+        "thumbnail": "https://img.youtube.com/vi/N8tiIur0saA/hqdefault.jpg"
+      },
+      {
+        "id": "Yi_elkhw4vI",
+        "youtubeId": "Yi_elkhw4vI",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Yi_elkhw4vI",
+        "title": "Ya Re Ya - Lyrical | Ventilator | Rohan Pradhan | Ganpati Song",
+        "artist": "Zee Music Marathi",
+        "thumbnail": "https://img.youtube.com/vi/Yi_elkhw4vI/hqdefault.jpg"
+      },
+      {
+        "id": "-9OiNkTCIQM",
+        "youtubeId": "-9OiNkTCIQM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=-9OiNkTCIQM",
+        "title": "Bappa Morya - Official Music Video | Amit Chari | Bipin Das",
+        "artist": "Zee Music Marathi",
+        "thumbnail": "https://img.youtube.com/vi/-9OiNkTCIQM/hqdefault.jpg"
+      },
+      {
+        "id": "jLnU_SIA-cU",
+        "youtubeId": "jLnU_SIA-cU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=jLnU_SIA-cU",
+        "title": "Aagman (आगमन) - Official Music Video | Rohit Uddhav Landge | Pranay-Pranit |Bhavesh Suresh Ambdaskar",
+        "artist": "Zee Music Marathi",
+        "thumbnail": "https://img.youtube.com/vi/jLnU_SIA-cU/hqdefault.jpg"
+      }
+    ]
+  },
+  "vishwakarmaPuja": {
+    "festivalName": "Vishwakarma Puja",
+    "tracks": [
+      {
+        "id": "Gp3vaJdoOy0",
+        "youtubeId": "Gp3vaJdoOy0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Gp3vaJdoOy0",
+        "title": "श्री विश्वकर्मा पूजा स्पेशल आरती : Shree Vishwakarma Aarti | Hindi Most Popular Devotional Bhajan",
+        "artist": "Chanda Bhakti",
+        "thumbnail": "https://img.youtube.com/vi/Gp3vaJdoOy0/hqdefault.jpg"
+      },
+      {
+        "id": "pjjT_iiXz8s",
+        "youtubeId": "pjjT_iiXz8s",
+        "youtubeUrl": "https://www.youtube.com/watch?v=pjjT_iiXz8s",
+        "title": "Bishwakarma Pranam Mantra (বিশ্বকর্মা প্রণাম মন্ত্র) | Biswakarma Puja Song | Bibhabendu B | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/pjjT_iiXz8s/hqdefault.jpg"
+      },
+      {
+        "id": "ER9wONtSdr8",
+        "youtubeId": "ER9wONtSdr8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=ER9wONtSdr8",
+        "title": "Viswakarma Joy | Raghab Chatterjee |  বিশ্বকর্মা পুজোর গান | Vishwakarma Puja Song | StarManch",
+        "artist": "Star Manch",
+        "thumbnail": "https://img.youtube.com/vi/ER9wONtSdr8/hqdefault.jpg"
+      }
+    ]
+  },
+  "mahalaya": {
+    "festivalName": "Mahalaya",
+    "tracks": [
+      {
+        "id": "YQFNRoi7rEc",
+        "youtubeId": "YQFNRoi7rEc",
+        "youtubeUrl": "https://www.youtube.com/watch?v=YQFNRoi7rEc",
+        "title": "Mahalaya || Original Chandi Path || Birendra Krishna Bhadra full Chandipath #মহিষাসুরমর্দ্দিনী",
+        "artist": "Urdha Arts",
+        "thumbnail": "https://img.youtube.com/vi/YQFNRoi7rEc/hqdefault.jpg"
+      },
+      {
+        "id": "tXXwsHeS_T0",
+        "youtubeId": "tXXwsHeS_T0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=tXXwsHeS_T0",
+        "title": "Rupang Dehi Jayang Dehi || Pandit Tushar Dutta || Durga Stotram, argala stotram",
+        "artist": "Mukta Creation",
+        "thumbnail": "https://img.youtube.com/vi/tXXwsHeS_T0/hqdefault.jpg"
+      },
+      {
+        "id": "9nyeDJiGQwU",
+        "youtubeId": "9nyeDJiGQwU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=9nyeDJiGQwU",
+        "title": "Yaa Chandi | যা চণ্ডী | Mahalaya | Mahishasuramarddini | Dr. Upali Chattopadhyay   ",
+        "artist": "Shakti Kathaa - শক্তি কথা",
+        "thumbnail": "https://img.youtube.com/vi/9nyeDJiGQwU/hqdefault.jpg"
+      },
+      {
+        "id": "GJccKU4_5wg",
+        "youtubeId": "GJccKU4_5wg",
+        "youtubeUrl": "https://www.youtube.com/watch?v=GJccKU4_5wg",
+        "title": "Aham Rudrebhirvasubhischara | Mahishasura Mardini | Chorus | Audio",
+        "artist": "Saregama Bengali",
+        "thumbnail": "https://img.youtube.com/vi/GJccKU4_5wg/hqdefault.jpg"
+      },
+      {
+        "id": "IfSJy3_Lkuo",
+        "youtubeId": "IfSJy3_Lkuo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=IfSJy3_Lkuo",
+        "title": "Jago Durga Dashapraharanadharinee With Lyrics | Dwijen Mukherjee",
+        "artist": "Saregama Bengali",
+        "thumbnail": "https://img.youtube.com/vi/IfSJy3_Lkuo/hqdefault.jpg"
+      }
+    ]
+  },
+  "durgaPuja": {
+    "festivalName": "Durga Puja",
+    "tracks": [
+      {
+        "id": "E2zfQEo7Q_M",
+        "youtubeId": "E2zfQEo7Q_M",
+        "youtubeUrl": "https://www.youtube.com/watch?v=E2zfQEo7Q_M",
+        "title": "Ebar Jeno Onno Rokom Pujo | Yoddha | Dev | Mimi | Raj Chakraborty | SVF",
+        "artist": "SVF",
+        "thumbnail": "https://img.youtube.com/vi/E2zfQEo7Q_M/hqdefault.jpg"
+      },
+      {
+        "id": "2U416kTo0as",
+        "youtubeId": "2U416kTo0as",
+        "youtubeUrl": "https://www.youtube.com/watch?v=2U416kTo0as",
+        "title": "Elo Je Maa (এলো যে মা) | Challenge 2 | Dev | Puja | Abhijeet | Shreya Ghoshal | Jeet Gannguli | SVF",
+        "artist": "SVF",
+        "thumbnail": "https://img.youtube.com/vi/2U416kTo0as/hqdefault.jpg"
+      },
+      {
+        "id": "sPuZ0Q3KDWo",
+        "youtubeId": "sPuZ0Q3KDWo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=sPuZ0Q3KDWo",
+        "title": "Dugga Ma (দুগ্গা মা) | Arijit Singh | Bolo Dugga Maiki | Ankush | Nusrat | Arindom | Raj Chakraborty",
+        "artist": "SVF",
+        "thumbnail": "https://img.youtube.com/vi/sPuZ0Q3KDWo/hqdefault.jpg"
+      },
+      {
+        "id": "3E_qefwPA0E",
+        "youtubeId": "3E_qefwPA0E",
+        "youtubeUrl": "https://www.youtube.com/watch?v=3E_qefwPA0E",
+        "title": "Joy Joy Durga Maa - The Pujo Song | Sourav, Raj, Jeet Gannguli | Nusrat, Mimi, Subhashree, Bonny",
+        "artist": "Captain Steel India Limited",
+        "thumbnail": "https://img.youtube.com/vi/3E_qefwPA0E/hqdefault.jpg"
+      },
+      {
+        "id": "hnkfDCbULxk",
+        "youtubeId": "hnkfDCbULxk",
+        "youtubeUrl": "https://www.youtube.com/watch?v=hnkfDCbULxk",
+        "title": "Uma Ashe Notun Saje | Ankita Bhattacharyya | Mak Mallar | Somraj | New Durgo Puja Song | Maa Durga",
+        "artist": "Times Music Bangla",
+        "thumbnail": "https://img.youtube.com/vi/hnkfDCbULxk/hqdefault.jpg"
+      },
+      {
+        "id": "asdoVzpUFsE",
+        "youtubeId": "asdoVzpUFsE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=asdoVzpUFsE",
+        "title": "Gouri Elo ( Official Video ) | গৌরী এলো | Raktabeej | Tirtha B | Dohar | New Bengali Durga Puja Song",
+        "artist": "Times Music Bangla",
+        "thumbnail": "https://img.youtube.com/vi/asdoVzpUFsE/hqdefault.jpg"
+      },
+      {
+        "id": "xlElO06nQy8",
+        "youtubeId": "xlElO06nQy8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=xlElO06nQy8",
+        "title": "Dugga Elo - Official Video | Monali Thakur | Guddu | Indranil Das",
+        "artist": "Zee Music Bangla",
+        "thumbnail": "https://img.youtube.com/vi/xlElO06nQy8/hqdefault.jpg"
+      },
+      {
+        "id": "voH3xUpLVr4",
+        "youtubeId": "voH3xUpLVr4",
+        "youtubeUrl": "https://www.youtube.com/watch?v=voH3xUpLVr4",
+        "title": "DHAK BAJA KASHOR BAJA 8K Video Song | Shreya Ghoshal | Jeet Gannguli | Durga Puja Song | T-Series",
+        "artist": "T-Series",
+        "thumbnail": "https://img.youtube.com/vi/voH3xUpLVr4/hqdefault.jpg"
+      },
+      {
+        "id": "4h5DXcN6cd4",
+        "youtubeId": "4h5DXcN6cd4",
+        "youtubeUrl": "https://www.youtube.com/watch?v=4h5DXcN6cd4",
+        "title": "আমার দুগ্গা  | Aamaar Dugga - Official Music Video | Monali Thakur | Durga Puja Song",
+        "artist": "Monali Thakur",
+        "thumbnail": "https://img.youtube.com/vi/4h5DXcN6cd4/hqdefault.jpg"
+      },
+      {
+        "id": "xUMhpMmwAmM",
+        "youtubeId": "xUMhpMmwAmM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=xUMhpMmwAmM",
+        "title": "O Menoka O Menoka (Official Video) | Antara Nandy|Ankita Nandy|Aviman Paul |Durga Puja Bengali Song",
+        "artist": "Times Music Bangla",
+        "thumbnail": "https://img.youtube.com/vi/xUMhpMmwAmM/hqdefault.jpg"
+      },
+      {
+        "id": "4zyCkmAS1Oo",
+        "youtubeId": "4zyCkmAS1Oo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=4zyCkmAS1Oo",
+        "title": "আইলো উমা বাড়িতে | Ailo Uma Barite | Monami Ghosh | Best Durga Puja Song | 4K",
+        "artist": "MONAMI GHOSH",
+        "thumbnail": "https://img.youtube.com/vi/4zyCkmAS1Oo/hqdefault.jpg"
+      },
+      {
+        "id": "VgnUeGb1_DE",
+        "youtubeId": "VgnUeGb1_DE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=VgnUeGb1_DE",
+        "title": "Subconscious -Puja  [ Album: TARAR MELA - Official Audio ]",
+        "artist": "subconscious",
+        "thumbnail": "https://img.youtube.com/vi/VgnUeGb1_DE/hqdefault.jpg"
+      },
+      {
+        "id": "iWCll2MhFsA",
+        "youtubeId": "iWCll2MhFsA",
+        "youtubeUrl": "https://www.youtube.com/watch?v=iWCll2MhFsA",
+        "title": "Raai Jago (রাই জাগো) | Prabhati song by FAKIRA | Folk Fusion | Hare Krishna",
+        "artist": "Fakira",
+        "thumbnail": "https://img.youtube.com/vi/iWCll2MhFsA/hqdefault.jpg"
+      },
+      {
+        "id": "Gx_Rqsq1DIw",
+        "youtubeId": "Gx_Rqsq1DIw",
+        "youtubeUrl": "https://www.youtube.com/watch?v=Gx_Rqsq1DIw",
+        "title": "Shubhaarambh – Full Song | Kai Po Che | Sushant Singh Rajput, Rajkummar Rao | Amit Trivedi | 4K",
+        "artist": "Sony Music India",
+        "thumbnail": "https://img.youtube.com/vi/Gx_Rqsq1DIw/hqdefault.jpg"
+      },
+      {
+        "id": "sf6usUybi3k",
+        "youtubeId": "sf6usUybi3k",
+        "youtubeUrl": "https://www.youtube.com/watch?v=sf6usUybi3k",
+        "title": "Dugga Maa Asche Official Video - দুগ্গা মা আসছে | Kiran Mazumder | Pujo Song Ft. Soumya Mukherjee",
+        "artist": "Kiran Mazumder",
+        "thumbnail": "https://img.youtube.com/vi/sf6usUybi3k/hqdefault.jpg"
+      },
+      {
+        "id": "m1d_w2D4cEc",
+        "youtubeId": "m1d_w2D4cEc",
+        "youtubeUrl": "https://www.youtube.com/watch?v=m1d_w2D4cEc",
+        "title": "Durga Durgotihora | official Video | Sreshthangsu Payel Dwaipayan ",
+        "artist": "Manch Production ",
+        "thumbnail": "https://img.youtube.com/vi/m1d_w2D4cEc/hqdefault.jpg"
+      }
+    ]
+  },
+  "lakshmiPuja": {
+    "festivalName": "Lakshmi Puja",
+    "tracks": [
+      {
+        "id": "dsWdH8-U8u8",
+        "youtubeId": "dsWdH8-U8u8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=dsWdH8-U8u8",
+        "title": "Lakshmi Panchali (লক্ষ্মী পাঁচালী) | Pousali Banerjee | Sainik Dey | Lakshmi Puja | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/dsWdH8-U8u8/hqdefault.jpg"
+      },
+      {
+        "id": "mGEbPzEK2jw",
+        "youtubeId": "mGEbPzEK2jw",
+        "youtubeUrl": "https://www.youtube.com/watch?v=mGEbPzEK2jw",
+        "title": "Maa Lakshmi Aelo Ghore | লক্ষ্মী এলো ঘরে  | উলু দে দীপ জ্বালা | Bengali Devotional Song | Video 2025",
+        "artist": "The Bong Lyrics Lover",
+        "thumbnail": "https://img.youtube.com/vi/mGEbPzEK2jw/hqdefault.jpg"
+      },
+      {
+        "id": "38sjlow5yeM",
+        "youtubeId": "38sjlow5yeM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=38sjlow5yeM",
+        "title": "Ashtalakshmi Stotram",
+        "artist": "Mahagatha - Topic",
+        "thumbnail": "https://img.youtube.com/vi/38sjlow5yeM/hqdefault.jpg"
+      },
+      {
+        "id": "cCFkWJf7cvo",
+        "youtubeId": "cCFkWJf7cvo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=cCFkWJf7cvo",
+        "title": "শঙ্খ বাজিয়ে মাকে | Shankha Bajiye Make | Eso Maa Lakshmi Baso Ghare Lakshmi | সন্ধ্যা মুখোপাধ্যায়",
+        "artist": "Saregama Bengali",
+        "thumbnail": "https://img.youtube.com/vi/cCFkWJf7cvo/hqdefault.jpg"
+      },
+      {
+        "id": "5k_2d_15f6Y",
+        "youtubeId": "5k_2d_15f6Y",
+        "youtubeUrl": "https://www.youtube.com/watch?v=5k_2d_15f6Y",
+        "title": "लक्ष्मी स्तुति | Lakshmi Stuti | Diwali Special Lakshmi Puja | Wealth, Prosperity & Blessings 2025",
+        "artist": "Power of Chants",
+        "thumbnail": "https://img.youtube.com/vi/5k_2d_15f6Y/hqdefault.jpg"
+      }
+    ]
+  },
+  "kaliPuja": {
+    "festivalName": "Kali Puja",
+    "tracks": [
+      {
+        "id": "ndX-htQoEn8",
+        "youtubeId": "ndX-htQoEn8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=ndX-htQoEn8",
+        "title": "Mayer Murti Gorate Chai (মায়ের মূর্তি গড়াতে চাই) | Sohini Mukherjee | Shyama Sangeet | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/ndX-htQoEn8/hqdefault.jpg"
+      },
+      {
+        "id": "exNreXIXGSo",
+        "youtubeId": "exNreXIXGSo",
+        "youtubeUrl": "https://www.youtube.com/watch?v=exNreXIXGSo",
+        "title": "Kali Kali Bol Roshona (কালী কালী বল রসনা) | Sohini Mukherjee | Shyama Sangeet | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/exNreXIXGSo/hqdefault.jpg"
+      },
+      {
+        "id": "LOmU7v63zb0",
+        "youtubeId": "LOmU7v63zb0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=LOmU7v63zb0",
+        "title": "Amar Chetona (আমার চেতনা) | Mekhla Dasgupta | Lyrical | Shyama Sangeet | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/LOmU7v63zb0/hqdefault.jpg"
+      },
+      {
+        "id": "nwbFiQcjkyY",
+        "youtubeId": "nwbFiQcjkyY",
+        "youtubeUrl": "https://www.youtube.com/watch?v=nwbFiQcjkyY",
+        "title": "Ami montro tontro | আমি মন্ত্র তন্ত্র  | Aditi Chakraborty",
+        "artist": "Aditi Chakraborty",
+        "thumbnail": "https://img.youtube.com/vi/nwbFiQcjkyY/hqdefault.jpg"
+      },
+      {
+        "id": "gtpojOKWUOM",
+        "youtubeId": "gtpojOKWUOM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=gtpojOKWUOM",
+        "title": "Shyama Ma Ki Amar Kalo | Sakali Tomari Ichchha | Kumar Shanu | Audio",
+        "artist": "Saregama Bengali",
+        "thumbnail": "https://img.youtube.com/vi/gtpojOKWUOM/hqdefault.jpg"
+      },
+      {
+        "id": "EZbQ-uaDbw4",
+        "youtubeId": "EZbQ-uaDbw4",
+        "youtubeUrl": "https://www.youtube.com/watch?v=EZbQ-uaDbw4",
+        "title": "EKBAR NACHO MAA | DOHAR | KALIKAPRASAD | SHYAMA SANGEET | DOHARFOLK",
+        "artist": "DOHAR FOLK",
+        "thumbnail": "https://img.youtube.com/vi/EZbQ-uaDbw4/hqdefault.jpg"
+      },
+      {
+        "id": "VwibjuKHO0c",
+        "youtubeId": "VwibjuKHO0c",
+        "youtubeUrl": "https://www.youtube.com/watch?v=VwibjuKHO0c",
+        "title": "O Shyama - ও শ্যামা | Satyaki Banerjee | Avishek Saha | Bengali Folk Devotional Song | Beats Music",
+        "artist": "Beats",
+        "thumbnail": "https://img.youtube.com/vi/VwibjuKHO0c/hqdefault.jpg"
+      },
+      {
+        "id": "p2EkxgDewl0",
+        "youtubeId": "p2EkxgDewl0",
+        "youtubeUrl": "https://www.youtube.com/watch?v=p2EkxgDewl0",
+        "title": "Jano Na Re Mon",
+        "artist": "Padma Palash - Topic",
+        "thumbnail": "https://img.youtube.com/vi/p2EkxgDewl0/hqdefault.jpg"
+      },
+      {
+        "id": "GyT5wc64t28",
+        "youtubeId": "GyT5wc64t28",
+        "youtubeUrl": "https://www.youtube.com/watch?v=GyT5wc64t28",
+        "title": "রণে নেমেছে রে কার বামা | Rane Nemechhe Re Kar Bama | কালীকীর্তন পর্ব ৮ (শেষ)",
+        "artist": "Udbodhan - Ramakrishna Math Baghbazar",
+        "thumbnail": "https://img.youtube.com/vi/GyT5wc64t28/hqdefault.jpg"
+      },
+      {
+        "id": "lE4Z6v9CTjQ",
+        "youtubeId": "lE4Z6v9CTjQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=lE4Z6v9CTjQ",
+        "title": "O Shiv Nacho Re | Dohar New Song | Gajoner Gaan | Baro Mashe Tero Parbon | Starmanch",
+        "artist": "Star Manch",
+        "thumbnail": "https://img.youtube.com/vi/lE4Z6v9CTjQ/hqdefault.jpg"
+      },
+      {
+        "id": "_EZdLG2cmSU",
+        "youtubeId": "_EZdLG2cmSU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=_EZdLG2cmSU",
+        "title": "MAYER PAYER JOBA X MA ACHE II DEEP CHATTERJEE O MATAN II SHYAMASANGEET",
+        "artist": "Deep Chatterjee Folk",
+        "thumbnail": "https://img.youtube.com/vi/_EZdLG2cmSU/hqdefault.jpg"
+      },
+      {
+        "id": "wcHGiF0zloU",
+        "youtubeId": "wcHGiF0zloU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=wcHGiF0zloU",
+        "title": "Amar Haate Kali Mukhe Kali (আমার হাতে কালি মুখে কালি)-Lyrical | Indranil Datta | Nazrul Geeti |Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/wcHGiF0zloU/hqdefault.jpg"
+      },
+      {
+        "id": "GhG5Ms11fm8",
+        "youtubeId": "GhG5Ms11fm8",
+        "youtubeUrl": "https://www.youtube.com/watch?v=GhG5Ms11fm8",
+        "title": "Bhebe Dekh Mon (ভেবে দেখ মন) - Lyrical | Arijit Chakraborty | Upali Chattopadhyay | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/GhG5Ms11fm8/hqdefault.jpg"
+      },
+      {
+        "id": "jIw9mHgoHwM",
+        "youtubeId": "jIw9mHgoHwM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=jIw9mHgoHwM",
+        "title": "Ekbar Birajo Go Maa || Jayati || Official Video || Matribandana || Swami Krishnananda || Prattyush",
+        "artist": "Jayati Chakraborty",
+        "thumbnail": "https://img.youtube.com/vi/jIw9mHgoHwM/hqdefault.jpg"
+      }
+    ]
+  },
+  "jagaddhatriPuja": {
+    "festivalName": "Jagaddhatri Puja",
+    "tracks": [
+      {
+        "id": "P_DkTG76P-w",
+        "youtubeId": "P_DkTG76P-w",
+        "youtubeUrl": "https://www.youtube.com/watch?v=P_DkTG76P-w",
+        "title": "Jagaddhatri Stotram |  শ্রীজগদ্ধাত্রীস্তোত্রম্ | Debasish Chakraborty | Devotional",
+        "artist": "Debasish Chakraborty",
+        "thumbnail": "https://img.youtube.com/vi/P_DkTG76P-w/hqdefault.jpg"
+      },
+      {
+        "id": "H6yBYuVzWtA",
+        "youtubeId": "H6yBYuVzWtA",
+        "youtubeUrl": "https://www.youtube.com/watch?v=H6yBYuVzWtA",
+        "title": "Jagadhatri Pujor Gaan (জগদ্ধাত্রী পুজোর গান)-Lyrical | Bibhabendu | Bengali Devotional Song | Aalo",
+        "artist": "Aalo | আলো 🪔",
+        "thumbnail": "https://img.youtube.com/vi/H6yBYuVzWtA/hqdefault.jpg"
+      },
+      {
+        "id": "KPJO7k6WFIE",
+        "youtubeId": "KPJO7k6WFIE",
+        "youtubeUrl": "https://www.youtube.com/watch?v=KPJO7k6WFIE",
+        "title": "Jao Jao Giri Anite Gouri #uma baro dukhe royeche Reprise Version | Bibhabendu Bhattacharya #agamoni",
+        "artist": "SUROBAIBHAB ( Bibhabendu Bhattacharya Official)",
+        "thumbnail": "https://img.youtube.com/vi/KPJO7k6WFIE/hqdefault.jpg"
+      },
+      {
+        "id": "b5AjTamUjTU",
+        "youtubeId": "b5AjTamUjTU",
+        "youtubeUrl": "https://www.youtube.com/watch?v=b5AjTamUjTU",
+        "title": "Asio Ma Jagaddhatri | Lopamudra Mitra | Joy Sarkar | Srijato | Jagaddhatri Pujo Special Song 2022",
+        "artist": "Star Manch",
+        "thumbnail": "https://img.youtube.com/vi/b5AjTamUjTU/hqdefault.jpg"
+      },
+      {
+        "id": "6d4Q-UfgubQ",
+        "youtubeId": "6d4Q-UfgubQ",
+        "youtubeUrl": "https://www.youtube.com/watch?v=6d4Q-UfgubQ",
+        "title": "Jagadhattri Maa I Ft. Subhrajit Ganguly I Official Video I Chandannagar Puja Theme Song I Studio IN",
+        "artist": "Subhrajit Ganguly Originals",
+        "thumbnail": "https://img.youtube.com/vi/6d4Q-UfgubQ/hqdefault.jpg"
+      },
+      {
+        "id": "nTDQNqbYWsM",
+        "youtubeId": "nTDQNqbYWsM",
+        "youtubeUrl": "https://www.youtube.com/watch?v=nTDQNqbYWsM",
+        "title": "Maa Go Tumi Sarbojanin | Suruchi Sangha Theme Song | SVF",
+        "artist": "SVF",
+        "thumbnail": "https://img.youtube.com/vi/nTDQNqbYWsM/hqdefault.jpg"
+      },
+      {
+        "id": "x8p5Qx3YMmA",
+        "youtubeId": "x8p5Qx3YMmA",
+        "youtubeUrl": "https://www.youtube.com/watch?v=x8p5Qx3YMmA",
+        "title": "Jagaddhatri Gayatri Mantra 108 Times Jaap | Meditation of Maa Jagadhatri",
+        "artist": "Kimvut Creations",
+        "thumbnail": "https://img.youtube.com/vi/x8p5Qx3YMmA/hqdefault.jpg"
+      }
+    ]
+  }
+}

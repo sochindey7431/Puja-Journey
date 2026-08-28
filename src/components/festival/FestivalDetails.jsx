@@ -102,14 +102,18 @@ export default function FestivalDetails({ festival, onClose }) {
           {tab === 'about' && (
             <div className="space-y-4">
               {festival.image && (
-                <div className="relative aspect-video rounded-lg overflow-hidden border border-puja-gold/20 shadow-xl">
+                <div className="relative w-full rounded-lg overflow-hidden border border-puja-gold/20 shadow-xl bg-black/40">
                   <img
                     src={getAssetUrl(festival.image)}
                     alt={festival.nameEn}
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto max-h-72 object-contain object-center"
+                    style={{
+                      display: 'block',
+                      filter: 'brightness(1.10) contrast(1.05) saturate(1.08)',
+                    }}
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
                 </div>
               )}
               <p className={`text-sm text-puja-ivory/70 leading-relaxed ${isBn ? 'bn-text text-base' : ''}`}>

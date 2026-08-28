@@ -94,10 +94,25 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
             ref={imgRef}
             src={getAssetUrl(festival.image)}
             alt={festival.imageAlt || festival.nameEn}
-            className="absolute inset-0 w-full h-[120%] -top-[10%] object-cover object-center md:object-right transition-transform duration-1000 ease-out"
-            style={{ willChange: 'transform' }}
+            className="absolute inset-0 w-full h-[120%] -top-[10%] object-contain object-center transition-transform duration-1000 ease-out"
+            style={{
+              willChange: 'transform',
+              backgroundColor: festival.theme?.bg || '#0a0805',
+              filter: 'brightness(1.10) contrast(1.05) saturate(1.08)',
+            }}
             loading="lazy"
             onError={() => setImgError(true)}
+          />
+          {/* ── Deity subject highlight — soft-light blend, natural centre lighting ── */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(ellipse 42% 58% at 62% 42%, rgba(255,248,230,0.13) 0%, rgba(255,248,230,0.05) 50%, transparent 72%)',
+              mixBlendMode: 'soft-light',
+              pointerEvents: 'none',
+            }}
           />
           {/* Multi-stage dark gradient overlay for crystal clear text readability */}
           <div
@@ -328,10 +343,25 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
             ref={imgRef}
             src={getAssetUrl(festival.image)}
             alt={festival.imageAlt || 'Mahalaya night sky'}
-            className="absolute inset-0 w-full h-[120%] -top-[10%] object-cover object-center md:object-right opacity-45 transition-transform duration-1000 ease-out"
-            style={{ willChange: 'transform' }}
+            className="absolute inset-0 w-full h-[120%] -top-[10%] object-contain object-center opacity-45 transition-transform duration-1000 ease-out"
+            style={{
+              willChange: 'transform',
+              backgroundColor: '#020408',
+              filter: 'brightness(1.10) contrast(1.05) saturate(1.08)',
+            }}
             loading="lazy"
             onError={() => setImgError(true)}
+          />
+          {/* ── Deity subject highlight — centred soft-light bloom for Mahalaya ── */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(ellipse 38% 52% at 50% 40%, rgba(255,248,230,0.11) 0%, rgba(255,248,230,0.04) 50%, transparent 70%)',
+              mixBlendMode: 'soft-light',
+              pointerEvents: 'none',
+            }}
           />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, #020408d9 0%, #02040888 50%, #020408f0 100%)' }} />
         </div>
