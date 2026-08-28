@@ -34,6 +34,7 @@ export const festivals = [
       gradient: 'from-[#0f0d08] via-[#1a1505] to-[#0a0900]',
     },
     image: '/images/festivals/Saraswati Puja.jpg',
+    icon: '/images/festivals/saraswati-puja-icon.png',
     imageAlt: 'White flowers and sacred offerings for Saraswati Puja',
     descriptionEn: 'Saraswati Puja celebrates the Hindu goddess of knowledge, music, art, wisdom, and learning. Students worship the goddess seeking blessings for academic success and artistic excellence. The festival falls on Basant Panchami — the fifth day of the bright fortnight of Magh — heralding the arrival of spring.',
     descriptionBn: 'সরস্বতী পূজা হিন্দু জ্ঞান, সঙ্গীত, শিল্প ও বিদ্যার দেবী সরস্বতীকে উৎসর্গ করা হয়। শিক্ষার্থীরা পড়াশোনায় সাফল্য ও শিল্পীসত্তার বিকাশের জন্য দেবীর আশীর্বাদ প্রার্থনা করে। উৎসবটি বসন্ত পঞ্চমীতে পড়ে এবং বসন্তের আগমনকে স্বাগত জানায়।',

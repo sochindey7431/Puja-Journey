@@ -182,9 +182,18 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
       >
         {/* Left: text column */}
         <div className="flex flex-col gap-5">
-          {/* Emoji + category tag */}
+          {/* Emoji / Icon + category tag */}
           <div className="reveal-item flex items-center gap-3">
-            <span className="text-4xl" aria-hidden="true">{festival.emoji}</span>
+            {festival.icon ? (
+              <img
+                src={getAssetUrl(festival.icon)}
+                alt={festival.nameEn}
+                className="w-12 h-12 md:w-14 md:h-14 object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)] shrink-0"
+                loading="lazy"
+              />
+            ) : (
+              <span className="text-4xl" aria-hidden="true">{festival.emoji}</span>
+            )}
             <span className="text-xs tracking-[0.25em] uppercase text-puja-ivory/30 font-body">
               {festival.category.replace('-', ' ')}
             </span>
@@ -240,7 +249,12 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
 
           {/* Action Explore & Music Buttons */}
           <div className="reveal-item flex flex-wrap items-center gap-3 mt-1">
-            <button onClick={() => onExplore(festival)} className="btn-primary" aria-label={`Explore ${festival.nameEn}`}>
+            <button
+              type="button"
+              onClick={() => onExplore(festival)}
+              className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md active:scale-95 border-puja-gold/30 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold hover:border-puja-gold/60"
+              aria-label={`Explore ${festival.nameEn}`}
+            >
               {t('explore')}
             </button>
             <FestivalMusicButton
@@ -413,7 +427,13 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
         </p>
 
         <div className="flex flex-wrap items-center gap-4 mt-3 justify-center">
-          <button onClick={() => onExplore(festival)} className="btn-primary">{t('explore')}</button>
+          <button
+            type="button"
+            onClick={() => onExplore(festival)}
+            className="group inline-flex items-center gap-2 px-6 py-3 text-sm rounded-lg border tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md active:scale-95 border-puja-gold/30 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold hover:border-puja-gold/60 shadow-[0_0_25px_rgba(201,168,76,0.25)]"
+          >
+            {t('explore')}
+          </button>
           <FestivalMusicButton
             festivalId="mahalaya"
             festivalNameEn="Mahalaya"

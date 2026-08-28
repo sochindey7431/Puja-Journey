@@ -4,6 +4,7 @@ import { Search, X, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { festivals } from '../../data/festivals.js';
 import { formatDateShort } from '../../utils/dateUtils.js';
+import { getAssetUrl } from '../../utils/assetUtils.js';
 
 export default function SearchBar({ onClose, onSelectFestival }) {
   const { t, lang, isBn } = useLanguage();
@@ -126,7 +127,16 @@ export default function SearchBar({ onClose, onSelectFestival }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04 }}
               >
-                <span className="text-2xl shrink-0">{festival.emoji}</span>
+                {festival.icon ? (
+                  <img
+                    src={getAssetUrl(festival.icon)}
+                    alt={festival.nameEn}
+                    className="w-8 h-8 object-contain object-center drop-shadow-[0_0_6px_rgba(212,160,23,0.3)] shrink-0"
+                    loading="lazy"
+                  />
+                ) : (
+                  <span className="text-2xl shrink-0">{festival.emoji}</span>
+                )}
                 <div className="flex-1 min-w-0">
                   <p className="bn-text text-sm text-puja-ivory/50 mb-0.5">{festival.nameBn}</p>
                   <p className="font-display text-lg text-puja-ivory group-hover:text-puja-gold transition-colors">

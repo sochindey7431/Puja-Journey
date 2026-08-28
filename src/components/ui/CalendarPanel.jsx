@@ -4,6 +4,7 @@ import { Calendar, X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { festivals } from '../../data/festivals.js';
 import { formatDateShort, isToday, isPast, toBengaliYearMonth } from '../../utils/dateUtils.js';
+import { getAssetUrl } from '../../utils/assetUtils.js';
 
 const MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_BN = ['জানু','ফেব্রু','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টে','অক্টো','নভে','ডিসে'];
@@ -68,7 +69,16 @@ export default function CalendarPanel({ onSelectFestival }) {
                     todayF ? 'bg-puja-gold/8' : 'hover:bg-puja-gold/5'
                   }`}
                 >
-                  <span className="text-sm shrink-0" aria-hidden="true">{festival.emoji}</span>
+                  {festival.icon ? (
+                    <img
+                      src={getAssetUrl(festival.icon)}
+                      alt={festival.nameEn}
+                      className="w-5 h-5 object-contain object-center drop-shadow-[0_0_4px_rgba(212,160,23,0.3)] shrink-0"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="text-sm shrink-0" aria-hidden="true">{festival.emoji}</span>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className={`text-xs truncate transition-colors leading-snug ${
                       todayF ? 'text-puja-gold' :

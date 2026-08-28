@@ -15,6 +15,7 @@ import { ENABLE_YOUTUBE_MUSIC } from '../config/musicConfig.js';
 import { festivals, getFestivalById } from '../data/festivals.js';
 import { useFestivalProgress } from '../hooks/useFestivalProgress.js';
 import { useLanguage } from '../hooks/useLanguage.jsx';
+import { getAssetUrl } from '../utils/assetUtils.js';
 import ErrorBoundary from '../components/ui/ErrorBoundary.jsx';
 
 export default function Home() {
@@ -120,7 +121,16 @@ export default function Home() {
                   aria-label={`Go to ${festival.nameEn}`}
                 >
                   <div className="flex items-start gap-3">
-                    <span className="text-2xl" aria-hidden="true">{festival.emoji}</span>
+                    {festival.icon ? (
+                      <img
+                        src={getAssetUrl(festival.icon)}
+                        alt={festival.nameEn}
+                        className="w-8 h-8 object-contain object-center drop-shadow-[0_0_6px_rgba(212,160,23,0.3)] shrink-0 mt-0.5"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span className="text-2xl" aria-hidden="true">{festival.emoji}</span>
+                    )}
                     <div className="flex-1 min-w-0">
                       <p className="bn-text text-xs text-puja-ivory/30 mb-0.5">{festival.nameBn}</p>
                       <p className={`text-sm font-display text-puja-ivory/70 group-hover:text-puja-ivory transition-colors leading-tight`}>
@@ -189,8 +199,17 @@ export default function Home() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
 
-                  {/* Emoji */}
-                  <span className="text-2xl shrink-0" aria-hidden="true">{festival.emoji}</span>
+                  {/* Emoji / Icon */}
+                  {festival.icon ? (
+                    <img
+                      src={getAssetUrl(festival.icon)}
+                      alt={festival.nameEn}
+                      className="w-8 h-8 object-contain object-center drop-shadow-[0_0_6px_rgba(212,160,23,0.3)] shrink-0"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="text-2xl shrink-0" aria-hidden="true">{festival.emoji}</span>
+                  )}
 
                   {/* Names */}
                   <div className="flex-1 min-w-0">

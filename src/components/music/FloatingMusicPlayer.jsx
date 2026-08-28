@@ -224,10 +224,10 @@ export default function FloatingMusicPlayer() {
       <AnimatePresence>
         {errorMessage && (
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-[94px] left-1/2 -translate-x-1/2 z-[520] max-w-md w-[92vw] px-4 py-3 rounded-lg bg-red-950/90 border border-red-500/40 backdrop-blur-xl shadow-2xl flex items-center justify-between gap-3 text-red-200 text-xs"
+            initial={{ opacity: 0, x: '-50%', y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, x: '-50%', y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: '-50%', y: 20, scale: 0.95 }}
+            className="fixed bottom-[94px] left-1/2 -translate-x-1/2 z-[520] max-w-md w-[calc(100vw-24px)] sm:w-[92vw] px-4 py-3 rounded-lg bg-red-950/90 border border-red-500/40 backdrop-blur-xl shadow-2xl flex items-center justify-between gap-3 text-red-200 text-xs box-border"
           >
             <div className="flex items-center gap-2 min-w-0">
               <AlertCircle size={16} className="text-red-400 shrink-0" />
@@ -265,13 +265,13 @@ export default function FloatingMusicPlayer() {
         {isPlaylistOpen && (
           <motion.div
             key="playlist-panel"
-            initial={{ y: '100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '100%', opacity: 0 }}
+            initial={{ x: '-50%', y: '100%', opacity: 0 }}
+            animate={{ x: '-50%', y: 0, opacity: 1 }}
+            exit={{ x: '-50%', y: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
             className="fixed bottom-[84px] left-1/2 -translate-x-1/2 z-[490]
-              w-[94vw] max-w-lg max-h-[62vh] overflow-hidden
-              flex flex-col
+              w-[calc(100vw-24px)] sm:w-[94vw] max-w-lg max-h-[75vh] sm:max-h-[62vh] overflow-hidden
+              flex flex-col box-border
               bg-[rgba(12,9,5,0.98)] border border-puja-gold/25
               backdrop-blur-2xl rounded-t-xl"
             style={{ boxShadow: '0 -10px 50px rgba(0,0,0,0.8), 0 0 30px rgba(212,160,23,0.15)' }}

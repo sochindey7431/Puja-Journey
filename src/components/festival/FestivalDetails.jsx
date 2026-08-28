@@ -60,8 +60,17 @@ export default function FestivalDetails({ festival, onClose }) {
             <X size={20} />
           </button>
 
-          {/* Emoji */}
-          <div className="text-4xl mb-4" aria-hidden="true">{festival.emoji}</div>
+          {/* Emoji / Icon */}
+          {festival.icon ? (
+            <img
+              src={getAssetUrl(festival.icon)}
+              alt={festival.nameEn}
+              className="w-14 h-14 object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)] mb-4"
+              loading="lazy"
+            />
+          ) : (
+            <div className="text-4xl mb-4" aria-hidden="true">{festival.emoji}</div>
+          )}
 
           {/* Names */}
           <p className={`bn-text text-sm text-puja-gold/60 mb-1`}>{festival.nameBn}</p>

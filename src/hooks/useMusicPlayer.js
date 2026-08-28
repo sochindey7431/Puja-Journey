@@ -10,6 +10,14 @@
  * FIX #9  — No auto-nextTrack on error (prevents error→next loop)
  * FIX #10 — Error only sets message, never touches overlay/page
  * FIX #15 — Debug logging throughout
+ *
+ * PRIVACY-ENHANCED MODE:
+ * The YT.Player 'host' option is set to 'https://www.youtube-nocookie.com',
+ * which is the official YouTube IFrame API way to use Privacy-Enhanced Mode.
+ * This does NOT block or modify advertisements — YouTube still serves ads
+ * normally. It only changes the iframe embed domain to youtube-nocookie.com
+ * per YouTube's official embedding documentation.
+ * See: https://developers.google.com/youtube/player_parameters#host
  */
 import { useEffect, useRef, useCallback } from 'react';
 import { useMusicContext } from '../contexts/MusicContext.jsx';
@@ -149,6 +157,11 @@ export function useYouTubePlayer(elementId) {
         height: '100%',
         width: '100%',
         videoId: initialVideoId,
+        // Use Privacy-Enhanced Mode via the official 'host' option.
+        // The IFrame API will load the embed from youtube-nocookie.com instead
+        // of youtube.com. Advertisements are NOT blocked — they still function
+        // normally. This follows YouTube's official embedding policy.
+        host: 'https://www.youtube-nocookie.com',
         playerVars: {
           autoplay: 1,
           controls: 1,
