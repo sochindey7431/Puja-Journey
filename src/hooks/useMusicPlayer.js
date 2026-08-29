@@ -273,6 +273,28 @@ export function useYouTubePlayer(elementId) {
                 e.target.playVideo();
                 startPollingRef.current?.();
               }
+
+              // Muted autoplay + first-interaction unmute fallback strategy for strict WebViews (Instagram / Mobile WebViews)
+              const unblockEvents = ['touchstart', 'touchend', 'click', 'scroll', 'pointerdown', 'keydown'];
+              const handleFirstInteraction = () => {
+                unblockEvents.forEach(evt => window.removeEventListener(evt, handleFirstInteraction, { capture: true, passive: true }));
+                try {
+                  if (!isMutedRef.current) {
+                    e.target.unMute();
+                    e.target.setVolume(volumeRef.current);
+                  }
+                  const st = e.target.getPlayerState?.();
+                  if (st !== 1 && st !== 3 && (userIntentToPlayRef.current || isPlayingRef.current)) {
+                    e.target.playVideo();
+                  }
+                } catch (err) {
+                  console.warn('[YT] Unblock on first interaction error:', err);
+                }
+              };
+
+              unblockEvents.forEach(evt => {
+                window.addEventListener(evt, handleFirstInteraction, { capture: true, passive: true, once: true });
+              });
             } catch (err) {
               console.warn('[YT] onReady setup error:', err);
             }

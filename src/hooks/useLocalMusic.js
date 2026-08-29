@@ -114,7 +114,23 @@ export function useLocalMusic(festivalId) {
     audio.src = track.url;
     audio.load();
     if (isPlaying) {
-      audio.play().catch(() => setIsPlaying(false));
+      const playPromise = audio.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          // Autoplay blocked — retry on first user interaction
+          const unblockEvents = ['touchstart', 'touchend', 'click', 'scroll', 'pointerdown'];
+          const onFirstInteraction = () => {
+            unblockEvents.forEach(evt => window.removeEventListener(evt, onFirstInteraction, { capture: true, passive: true }));
+            if (audioRef.current) {
+              audioRef.current.play().catch(() => {});
+            }
+          };
+          unblockEvents.forEach(evt => {
+            window.addEventListener(evt, onFirstInteraction, { capture: true, passive: true, once: true });
+          });
+          setIsPlaying(false);
+        });
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trackIndex, tracks]);
@@ -141,7 +157,8 @@ export function useLocalMusic(festivalId) {
   function handleTrackEnd() {
     if (isRepeat) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
+      const p = audioRef.current.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
       return;
     }
     if (isShuffle) {
@@ -166,7 +183,10 @@ export function useLocalMusic(festivalId) {
       audio.src = tracks[trackIndex]?.url || '';
       audio.load();
     }
-    audio.play().catch(() => setIsPlaying(false));
+    const p = audio.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => setIsPlaying(false));
+    }
   }, [tracks, trackIndex]);
 
   const pause = useCallback(() => {

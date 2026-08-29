@@ -9,6 +9,7 @@ import FestivalDetails from '../components/festival/FestivalDetails.jsx';
 import SearchBar from '../components/ui/SearchBar.jsx';
 import FloatingMusicPlayer from '../components/music/FloatingMusicPlayer.jsx';
 import YouTubePlayer from '../components/music/YouTubePlayer.jsx';
+import MusicAutoplayFallback from '../components/music/MusicAutoplayFallback.jsx';
 import { ENABLE_YOUTUBE_MUSIC } from '../config/musicConfig.js';
 import { festivals } from '../data/festivals.js';
 import { useFestivalProgress } from '../hooks/useFestivalProgress.js';
@@ -100,11 +101,12 @@ export default function Home() {
           />
         )}
       </AnimatePresence>
-      {/* YouTube music player bar + video window (when enabled) */}
+      {/* YouTube music player bar + video window + fallback trigger (when enabled) */}
       {ENABLE_YOUTUBE_MUSIC && (
         <ErrorBoundary>
           <FloatingMusicPlayer />
           <YouTubePlayer />
+          <MusicAutoplayFallback />
         </ErrorBoundary>
       )}
     </div>
