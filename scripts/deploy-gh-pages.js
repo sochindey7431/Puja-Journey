@@ -4,8 +4,8 @@ import fs from 'fs';
 
 const run = (cmd, opts = {}) => execSync(cmd, { encoding: 'utf8', ...opts }).trim();
 
-console.log('[Deploy] Building latest production bundle...');
-run('npm run build');
+console.log('[Deploy] Building latest production bundle for GitHub Pages (/Puja-Journey/)...');
+run('npm run build', { env: { ...process.env, VITE_BASE_PATH: '/Puja-Journey/', GITHUB_PAGES: 'true' } });
 
 console.log('[Deploy] Creating gh-pages commit...');
 const indexPath = path.resolve('.git/index-gh-pages');
