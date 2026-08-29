@@ -11,6 +11,10 @@ export default function YTDebugPanel() {
     onReadyFired: false,
     lastState: 'NONE',
     lastErrorCode: null,
+    currentTime: '0.0',
+    duration: '0.0',
+    isPaused: true,
+    isPlayingReal: false,
     userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
   });
   const [minimized, setMinimized] = useState(false);
@@ -28,11 +32,15 @@ export default function YTDebugPanel() {
         onReadyFired: Boolean(g.onReadyFired),
         lastState: g.lastState || 'UNSET',
         lastErrorCode: g.lastErrorCode || null,
+        currentTime: g.currentTime || '0.0',
+        duration: g.duration || '0.0',
+        isPaused: g.isPaused ?? true,
+        isPlayingReal: Boolean(g.isPlayingReal),
         userAgent: navigator.userAgent,
       });
     };
 
-    const interval = setInterval(updateLogs, 500);
+    const interval = setInterval(updateLogs, 250);
     return () => clearInterval(interval);
   }, []);
 
@@ -44,13 +52,13 @@ export default function YTDebugPanel() {
 
   return (
     <div
-      className="fixed bottom-20 right-2 z-[9999] max-w-[280px] sm:max-w-xs bg-black/90 text-[11px] font-mono text-puja-gold p-2.5 rounded-lg border border-puja-gold/40 shadow-2xl backdrop-blur-md"
+      className="fixed bottom-20 right-2 z-[9999] max-w-[290px] sm:max-w-xs bg-black/95 text-[11px] font-mono text-puja-gold p-2.5 rounded-lg border border-puja-gold/50 shadow-2xl backdrop-blur-md"
       style={{ fontSize: '10px', lineHeight: '1.3' }}
     >
       <div className="flex items-center justify-between border-b border-puja-gold/20 pb-1 mb-1.5 font-sans font-bold text-white">
         <span className="flex items-center gap-1">
           <Activity size={12} className="text-puja-gold animate-pulse" />
-          <span>YT DIAGNOSTICS</span>
+          <span>REAL-TIME YT TELEMETRY</span>
         </span>
         <div className="flex items-center gap-1">
           <button
@@ -81,40 +89,32 @@ export default function YTDebugPanel() {
             </span>
           </div>
           <div className="flex justify-between">
-            <span>YT Script:</span>
-            <span className={logs.scriptLoaded ? 'text-green-400 font-bold' : 'text-red-400 font-bold'}>
-              {logs.scriptLoaded ? 'LOADED' : 'PENDING'}
+            <span>Last YT Event:</span>
+            <span className={`font-bold ${logs.lastState === 'PLAYING' ? 'text-green-400' : 'text-cyan-300'}`}>
+              event: {logs.lastState}
             </span>
           </div>
           <div className="flex justify-between">
-            <span>onAPIReady:</span>
-            <span className={logs.apiReadyFired ? 'text-green-400 font-bold' : 'text-yellow-400'}>
-              {logs.apiReadyFired ? 'FIRED' : 'WAITING'}
+            <span>Element .paused:</span>
+            <span className={logs.isPaused ? 'text-yellow-400' : 'text-green-400 font-bold'}>
+              {logs.isPaused ? 'true (paused)' : 'false (active)'}
             </span>
           </div>
           <div className="flex justify-between">
-            <span>new YT.Player():</span>
-            <span className={logs.playerConstructorCalled ? 'text-green-400 font-bold' : 'text-yellow-400'}>
-              {logs.playerConstructorCalled ? 'CALLED' : 'NO'}
+            <span>.currentTime:</span>
+            <span className="text-white font-bold tabular-nums">
+              {logs.currentTime}s / {logs.duration}s
             </span>
           </div>
           <div className="flex justify-between">
-            <span>onReady Event:</span>
-            <span className={logs.onReadyFired || playerReady ? 'text-green-400 font-bold' : 'text-yellow-400'}>
-              {logs.onReadyFired || playerReady ? 'FIRED' : 'PENDING'}
+            <span>UI Button Label:</span>
+            <span className="font-bold">
+              {isLoading ? '⏳ Loading…' : isBuffering ? '🔄 Buffering…' : isPlaying ? '▶ PLAYING (Confirmed)' : '⏸ Paused (Tap to play)'}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span>YT State:</span>
-            <span className="text-cyan-300 font-bold">{logs.lastState}</span>
-          </div>
-          <div className="flex justify-between">
-            <span>UI State:</span>
-            <span>
-              {isLoading ? '⏳ Loading ' : ''}
-              {isBuffering ? '🔄 Buffering ' : ''}
-              {isPlaying ? '▶ Playing' : '⏸ Paused'}
-            </span>
+          <div className="flex justify-between border-t border-puja-gold/10 pt-1">
+            <span>Player Instance:</span>
+            <span className="text-green-400">1 (Singleton)</span>
           </div>
           {logs.lastErrorCode && (
             <div className="flex justify-between text-red-400 font-bold">
@@ -128,7 +128,7 @@ export default function YTDebugPanel() {
             </div>
           )}
           <div className="text-[9px] text-puja-ivory/40 pt-1 border-t border-puja-gold/10 truncate">
-            Track: {currentTrack?.youtubeId || currentTrack?.id || 'none'}
+            Track ID: {currentTrack?.youtubeId || currentTrack?.id || 'none'}
           </div>
         </div>
       )}

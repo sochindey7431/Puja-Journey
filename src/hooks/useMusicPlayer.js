@@ -203,11 +203,18 @@ export function useYouTubePlayer(elementId) {
         try {
           const cur = p.getCurrentTime();
           const dur = p.getDuration();
+          const state = p.getPlayerState?.();
           if (typeof cur === 'number' && !isNaN(cur) && isFinite(cur) && cur >= 0) {
             setCurrentTimeRef.current(cur);
+            if (window.__YT_DEBUG__) window.__YT_DEBUG__.currentTime = cur.toFixed(1);
           }
           if (typeof dur === 'number' && !isNaN(dur) && isFinite(dur) && dur > 0) {
             setDurationRef.current(dur);
+            if (window.__YT_DEBUG__) window.__YT_DEBUG__.duration = dur.toFixed(1);
+          }
+          if (window.__YT_DEBUG__) {
+            window.__YT_DEBUG__.isPaused = state === 2;
+            window.__YT_DEBUG__.isPlayingReal = state === 1;
           }
         } catch (e) {}
       }
@@ -289,8 +296,12 @@ export function useYouTubePlayer(elementId) {
                 iframe.setAttribute('webkit-playsinline', '1');
               }
 
-              e.target.setVolume(volumeRef.current);
-              if (isMutedRef.current) e.target.mute();
+              e.target.setVolume(volumeRef.current || 80);
+              if (isMutedRef.current) {
+                e.target.mute();
+              } else {
+                e.target.unMute();
+              }
 
               const latestId = lastLoadedIdRef.current;
               if (latestId && latestId !== initialVideoId) {
@@ -307,28 +318,6 @@ export function useYouTubePlayer(elementId) {
                 e.target.playVideo();
                 startPollingRef.current?.();
               }
-
-              // Muted autoplay + first-interaction unmute fallback strategy for strict WebViews (Instagram / Mobile WebViews)
-              const unblockEvents = ['touchstart', 'touchend', 'click', 'scroll', 'pointerdown', 'keydown'];
-              const handleFirstInteraction = () => {
-                unblockEvents.forEach(evt => window.removeEventListener(evt, handleFirstInteraction, { capture: true, passive: true }));
-                try {
-                  if (!isMutedRef.current) {
-                    e.target.unMute();
-                    e.target.setVolume(volumeRef.current);
-                  }
-                  const st = e.target.getPlayerState?.();
-                  if (st !== 1 && st !== 3 && (userIntentToPlayRef.current || isPlayingRef.current)) {
-                    e.target.playVideo();
-                  }
-                } catch (err) {
-                  console.warn('[YT] Unblock on first interaction error:', err);
-                }
-              };
-
-              unblockEvents.forEach(evt => {
-                window.addEventListener(evt, handleFirstInteraction, { capture: true, passive: true, once: true });
-              });
             } catch (err) {
               console.warn('[YT] onReady setup error:', err);
             }

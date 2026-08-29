@@ -86,7 +86,6 @@ export function MusicProvider({ children }) {
     setCurrentTime(0);
     setDuration(0);
     if (autoPlay) {
-      setIsPlaying(true);
       setIsLoading(true);
     }
   }, [currentPlaylistKey]);
@@ -101,10 +100,9 @@ export function MusicProvider({ children }) {
         playerRef.current.playVideo();
       } catch (e) {}
     }
-    // 2. Then update React state
+    // 2. Then update React state — set loading until real PLAYING state arrives
     setErrorMessage(null);
     setIsLoading(true);
-    setIsPlaying(true);
   }, []);
 
   const pause = useCallback(() => {
@@ -208,7 +206,6 @@ export function MusicProvider({ children }) {
     setCurrentTime(0);
     setCurrentTrackIndex(index);
     setIsLoading(true);
-    setIsPlaying(true);
   }, [currentPlaylist]);
 
   // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
