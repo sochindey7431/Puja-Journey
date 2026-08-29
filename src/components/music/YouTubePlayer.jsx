@@ -80,8 +80,7 @@ function YouTubePlayer() {
             )}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 // FIX #1: isVideoExpanded ONLY changes here — from explicit user click
                 console.log('[YT]', isVideoExpanded ? 'MINIMIZED' : 'EXPANDED', '— explicit user toggle');
                 toggleVideo();

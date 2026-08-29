@@ -450,7 +450,11 @@ export function useYouTubePlayer(elementId) {
     }
   }, [videoId, scheduleLoadingSafety]);
 
+  const prevIsPlayingRef = useRef(isPlaying);
   useEffect(() => {
+    const prev = prevIsPlayingRef.current;
+    prevIsPlayingRef.current = isPlaying;
+
     const p = playerInstanceRef.current;
     if (!p) return;
     // Do not interfere while a track-change is in flight — onStateChange handles resumption.
@@ -458,17 +462,17 @@ export function useYouTubePlayer(elementId) {
     try {
       const state = p.getPlayerState?.();
       const YTState = window.YT?.PlayerState;
-      if (isPlaying) {
+      if (isPlaying && !prev) {
         userIntentToPlayRef.current = true;
         if (state !== YTState?.PLAYING && state !== YTState?.BUFFERING) {
-          console.log('[YT] External play command → playVideo()');
+          console.log('[YT] Play command → playVideo()');
           p.playVideo?.();
           startTimePolling();
         }
-      } else {
+      } else if (!isPlaying && prev) {
         userIntentToPlayRef.current = false;
         if (state === YTState?.PLAYING || state === YTState?.BUFFERING) {
-          console.log('[YT] External pause command → pauseVideo()');
+          console.log('[YT] Pause command → pauseVideo()');
           p.pauseVideo?.();
           stopTimePolling();
         }

@@ -91,11 +91,13 @@ export function MusicProvider({ children }) {
   const play = useCallback(() => {
     setErrorMessage(null);
     setIsLoading(true);
+    setIsPlaying(true);
     if (playerRef.current?.playVideo) {
       try {
         playerRef.current.playVideo();
       } catch (e) {
         setIsLoading(false);
+        setIsPlaying(false);
       }
     }
   }, []);
@@ -192,6 +194,7 @@ export function MusicProvider({ children }) {
     setCurrentTime(0);
     setCurrentTrackIndex(index);
     setIsLoading(true);
+    setIsPlaying(true);
 
     const trackObj = currentPlaylist.tracks[index];
     const targetId = trackObj?.youtubeId || trackObj?.id;
