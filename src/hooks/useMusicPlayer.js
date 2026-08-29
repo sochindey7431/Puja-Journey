@@ -301,17 +301,19 @@ export function useYouTubePlayer(elementId) {
               clearLoadingSafety();
               stopPollingRef.current?.();
 
-              // If a track switch was in flight and user wants to play,
-              // mobile browsers often land in PAUSED after loadVideoById.
-              // Re-attempt playback once during track change:
-              if (trackChangePendingRef.current && (userIntentToPlayRef.current || isPlayingRef.current)) {
+              const wasTrackChange = trackChangePendingRef.current;
+              trackChangePendingRef.current = false;
+
+              // Always clear loading/buffering indicators on PAUSED
+              setIsBufferingRef.current(false);
+              setIsLoadingRef.current(false);
+
+              if (wasTrackChange && (userIntentToPlayRef.current || isPlayingRef.current)) {
+                // Mobile WebViews often land in PAUSED after video cue. Kick playVideo once:
                 try {
                   e.target.playVideo();
                 } catch (err) {}
               } else {
-                trackChangePendingRef.current = false;
-                setIsBufferingRef.current(false);
-                setIsLoadingRef.current(false);
                 setIsPlayingRef.current(false);
               }
             } else if (e.data === YTState.ENDED) {
@@ -333,6 +335,7 @@ export function useYouTubePlayer(elementId) {
             trackChangePendingRef.current = false;
             setIsBufferingRef.current(false);
             setIsLoadingRef.current(false);
+            setIsPlayingRef.current(false);
             clearLoadingSafety();
 
             let msg = 'Unable to play this track.';

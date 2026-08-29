@@ -119,6 +119,7 @@ export function MusicProvider({ children }) {
         try {
           if (typeof playerRef.current.loadVideoById === 'function') {
             playerRef.current.loadVideoById(targetId, 0);
+            playerRef.current.playVideo?.();
           }
         } catch (e) {}
       }
@@ -153,6 +154,7 @@ export function MusicProvider({ children }) {
         try {
           if (typeof playerRef.current.loadVideoById === 'function') {
             playerRef.current.loadVideoById(targetId, 0);
+            playerRef.current.playVideo?.();
           }
         } catch (e) {}
       }
@@ -185,6 +187,7 @@ export function MusicProvider({ children }) {
       try {
         if (typeof playerRef.current.loadVideoById === 'function') {
           playerRef.current.loadVideoById(targetId, 0);
+          playerRef.current.playVideo?.();
         }
       } catch (e) {}
     }
