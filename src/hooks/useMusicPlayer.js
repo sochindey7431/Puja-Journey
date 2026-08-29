@@ -217,12 +217,15 @@ export function useYouTubePlayer(elementId) {
     console.log('[YT] PLAYER INIT on element:', elementId, 'videoId:', initialVideoId);
 
     try {
+      const safeOrigin = typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null'
+        ? window.location.origin
+        : undefined;
+
       new window.YT.Player(elementId, {
         height: '100%',
         width: '100%',
         videoId: initialVideoId,
-        // Use Privacy-Enhanced Mode via the official 'host' option.
-        host: 'https://www.youtube-nocookie.com',
+        host: 'https://www.youtube.com',
         playerVars: {
           autoplay: 1,
           controls: 1,
@@ -231,7 +234,7 @@ export function useYouTubePlayer(elementId) {
           playsinline: 1,
           enablejsapi: 1,
           fs: 1,
-          origin: window.location.origin,
+          ...(safeOrigin ? { origin: safeOrigin } : {}),
         },
         events: {
           onReady: (e) => {
@@ -244,6 +247,14 @@ export function useYouTubePlayer(elementId) {
             clearLoadingSafety();
 
             try {
+              // Ensure iframe has all required media attributes for in-app WebViews (FB/Insta/Lite)
+              const iframe = e.target.getIframe?.();
+              if (iframe) {
+                iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+                iframe.setAttribute('playsinline', '1');
+                iframe.setAttribute('webkit-playsinline', '1');
+              }
+
               e.target.setVolume(volumeRef.current);
               if (isMutedRef.current) e.target.mute();
 
@@ -253,6 +264,7 @@ export function useYouTubePlayer(elementId) {
                 trackChangePendingRef.current = true;
                 if (userIntentToPlayRef.current || isPlayingRef.current) {
                   e.target.loadVideoById(latestId, 0);
+                  e.target.playVideo();
                 } else {
                   e.target.cueVideoById(latestId, 0);
                 }

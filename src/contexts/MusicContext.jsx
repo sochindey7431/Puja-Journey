@@ -71,6 +71,17 @@ export function MusicProvider({ children }) {
     if (autoPlay) {
       setIsPlaying(true);
       setIsLoading(true);
+      const firstTrackObj = playlist.tracks[0];
+      const targetId = firstTrackObj?.youtubeId || firstTrackObj?.id;
+      if (playerRef.current && targetId) {
+        playerRef.current._lastLoadedId = targetId;
+        try {
+          if (typeof playerRef.current.loadVideoById === 'function') {
+            playerRef.current.loadVideoById(targetId, 0);
+            playerRef.current.playVideo?.();
+          }
+        } catch (e) {}
+      }
     }
   }, [currentPlaylistKey]);
 
