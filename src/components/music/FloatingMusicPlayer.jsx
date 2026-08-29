@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useMusicContext } from '../../contexts/MusicContext.jsx';
+import { useMusicContext, useMusicTime } from '../../contexts/MusicContext.jsx';
 import { festivals } from '../../data/festivals.js';
 import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festivalPlaylists.js';
 import {
@@ -18,7 +18,7 @@ function formatTime(s) {
 }
 
 // Animated equalizer bars
-function Equalizer({ isPlaying }) {
+const Equalizer = memo(function Equalizer({ isPlaying }) {
   const heights = [4, 12, 8, 14, 6, 10];
   return (
     <div className="flex items-end gap-[2px] h-3.5" aria-hidden="true">
@@ -34,10 +34,10 @@ function Equalizer({ isPlaying }) {
       ))}
     </div>
   );
-}
+});
 
 // Single track row in playlist drawer
-function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
+const TrackRow = memo(function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
   const title = track.titleBn || track.title;
   return (
     <button
@@ -89,9 +89,9 @@ function TrackRow({ track, index, isActive, isPlaying, onSelect }) {
       )}
     </button>
   );
-}
+});
 
-export default function FloatingMusicPlayer() {
+function FloatingMusicPlayer() {
   const {
     currentPlaylistKey,
     currentPlaylist,
@@ -100,8 +100,6 @@ export default function FloatingMusicPlayer() {
     isPlaying,
     isBuffering,
     isLoading,
-    currentTime,
-    duration,
     isPlayerOpen,
     isPlaylistOpen,
     exploringFestivalId,
@@ -122,6 +120,8 @@ export default function FloatingMusicPlayer() {
     errorMessage,
     dismissError,
   } = useMusicContext();
+
+  const { currentTime, duration } = useMusicTime();
 
   const [isSeeking, setIsSeeking] = useState(false);
   const [seekValue, setSeekValue] = useState(0);
@@ -596,3 +596,5 @@ export default function FloatingMusicPlayer() {
     </>
   );
 }
+
+export default memo(FloatingMusicPlayer);

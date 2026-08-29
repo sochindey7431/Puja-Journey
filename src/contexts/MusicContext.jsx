@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useCallback, useRef } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo, useRef } from 'react';
 import { getPlaylistForFestival, hasPlaylistForFestival } from '../data/festivalPlaylists.js';
 
 const MusicContext = createContext(null);
+const MusicTimeContext = createContext({ currentTime: 0, duration: 0 });
 
 export function MusicProvider({ children }) {
   const [currentPlaylistKey, setCurrentPlaylistKey] = useState(null);
@@ -25,8 +26,13 @@ export function MusicProvider({ children }) {
   const playerRef = useRef(null); // Reference to YT.Player instance
 
   // Derive playlist from the current key
-  const currentPlaylist = currentPlaylistKey ? getPlaylistForFestival(currentPlaylistKey) : null;
-  const currentTrack = currentPlaylist?.tracks?.[currentTrackIndex] || currentPlaylist?.tracks?.[0] || null;
+  const currentPlaylist = useMemo(() => {
+    return currentPlaylistKey ? getPlaylistForFestival(currentPlaylistKey) : null;
+  }, [currentPlaylistKey]);
+
+  const currentTrack = useMemo(() => {
+    return currentPlaylist?.tracks?.[currentTrackIndex] || currentPlaylist?.tracks?.[0] || null;
+  }, [currentPlaylist, currentTrackIndex]);
 
   // Load a festival playlist & immediately play first track
   const loadFestivalMusic = useCallback((festivalId, autoPlay = true) => {
@@ -196,61 +202,106 @@ export function MusicProvider({ children }) {
     setErrorMessage(null);
   }, []);
 
+  const timeValue = useMemo(() => ({
+    currentTime,
+    duration,
+  }), [currentTime, duration]);
+
+  const contextValue = useMemo(() => ({
+    currentPlaylistKey,
+    currentPlaylist,
+    currentTrackIndex,
+    currentTrack,
+    isPlaying,
+    setIsPlaying,
+    isBuffering,
+    setIsBuffering,
+    isLoading,
+    setIsLoading,
+    currentTime,
+    setCurrentTime,
+    duration,
+    setDuration,
+    isPlayerOpen,
+    setIsPlayerOpen,
+    isPlaylistOpen,
+    setIsPlaylistOpen,
+    isVideoExpanded,
+    setIsVideoExpanded,
+    isPlayerMinimized,
+    setIsPlayerMinimized,
+    playerReady,
+    setPlayerReady,
+    volume,
+    setVolume,
+    isMuted,
+    setIsMuted,
+    errorMessage,
+    setErrorMessage,
+    dismissError,
+    handleVolumeChange,
+    toggleMute,
+    exploringFestivalId,
+    setExploringFestivalId,
+    welcomeShown,
+    setWelcomeShown,
+    playerRef,
+    loadFestivalMusic,
+    loadPlaylist,
+    play,
+    pause,
+    togglePlay,
+    nextTrack,
+    prevTrack,
+    selectTrack,
+    seek,
+    closePlayer,
+    togglePlaylist,
+    toggleVideo,
+    toggleMinimize,
+  }), [
+    currentPlaylistKey,
+    currentPlaylist,
+    currentTrackIndex,
+    currentTrack,
+    isPlaying,
+    isBuffering,
+    isLoading,
+    currentTime,
+    duration,
+    isPlayerOpen,
+    isPlaylistOpen,
+    isVideoExpanded,
+    isPlayerMinimized,
+    playerReady,
+    volume,
+    isMuted,
+    errorMessage,
+    exploringFestivalId,
+    welcomeShown,
+    loadFestivalMusic,
+    loadPlaylist,
+    play,
+    pause,
+    togglePlay,
+    nextTrack,
+    prevTrack,
+    selectTrack,
+    seek,
+    closePlayer,
+    togglePlaylist,
+    toggleVideo,
+    toggleMinimize,
+    dismissError,
+    handleVolumeChange,
+    toggleMute,
+  ]);
+
   return (
-    <MusicContext.Provider value={{
-      currentPlaylistKey,
-      currentPlaylist,
-      currentTrackIndex,
-      currentTrack,
-      isPlaying,
-      setIsPlaying,
-      isBuffering,
-      setIsBuffering,
-      isLoading,
-      setIsLoading,
-      currentTime,
-      setCurrentTime,
-      duration,
-      setDuration,
-      isPlayerOpen,
-      setIsPlayerOpen,
-      isPlaylistOpen,
-      setIsPlaylistOpen,
-      isVideoExpanded,
-      setIsVideoExpanded,
-      isPlayerMinimized,
-      setIsPlayerMinimized,
-      playerReady,
-      setPlayerReady,
-      volume,
-      setVolume,
-      isMuted,
-      setIsMuted,
-      errorMessage,
-      setErrorMessage,
-      dismissError,
-      handleVolumeChange,
-      toggleMute,
-      exploringFestivalId,
-      setExploringFestivalId,
-      welcomeShown,
-      setWelcomeShown,
-      playerRef,
-      loadFestivalMusic,
-      loadPlaylist,
-      play,
-      pause,
-      togglePlay,
-      nextTrack,
-      prevTrack,
-      selectTrack,
-      seek,
-      closePlayer,
-      togglePlaylist,
-      toggleVideo,
-      toggleMinimize,
-    }}>
-      {children}
+    <MusicContext.Provider value={contextValue}>
+      <MusicTimeContext.Provider value={timeValue}>
+        {children}
+      </MusicTimeContext.Provider>
     </MusicContext.Provider>
   );
 }
@@ -260,3 +311,8 @@ export function useMusicContext() {
   if (!ctx) throw new Error('useMusicContext must be used within MusicProvider');
   return ctx;
 }
+
+export function useMusicTime() {
+  return useContext(MusicTimeContext);
+}
+

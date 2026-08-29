@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festivalPlaylists.js';
@@ -6,7 +7,7 @@ import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festi
  * Per-section "🎵 Play Music" button that connects festival cards
  * directly to their predefined YouTube playlist.
  */
-export default function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, className = '' }) {
+function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, className = '' }) {
   const { loadFestivalMusic, currentPlaylistKey, isPlayerOpen, isPlaying, togglePlay } = useMusicContext();
   const { isBn } = useLanguage();
 
@@ -71,3 +72,5 @@ export default function FestivalMusicButton({ festivalId, festivalNameEn, festiv
     </button>
   );
 }
+
+export default memo(FestivalMusicButton);

@@ -11,11 +11,12 @@
  * isVideoExpanded ONLY changes via explicit toggleVideo() (expand/minimize button).
  * Seek / Next / Prev / currentTrack / isPlaying do NOT touch isVideoExpanded.
  */
+import { memo } from 'react';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useYouTubePlayer } from '../../hooks/useMusicPlayer.js';
 import { Maximize2, Minimize2, ExternalLink, Sparkles } from 'lucide-react';
 
-export default function YouTubePlayer() {
+function YouTubePlayer() {
   const {
     isPlayerOpen,
     isVideoExpanded,
@@ -105,4 +106,7 @@ export default function YouTubePlayer() {
     </div>
   );
 }
+
+export default memo(YouTubePlayer);
+
 
