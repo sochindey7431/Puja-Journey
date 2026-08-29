@@ -189,7 +189,7 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
                 <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center transition-transform duration-400 ease-out group-hover/card:scale-[1.03]">
                   <img
                     src={getAssetUrl(festival.icon)}
-                    alt={festival.nameEn}
+                    alt={`${festival.nameEn} festival icon`}
                     className="w-full h-full object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)] transition-all duration-400 ease-out group-hover/card:drop-shadow-[0_0_14px_rgba(212,160,23,0.45)]"
                     loading="lazy"
                   />

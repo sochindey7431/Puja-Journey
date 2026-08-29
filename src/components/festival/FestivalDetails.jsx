@@ -66,7 +66,7 @@ export default function FestivalDetails({ festival, onClose }) {
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center">
                 <img
                   src={getAssetUrl(festival.icon)}
-                  alt={festival.nameEn}
+                  alt={`${festival.nameEn} festival icon`}
                   className="w-full h-full object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)]"
                   loading="lazy"
                 />

@@ -1,0 +1,6 @@
+# robots.txt for Puja Journey (https://puja-journey.vercel.app/)
+User-agent: *
+Allow: /
+
+# Sitemap URL
+Sitemap: https://puja-journey.vercel.app/sitemap.xml
