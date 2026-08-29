@@ -53,17 +53,34 @@ export function MusicProvider({ children }) {
     // If same festival playlist is already loaded, toggle/resume
     if (currentPlaylistKey === festivalId) {
       if (autoPlay) {
-        setIsPlaying(true);
         if (playerRef.current?.playVideo) {
           try { playerRef.current.playVideo(); } catch (e) {}
         }
+        setIsPlaying(true);
       }
       return;
     }
 
-    // Load new festival playlist - reset track index
-    // State update triggers useMusicPlayer's useEffect([videoId]) which will call loadVideoById.
+    const firstTrackObj = playlist.tracks[0];
+    const targetId = firstTrackObj?.youtubeId || firstTrackObj?.id;
+
+    // 1. Synchronously execute the player command FIRST before any React state dispatches
+    if (autoPlay && playerRef.current && targetId) {
+      playerRef.current._lastLoadedId = targetId;
+      try {
+        if (typeof playerRef.current.loadVideoById === 'function') {
+          playerRef.current.loadVideoById(targetId, 0);
+          playerRef.current.playVideo?.();
+        }
+      } catch (e) {}
+    }
+
+    // 2. Then update React state
     console.log('[YT] LOAD FESTIVAL PLAYLIST:', festivalId);
+    setErrorMessage(null);
+    setIsPlayerOpen(true);
+    setIsVideoExpanded(false); // Never start in expanded mode
+    setIsPlayerMinimized(false);
     setCurrentPlaylistKey(festivalId);
     setCurrentTrackIndex(0);
     setCurrentTime(0);
@@ -71,17 +88,6 @@ export function MusicProvider({ children }) {
     if (autoPlay) {
       setIsPlaying(true);
       setIsLoading(true);
-      const firstTrackObj = playlist.tracks[0];
-      const targetId = firstTrackObj?.youtubeId || firstTrackObj?.id;
-      if (playerRef.current && targetId) {
-        playerRef.current._lastLoadedId = targetId;
-        try {
-          if (typeof playerRef.current.loadVideoById === 'function') {
-            playerRef.current.loadVideoById(targetId, 0);
-            playerRef.current.playVideo?.();
-          }
-        } catch (e) {}
-      }
     }
   }, [currentPlaylistKey]);
 
@@ -89,26 +95,25 @@ export function MusicProvider({ children }) {
   const loadPlaylist = loadFestivalMusic;
 
   const play = useCallback(() => {
-    setErrorMessage(null);
-    setIsLoading(true);
-    setIsPlaying(true);
+    // 1. Synchronously execute the player command FIRST before any state dispatchers
     if (playerRef.current?.playVideo) {
       try {
         playerRef.current.playVideo();
-      } catch (e) {
-        setIsLoading(false);
-        setIsPlaying(false);
-      }
+      } catch (e) {}
     }
+    // 2. Then update React state
+    setErrorMessage(null);
+    setIsLoading(true);
+    setIsPlaying(true);
   }, []);
 
   const pause = useCallback(() => {
-    setIsPlaying(false);
-    setIsLoading(false);
-    setIsBuffering(false);
     if (playerRef.current?.pauseVideo) {
       try { playerRef.current.pauseVideo(); } catch (e) {}
     }
+    setIsPlaying(false);
+    setIsLoading(false);
+    setIsBuffering(false);
   }, []);
 
   const togglePlay = useCallback(() => {
@@ -122,83 +127,72 @@ export function MusicProvider({ children }) {
   // Next Track — synchronously passes user gesture to playerRef and updates React state
   const nextTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
-    setErrorMessage(null);
-    setCurrentTime(0);
     const nextIdx = (currentTrackIndex + 1) % currentPlaylist.tracks.length;
-    setCurrentTrackIndex(nextIdx);
-
     const nextTrackObj = currentPlaylist.tracks[nextIdx];
     const targetId = nextTrackObj?.youtubeId || nextTrackObj?.id;
 
-    if (isPlaying) {
-      setIsLoading(true);
-      if (playerRef.current && targetId) {
-        playerRef.current._lastLoadedId = targetId;
-        try {
-          if (typeof playerRef.current.loadVideoById === 'function') {
+    // 1. Synchronously execute player command FIRST
+    if (playerRef.current && targetId) {
+      playerRef.current._lastLoadedId = targetId;
+      try {
+        if (typeof playerRef.current.loadVideoById === 'function') {
+          if (isPlaying) {
             playerRef.current.loadVideoById(targetId, 0);
             playerRef.current.playVideo?.();
-          }
-        } catch (e) {}
-      }
-    } else {
-      if (playerRef.current && targetId) {
-        playerRef.current._lastLoadedId = targetId;
-        try {
-          if (typeof playerRef.current.cueVideoById === 'function') {
+          } else {
             playerRef.current.cueVideoById(targetId, 0);
           }
-        } catch (e) {}
-      }
+        }
+      } catch (e) {}
+    }
+
+    // 2. Then update React state
+    setErrorMessage(null);
+    setCurrentTime(0);
+    setCurrentTrackIndex(nextIdx);
+    if (isPlaying) {
+      setIsLoading(true);
     }
   }, [currentPlaylist, currentTrackIndex, isPlaying]);
 
   // Previous Track — synchronously passes user gesture to playerRef and updates React state
   const prevTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
-    setErrorMessage(null);
-    setCurrentTime(0);
     const prevIdx = currentTrackIndex === 0 ? currentPlaylist.tracks.length - 1 : currentTrackIndex - 1;
-    setCurrentTrackIndex(prevIdx);
-
     const prevTrackObj = currentPlaylist.tracks[prevIdx];
     const targetId = prevTrackObj?.youtubeId || prevTrackObj?.id;
 
-    if (isPlaying) {
-      setIsLoading(true);
-      if (playerRef.current && targetId) {
-        playerRef.current._lastLoadedId = targetId;
-        try {
-          if (typeof playerRef.current.loadVideoById === 'function') {
+    // 1. Synchronously execute player command FIRST
+    if (playerRef.current && targetId) {
+      playerRef.current._lastLoadedId = targetId;
+      try {
+        if (typeof playerRef.current.loadVideoById === 'function') {
+          if (isPlaying) {
             playerRef.current.loadVideoById(targetId, 0);
             playerRef.current.playVideo?.();
-          }
-        } catch (e) {}
-      }
-    } else {
-      if (playerRef.current && targetId) {
-        playerRef.current._lastLoadedId = targetId;
-        try {
-          if (typeof playerRef.current.cueVideoById === 'function') {
+          } else {
             playerRef.current.cueVideoById(targetId, 0);
           }
-        } catch (e) {}
-      }
+        }
+      } catch (e) {}
+    }
+
+    // 2. Then update React state
+    setErrorMessage(null);
+    setCurrentTime(0);
+    setCurrentTrackIndex(prevIdx);
+    if (isPlaying) {
+      setIsLoading(true);
     }
   }, [currentPlaylist, currentTrackIndex, isPlaying]);
 
   // Select Track — synchronously passes user gesture to playerRef and updates React state
   const selectTrack = useCallback((index) => {
     if (typeof index !== 'number' || index < 0 || !currentPlaylist?.tracks?.[index]) return;
-    setErrorMessage(null);
-    setCurrentTime(0);
-    setCurrentTrackIndex(index);
-    setIsLoading(true);
-    setIsPlaying(true);
-
     const trackObj = currentPlaylist.tracks[index];
     const targetId = trackObj?.youtubeId || trackObj?.id;
 
+    // 1. Synchronously execute player command FIRST
     if (playerRef.current && targetId) {
       playerRef.current._lastLoadedId = targetId;
       try {
@@ -208,6 +202,13 @@ export function MusicProvider({ children }) {
         }
       } catch (e) {}
     }
+
+    // 2. Then update React state
+    setErrorMessage(null);
+    setCurrentTime(0);
+    setCurrentTrackIndex(index);
+    setIsLoading(true);
+    setIsPlaying(true);
   }, [currentPlaylist]);
 
   // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
