@@ -100,47 +100,95 @@ export function MusicProvider({ children }) {
     }
   }, [isPlaying, play, pause]);
 
-  // Next Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
-  // detects the new videoId and calls loadVideoById or cueVideoById based on current playback state.
+  // Next Track — synchronously passes user gesture to playerRef and updates React state
   const nextTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
-    console.log('[YT] NEXT track requested, isPlaying:', isPlaying);
     setErrorMessage(null);
     setCurrentTime(0);
     const nextIdx = (currentTrackIndex + 1) % currentPlaylist.tracks.length;
     setCurrentTrackIndex(nextIdx);
+
+    const nextTrackObj = currentPlaylist.tracks[nextIdx];
+    const targetId = nextTrackObj?.youtubeId || nextTrackObj?.id;
+
     if (isPlaying) {
       setIsPlaying(true);
       setIsLoading(true);
+      if (playerRef.current && targetId) {
+        playerRef.current._lastLoadedId = targetId;
+        try {
+          if (typeof playerRef.current.loadVideoById === 'function') {
+            playerRef.current.loadVideoById(targetId, 0);
+          }
+        } catch (e) {}
+      }
+    } else {
+      if (playerRef.current && targetId) {
+        playerRef.current._lastLoadedId = targetId;
+        try {
+          if (typeof playerRef.current.cueVideoById === 'function') {
+            playerRef.current.cueVideoById(targetId, 0);
+          }
+        } catch (e) {}
+      }
     }
   }, [currentPlaylist, currentTrackIndex, isPlaying]);
 
-  // Previous Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
-  // detects the new videoId and calls loadVideoById or cueVideoById based on current playback state.
+  // Previous Track — synchronously passes user gesture to playerRef and updates React state
   const prevTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
-    console.log('[YT] PREVIOUS track requested, isPlaying:', isPlaying);
     setErrorMessage(null);
     setCurrentTime(0);
     const prevIdx = currentTrackIndex === 0 ? currentPlaylist.tracks.length - 1 : currentTrackIndex - 1;
     setCurrentTrackIndex(prevIdx);
+
+    const prevTrackObj = currentPlaylist.tracks[prevIdx];
+    const targetId = prevTrackObj?.youtubeId || prevTrackObj?.id;
+
     if (isPlaying) {
       setIsPlaying(true);
       setIsLoading(true);
+      if (playerRef.current && targetId) {
+        playerRef.current._lastLoadedId = targetId;
+        try {
+          if (typeof playerRef.current.loadVideoById === 'function') {
+            playerRef.current.loadVideoById(targetId, 0);
+          }
+        } catch (e) {}
+      }
+    } else {
+      if (playerRef.current && targetId) {
+        playerRef.current._lastLoadedId = targetId;
+        try {
+          if (typeof playerRef.current.cueVideoById === 'function') {
+            playerRef.current.cueVideoById(targetId, 0);
+          }
+        } catch (e) {}
+      }
     }
   }, [currentPlaylist, currentTrackIndex, isPlaying]);
 
-  // Select Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
-  // detects the new videoId and calls loadVideoById exactly once.
+  // Select Track — synchronously passes user gesture to playerRef and updates React state
   const selectTrack = useCallback((index) => {
-    if (typeof index !== 'number' || index < 0) return;
-    console.log('[YT] SELECT track at index:', index);
+    if (typeof index !== 'number' || index < 0 || !currentPlaylist?.tracks?.[index]) return;
     setErrorMessage(null);
     setCurrentTime(0);
     setCurrentTrackIndex(index);
     setIsPlaying(true);
     setIsLoading(true);
-  }, []);
+
+    const trackObj = currentPlaylist.tracks[index];
+    const targetId = trackObj?.youtubeId || trackObj?.id;
+
+    if (playerRef.current && targetId) {
+      playerRef.current._lastLoadedId = targetId;
+      try {
+        if (typeof playerRef.current.loadVideoById === 'function') {
+          playerRef.current.loadVideoById(targetId, 0);
+        }
+      } catch (e) {}
+    }
+  }, [currentPlaylist]);
 
   // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
   const seek = useCallback((seconds) => {

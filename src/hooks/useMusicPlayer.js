@@ -283,37 +283,6 @@ export function useYouTubePlayer(elementId) {
               setIsLoadingRef.current(false);
               clearLoadingSafety();
               startPollingRef.current?.();
-            } else if (e.data === YTState.PAUSED) {
-              clearLoadingSafety();
-              stopPollingRef.current?.();
-
-              // If a track switch was in flight and user wants to play,
-              // mobile browsers often land in PAUSED after loadVideoById.
-              // Re-attempt playback once during track change:
-              if (trackChangePendingRef.current) {
-                trackChangePendingRef.current = false;
-                if (userIntentToPlayRef.current || isPlayingRef.current) {
-                  try {
-                    e.target.playVideo();
-                  } catch (err) {}
-                }
-              }
-
-              // Always clear loading/buffering indicators on PAUSED
-              setIsBufferingRef.current(false);
-              setIsLoadingRef.current(false);
-              setIsPlayingRef.current(false);
-            } else if (e.data === YTState.ENDED) {
-              trackChangePendingRef.current = false;
-              setIsPlayingRef.current(false);
-              setIsBufferingRef.current(false);
-              setIsLoadingRef.current(false);
-              clearLoadingSafety();
-              stopPollingRef.current?.();
-              if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
-                console.log('[YT] ENDED — auto-advancing playlist');
-                nextTrackRef.current();
-              }
             } else if (e.data === YTState.BUFFERING) {
               setIsBufferingRef.current(true);
               scheduleLoadingSafety();
@@ -327,6 +296,34 @@ export function useYouTubePlayer(elementId) {
                 try {
                   e.target.playVideo();
                 } catch (err) {}
+              }
+            } else if (e.data === YTState.PAUSED) {
+              clearLoadingSafety();
+              stopPollingRef.current?.();
+
+              // If a track switch was in flight and user wants to play,
+              // mobile browsers often land in PAUSED after loadVideoById.
+              // Re-attempt playback once during track change:
+              if (trackChangePendingRef.current && (userIntentToPlayRef.current || isPlayingRef.current)) {
+                try {
+                  e.target.playVideo();
+                } catch (err) {}
+              } else {
+                trackChangePendingRef.current = false;
+                setIsBufferingRef.current(false);
+                setIsLoadingRef.current(false);
+                setIsPlayingRef.current(false);
+              }
+            } else if (e.data === YTState.ENDED) {
+              trackChangePendingRef.current = false;
+              setIsPlayingRef.current(false);
+              setIsBufferingRef.current(false);
+              setIsLoadingRef.current(false);
+              clearLoadingSafety();
+              stopPollingRef.current?.();
+              if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
+                console.log('[YT] ENDED — auto-advancing playlist');
+                nextTrackRef.current();
               }
             }
           },
@@ -391,14 +388,18 @@ export function useYouTubePlayer(elementId) {
       return;
     }
 
-    if (previousId === videoId) {
+    // If already loaded by the synchronous user tap in MusicContext, skip duplicate call
+    if (previousId === videoId || playerInstanceRef.current?._lastLoadedId === videoId) {
+      lastLoadedIdRef.current = videoId;
+      trackChangePendingRef.current = true;
+      scheduleLoadingSafety();
       return;
     }
 
     lastLoadedIdRef.current = videoId;
     // Snapshot the current play intent (isPlayingRef is already up-to-date via its own effect).
     const shouldPlay = userIntentToPlayRef.current || isPlayingRef.current;
-    console.log('[YT] TRACK CHANGE → loadVideoById:', videoId, '(was:', previousId, ') shouldPlay:', shouldPlay);
+    console.log('[YT] TRACK CHANGE (effect) → loadVideoById:', videoId, '(was:', previousId, ') shouldPlay:', shouldPlay);
 
     // Mark a track-change in flight so onStateChange PAUSED is not misinterpreted.
     trackChangePendingRef.current = true;
