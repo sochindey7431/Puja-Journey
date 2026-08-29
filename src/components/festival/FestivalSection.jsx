@@ -182,36 +182,38 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
       >
         {/* Left: text column */}
         <div className="flex flex-col gap-5">
-          {/* Bengali name with Icon */}
-          <div className="reveal-item flex items-center gap-3.5 sm:gap-4 flex-wrap sm:flex-nowrap">
-            {festival.icon ? (
-              <div className="w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 flex-shrink-0 flex items-center justify-center">
-                <img
-                  src={getAssetUrl(festival.icon)}
-                  alt={festival.nameEn}
-                  className="w-full h-full object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)]"
-                  loading="lazy"
-                />
-              </div>
-            ) : (
-              <span className="text-3xl sm:text-4xl shrink-0" aria-hidden="true">{festival.emoji}</span>
-            )}
-            <p
-              className="bn-text text-xl sm:text-2xl md:text-3xl font-normal leading-tight"
-              style={{ color: festival.theme?.accentLight || '#f0c040' }}
-            >
-              {festival.nameBn}
-            </p>
-          </div>
+          {/* Festival Title Block: [Icon] Bengali Name + English Name directly below */}
+          <div className="reveal-item flex flex-col gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-3 sm:gap-3.5 flex-wrap sm:flex-nowrap">
+              {festival.icon ? (
+                <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center">
+                  <img
+                    src={getAssetUrl(festival.icon)}
+                    alt={festival.nameEn}
+                    className="w-full h-full object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)]"
+                    loading="lazy"
+                  />
+                </div>
+              ) : (
+                <span className="text-3xl sm:text-4xl shrink-0" aria-hidden="true">{festival.emoji}</span>
+              )}
+              <p
+                className="bn-text text-xl sm:text-2xl md:text-3xl font-medium leading-tight"
+                style={{ color: festival.theme?.accentLight || '#f0c040' }}
+              >
+                {festival.nameBn}
+              </p>
+            </div>
 
-          {/* English title */}
-          <h2
-            id={`festival-title-${festival.id}`}
-            className="reveal-item font-display leading-none text-puja-ivory"
-            style={{ fontSize: 'clamp(2.2rem, 5.5vw, 5rem)' }}
-          >
-            {festival.nameEn}
-          </h2>
+            {/* English title */}
+            <h2
+              id={`festival-title-${festival.id}`}
+              className="font-display leading-none text-puja-ivory mt-0.5 sm:mt-1"
+              style={{ fontSize: 'clamp(2.2rem, 5.2vw, 4.8rem)' }}
+            >
+              {festival.nameEn}
+            </h2>
+          </div>
 
           {/* Subtitle */}
           {subtitle && (
@@ -390,18 +392,6 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       >
-        {festival.icon ? (
-          <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex-shrink-0 flex items-center justify-center mb-2">
-            <img
-              src={getAssetUrl(festival.icon)}
-              alt={festival.nameEn}
-              className="w-full h-full object-contain object-center drop-shadow-[0_0_15px_rgba(212,160,23,0.4)]"
-              loading="lazy"
-            />
-          </div>
-        ) : (
-          <div className="text-5xl mb-2" aria-hidden="true">🌑</div>
-        )}
         <p className="text-xs tracking-[0.45em] uppercase text-puja-gold/30">দেবীপক্ষ · Devi Paksha</p>
 
         <h2 className="bn-text font-bold mahalaya-glow"
@@ -410,9 +400,23 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
         </h2>
         <p className="font-display text-2xl md:text-4xl text-puja-ivory/35 italic tracking-wide">She is coming…</p>
 
-        <div className="mt-4">
-          <p className="bn-text text-base text-puja-gold/45 mb-2">{festival.nameBn}</p>
-          <h3 id="mahalaya-title" className="font-display text-5xl md:text-7xl text-puja-ivory tracking-widest uppercase">
+        <div className="mt-4 flex flex-col items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-3">
+            {festival.icon ? (
+              <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center">
+                <img
+                  src={getAssetUrl(festival.icon)}
+                  alt={festival.nameEn}
+                  className="w-full h-full object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)]"
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <span className="text-3xl shrink-0" aria-hidden="true">🌑</span>
+            )}
+            <p className="bn-text text-xl sm:text-2xl text-puja-gold/80 font-medium">{festival.nameBn}</p>
+          </div>
+          <h3 id="mahalaya-title" className="font-display text-4xl sm:text-6xl md:text-7xl text-puja-ivory tracking-widest uppercase mt-0.5 sm:mt-1">
             MAHALAYA
           </h3>
         </div>
