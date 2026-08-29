@@ -122,6 +122,8 @@ export function useYouTubePlayer(elementId) {
   const isInitializingRef   = useRef(false);
   const lastLoadedIdRef     = useRef(null);
   const timeIntervalRef     = useRef(null);
+  const userIntentToPlayRef = useRef(isPlaying);
+  const loadingTimeoutRef   = useRef(null);
 
   const isPlayingRef        = useRef(isPlaying);
   const volumeRef           = useRef(volume);
@@ -138,7 +140,11 @@ export function useYouTubePlayer(elementId) {
   const stopPollingRef      = useRef(null);
   const initPlayerRef       = useRef(null);
 
-  useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+    userIntentToPlayRef.current = isPlaying;
+  }, [isPlaying]);
+
   useEffect(() => { volumeRef.current = volume; }, [volume]);
   useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
   useEffect(() => { nextTrackRef.current = nextTrack; }, [nextTrack]);
@@ -148,6 +154,22 @@ export function useYouTubePlayer(elementId) {
   useEffect(() => { setIsPlayingRef.current = setIsPlaying; }, [setIsPlaying]);
   useEffect(() => { setIsBufferingRef.current = setIsBuffering; }, [setIsBuffering]);
   useEffect(() => { setIsLoadingRef.current = setIsLoading; }, [setIsLoading]);
+
+  // Safety fallback: Never leave the UI stuck in loading spinner for >4s if autoplay was restricted
+  const clearLoadingSafety = useCallback(() => {
+    if (loadingTimeoutRef.current) {
+      clearTimeout(loadingTimeoutRef.current);
+      loadingTimeoutRef.current = null;
+    }
+  }, []);
+
+  const scheduleLoadingSafety = useCallback(() => {
+    clearLoadingSafety();
+    loadingTimeoutRef.current = setTimeout(() => {
+      setIsLoadingRef.current(false);
+      setIsBufferingRef.current(false);
+    }, 4000);
+  }, [clearLoadingSafety]);
 
   const startTimePolling = useCallback(() => {
     if (timeIntervalRef.current) clearInterval(timeIntervalRef.current);
@@ -196,9 +218,6 @@ export function useYouTubePlayer(elementId) {
         width: '100%',
         videoId: initialVideoId,
         // Use Privacy-Enhanced Mode via the official 'host' option.
-        // The IFrame API will load the embed from youtube-nocookie.com instead
-        // of youtube.com. Advertisements are NOT blocked — they still function
-        // normally. This follows YouTube's official embedding policy.
         host: 'https://www.youtube-nocookie.com',
         playerVars: {
           autoplay: 1,
@@ -218,14 +237,22 @@ export function useYouTubePlayer(elementId) {
             isInitializingRef.current = false;
             setPlayerReady(true);
             setIsLoadingRef.current(false);
+            clearLoadingSafety();
+
             try {
               e.target.setVolume(volumeRef.current);
               if (isMutedRef.current) e.target.mute();
+
               const latestId = lastLoadedIdRef.current;
               if (latestId && latestId !== initialVideoId) {
                 console.log('[YT] onReady → loading latest queued track:', latestId);
-                e.target.loadVideoById(latestId, 0);
-              } else if (isPlayingRef.current) {
+                if (userIntentToPlayRef.current || isPlayingRef.current) {
+                  e.target.loadVideoById(latestId, 0);
+                } else {
+                  e.target.cueVideoById(latestId, 0);
+                }
+              } else if (userIntentToPlayRef.current || isPlayingRef.current) {
+                console.log('[YT] onReady → executing playVideo() for user intent');
                 e.target.playVideo();
                 startPollingRef.current?.();
               }
@@ -248,14 +275,19 @@ export function useYouTubePlayer(elementId) {
               setIsPlayingRef.current(true);
               setIsBufferingRef.current(false);
               setIsLoadingRef.current(false);
+              clearLoadingSafety();
               startPollingRef.current?.();
             } else if (e.data === YTState.PAUSED) {
-              setIsPlayingRef.current(false);
               setIsBufferingRef.current(false);
+              setIsLoadingRef.current(false); // Clear loading state so button is ready/not spinning
+              clearLoadingSafety();
               stopPollingRef.current?.();
+              setIsPlayingRef.current(false);
             } else if (e.data === YTState.ENDED) {
               setIsPlayingRef.current(false);
               setIsBufferingRef.current(false);
+              setIsLoadingRef.current(false);
+              clearLoadingSafety();
               stopPollingRef.current?.();
               if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
                 console.log('[YT] ENDED — auto-advancing playlist');
@@ -263,9 +295,17 @@ export function useYouTubePlayer(elementId) {
               }
             } else if (e.data === YTState.BUFFERING) {
               setIsBufferingRef.current(true);
+              scheduleLoadingSafety();
             } else if (e.data === YTState.CUED) {
               setIsBufferingRef.current(false);
               setIsLoadingRef.current(false);
+              clearLoadingSafety();
+              if (userIntentToPlayRef.current || isPlayingRef.current) {
+                console.log('[YT] CUED → executing playVideo() for pending user play request');
+                try {
+                  e.target.playVideo();
+                } catch (err) {}
+              }
             }
           },
           onError: (e) => {
@@ -273,6 +313,7 @@ export function useYouTubePlayer(elementId) {
               '(100=not found, 101/150=embed restricted, 2=invalid param, 5=HTML5 error)');
             setIsBufferingRef.current(false);
             setIsLoadingRef.current(false);
+            clearLoadingSafety();
 
             let msg = 'Unable to play this track.';
             if (e.data === 101 || e.data === 150) {
@@ -291,17 +332,19 @@ export function useYouTubePlayer(elementId) {
       });
     } catch (err) {
       isInitializingRef.current = false;
+      clearLoadingSafety();
       console.warn('[YT] YT.Player() constructor error:', err);
     }
-  }, [elementId, playerRef, setPlayerReady]);
+  }, [elementId, playerRef, setPlayerReady, clearLoadingSafety, scheduleLoadingSafety]);
 
   initPlayerRef.current = initPlayer;
 
   useEffect(() => {
     return () => {
       stopTimePolling();
+      clearLoadingSafety();
     };
-  }, [stopTimePolling]);
+  }, [stopTimePolling, clearLoadingSafety]);
 
   const videoId = currentTrack?.youtubeId || currentTrack?.id || null;
 
@@ -313,6 +356,7 @@ export function useYouTubePlayer(elementId) {
     if (!playerInstanceRef.current) {
       if (!isInitializingRef.current) {
         lastLoadedIdRef.current = videoId;
+        scheduleLoadingSafety();
         console.log('[YT] TRACK requested, player not ready yet, scheduling init, videoId:', videoId);
         runWhenYTReady(() => {
           initPlayerRef.current?.();
@@ -327,15 +371,20 @@ export function useYouTubePlayer(elementId) {
 
     lastLoadedIdRef.current = videoId;
     console.log('[YT] TRACK CHANGE → loadVideoById:', videoId, '(was:', previousId, ')');
+    scheduleLoadingSafety();
 
     try {
       if (typeof playerInstanceRef.current.loadVideoById === 'function') {
-        playerInstanceRef.current.loadVideoById(videoId, 0);
+        if (userIntentToPlayRef.current || isPlayingRef.current) {
+          playerInstanceRef.current.loadVideoById(videoId, 0);
+        } else {
+          playerInstanceRef.current.cueVideoById(videoId, 0);
+        }
       }
     } catch (e) {
       console.warn('[YT] loadVideoById error:', e);
     }
-  }, [videoId]);
+  }, [videoId, scheduleLoadingSafety]);
 
   useEffect(() => {
     const p = playerInstanceRef.current;
@@ -344,12 +393,14 @@ export function useYouTubePlayer(elementId) {
       const state = p.getPlayerState?.();
       const YTState = window.YT?.PlayerState;
       if (isPlaying) {
+        userIntentToPlayRef.current = true;
         if (state !== YTState?.PLAYING && state !== YTState?.BUFFERING) {
           console.log('[YT] External play command → playVideo()');
           p.playVideo?.();
           startTimePolling();
         }
       } else {
+        userIntentToPlayRef.current = false;
         if (state === YTState?.PLAYING || state === YTState?.BUFFERING) {
           console.log('[YT] External pause command → pauseVideo()');
           p.pauseVideo?.();

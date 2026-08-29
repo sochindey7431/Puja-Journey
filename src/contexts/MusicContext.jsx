@@ -67,6 +67,12 @@ export function MusicProvider({ children }) {
     if (autoPlay) {
       setIsPlaying(true);
       setIsLoading(true);
+      if (playerRef.current?.loadVideoById && playlist.tracks[0]) {
+        const firstId = playlist.tracks[0].youtubeId || playlist.tracks[0].id;
+        if (firstId) {
+          try { playerRef.current.loadVideoById(firstId, 0); } catch (e) {}
+        }
+      }
     }
   }, [currentPlaylistKey]);
 
@@ -102,10 +108,17 @@ export function MusicProvider({ children }) {
     console.log('[YT] NEXT track requested');
     setErrorMessage(null);
     setCurrentTime(0);
-    setCurrentTrackIndex(i => (i + 1) % currentPlaylist.tracks.length);
+    const nextIdx = (currentTrackIndex + 1) % currentPlaylist.tracks.length;
+    setCurrentTrackIndex(nextIdx);
     setIsPlaying(true);
     setIsLoading(true);
-  }, [currentPlaylist]);
+    if (playerRef.current?.loadVideoById && currentPlaylist.tracks[nextIdx]) {
+      const targetId = currentPlaylist.tracks[nextIdx].youtubeId || currentPlaylist.tracks[nextIdx].id;
+      if (targetId) {
+        try { playerRef.current.loadVideoById(targetId, 0); } catch (e) {}
+      }
+    }
+  }, [currentPlaylist, currentTrackIndex]);
 
   // Previous Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const prevTrack = useCallback(() => {
@@ -113,10 +126,17 @@ export function MusicProvider({ children }) {
     console.log('[YT] PREVIOUS track requested');
     setErrorMessage(null);
     setCurrentTime(0);
-    setCurrentTrackIndex(i => (i === 0 ? currentPlaylist.tracks.length - 1 : i - 1));
+    const prevIdx = currentTrackIndex === 0 ? currentPlaylist.tracks.length - 1 : currentTrackIndex - 1;
+    setCurrentTrackIndex(prevIdx);
     setIsPlaying(true);
     setIsLoading(true);
-  }, [currentPlaylist]);
+    if (playerRef.current?.loadVideoById && currentPlaylist.tracks[prevIdx]) {
+      const targetId = currentPlaylist.tracks[prevIdx].youtubeId || currentPlaylist.tracks[prevIdx].id;
+      if (targetId) {
+        try { playerRef.current.loadVideoById(targetId, 0); } catch (e) {}
+      }
+    }
+  }, [currentPlaylist, currentTrackIndex]);
 
   // Select Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
   const selectTrack = useCallback((index) => {
@@ -127,7 +147,13 @@ export function MusicProvider({ children }) {
     setCurrentTrackIndex(index);
     setIsPlaying(true);
     setIsLoading(true);
-  }, []);
+    if (playerRef.current?.loadVideoById && currentPlaylist?.tracks?.[index]) {
+      const targetId = currentPlaylist.tracks[index].youtubeId || currentPlaylist.tracks[index].id;
+      if (targetId) {
+        try { playerRef.current.loadVideoById(targetId, 0); } catch (e) {}
+      }
+    }
+  }, [currentPlaylist]);
 
   // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
   const seek = useCallback((seconds) => {
