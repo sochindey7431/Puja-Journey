@@ -34,7 +34,10 @@ export function MusicProvider({ children }) {
     return currentPlaylist?.tracks?.[currentTrackIndex] || currentPlaylist?.tracks?.[0] || null;
   }, [currentPlaylist, currentTrackIndex]);
 
-  // Load a festival playlist & immediately play first track
+  // Load a festival playlist & immediately play first track.
+  // NOTE: loadVideoById is called directly here for the initial festival load only.
+  // For track changes (next/prev/select), useMusicPlayer.js's useEffect([videoId])
+  // is the single source of truth for loadVideoById to avoid double-call race conditions.
   const loadFestivalMusic = useCallback((festivalId, autoPlay = true) => {
     if (!festivalId) return;
     const playlist = getPlaylistForFestival(festivalId);
@@ -59,6 +62,7 @@ export function MusicProvider({ children }) {
     }
 
     // Load new festival playlist - reset track index
+    // State update triggers useMusicPlayer's useEffect([videoId]) which will call loadVideoById.
     console.log('[YT] LOAD FESTIVAL PLAYLIST:', festivalId);
     setCurrentPlaylistKey(festivalId);
     setCurrentTrackIndex(0);
@@ -67,12 +71,6 @@ export function MusicProvider({ children }) {
     if (autoPlay) {
       setIsPlaying(true);
       setIsLoading(true);
-      if (playerRef.current?.loadVideoById && playlist.tracks[0]) {
-        const firstId = playlist.tracks[0].youtubeId || playlist.tracks[0].id;
-        if (firstId) {
-          try { playerRef.current.loadVideoById(firstId, 0); } catch (e) {}
-        }
-      }
     }
   }, [currentPlaylistKey]);
 
@@ -102,7 +100,8 @@ export function MusicProvider({ children }) {
     }
   }, [isPlaying, play, pause]);
 
-  // Next Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
+  // Next Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
+  // detects the new videoId and calls loadVideoById exactly once.
   const nextTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
     console.log('[YT] NEXT track requested');
@@ -112,15 +111,10 @@ export function MusicProvider({ children }) {
     setCurrentTrackIndex(nextIdx);
     setIsPlaying(true);
     setIsLoading(true);
-    if (playerRef.current?.loadVideoById && currentPlaylist.tracks[nextIdx]) {
-      const targetId = currentPlaylist.tracks[nextIdx].youtubeId || currentPlaylist.tracks[nextIdx].id;
-      if (targetId) {
-        try { playerRef.current.loadVideoById(targetId, 0); } catch (e) {}
-      }
-    }
   }, [currentPlaylist, currentTrackIndex]);
 
-  // Previous Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
+  // Previous Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
+  // detects the new videoId and calls loadVideoById exactly once.
   const prevTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
     console.log('[YT] PREVIOUS track requested');
@@ -130,15 +124,10 @@ export function MusicProvider({ children }) {
     setCurrentTrackIndex(prevIdx);
     setIsPlaying(true);
     setIsLoading(true);
-    if (playerRef.current?.loadVideoById && currentPlaylist.tracks[prevIdx]) {
-      const targetId = currentPlaylist.tracks[prevIdx].youtubeId || currentPlaylist.tracks[prevIdx].id;
-      if (targetId) {
-        try { playerRef.current.loadVideoById(targetId, 0); } catch (e) {}
-      }
-    }
   }, [currentPlaylist, currentTrackIndex]);
 
-  // Select Track - ONLY changes index, NEVER touches isVideoExpanded or reloads
+  // Select Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
+  // detects the new videoId and calls loadVideoById exactly once.
   const selectTrack = useCallback((index) => {
     if (typeof index !== 'number' || index < 0) return;
     console.log('[YT] SELECT track at index:', index);
@@ -147,13 +136,7 @@ export function MusicProvider({ children }) {
     setCurrentTrackIndex(index);
     setIsPlaying(true);
     setIsLoading(true);
-    if (playerRef.current?.loadVideoById && currentPlaylist?.tracks?.[index]) {
-      const targetId = currentPlaylist.tracks[index].youtubeId || currentPlaylist.tracks[index].id;
-      if (targetId) {
-        try { playerRef.current.loadVideoById(targetId, 0); } catch (e) {}
-      }
-    }
-  }, [currentPlaylist]);
+  }, []);
 
   // Seek - ONLY calls player.seekTo(seconds, true), NEVER touches isVideoExpanded or reloads
   const seek = useCallback((seconds) => {

@@ -124,6 +124,9 @@ export function useYouTubePlayer(elementId) {
   const timeIntervalRef     = useRef(null);
   const userIntentToPlayRef = useRef(isPlaying);
   const loadingTimeoutRef   = useRef(null);
+  // Flag: true while a track-switch loadVideoById is in flight.
+  // Prevents the isPlaying effect from issuing pauseVideo mid-transition.
+  const trackChangePendingRef = useRef(false);
 
   const isPlayingRef        = useRef(isPlaying);
   const volumeRef           = useRef(volume);
@@ -166,6 +169,7 @@ export function useYouTubePlayer(elementId) {
   const scheduleLoadingSafety = useCallback(() => {
     clearLoadingSafety();
     loadingTimeoutRef.current = setTimeout(() => {
+      trackChangePendingRef.current = false;
       setIsLoadingRef.current(false);
       setIsBufferingRef.current(false);
     }, 4000);
@@ -246,6 +250,7 @@ export function useYouTubePlayer(elementId) {
               const latestId = lastLoadedIdRef.current;
               if (latestId && latestId !== initialVideoId) {
                 console.log('[YT] onReady → loading latest queued track:', latestId);
+                trackChangePendingRef.current = true;
                 if (userIntentToPlayRef.current || isPlayingRef.current) {
                   e.target.loadVideoById(latestId, 0);
                 } else {
@@ -272,18 +277,25 @@ export function useYouTubePlayer(elementId) {
             console.log('[YT] PLAYER STATE:', stateLabel);
 
             if (e.data === YTState.PLAYING) {
+              trackChangePendingRef.current = false;
               setIsPlayingRef.current(true);
               setIsBufferingRef.current(false);
               setIsLoadingRef.current(false);
               clearLoadingSafety();
               startPollingRef.current?.();
             } else if (e.data === YTState.PAUSED) {
-              setIsBufferingRef.current(false);
-              setIsLoadingRef.current(false); // Clear loading state so button is ready/not spinning
-              clearLoadingSafety();
-              stopPollingRef.current?.();
-              setIsPlayingRef.current(false);
+              // Only update playing state when no track-change is in flight.
+              // During a track switch, YouTube fires PAUSED between the old track
+              // ending and the new track buffering — ignore that intermediate state.
+              if (!trackChangePendingRef.current) {
+                setIsBufferingRef.current(false);
+                setIsLoadingRef.current(false);
+                clearLoadingSafety();
+                stopPollingRef.current?.();
+                setIsPlayingRef.current(false);
+              }
             } else if (e.data === YTState.ENDED) {
+              trackChangePendingRef.current = false;
               setIsPlayingRef.current(false);
               setIsBufferingRef.current(false);
               setIsLoadingRef.current(false);
@@ -305,12 +317,15 @@ export function useYouTubePlayer(elementId) {
                 try {
                   e.target.playVideo();
                 } catch (err) {}
+              } else {
+                trackChangePendingRef.current = false;
               }
             }
           },
           onError: (e) => {
             console.warn('[YT] ERROR code:', e.data,
               '(100=not found, 101/150=embed restricted, 2=invalid param, 5=HTML5 error)');
+            trackChangePendingRef.current = false;
             setIsBufferingRef.current(false);
             setIsLoadingRef.current(false);
             clearLoadingSafety();
@@ -356,6 +371,9 @@ export function useYouTubePlayer(elementId) {
     if (!playerInstanceRef.current) {
       if (!isInitializingRef.current) {
         lastLoadedIdRef.current = videoId;
+        // Snapshot intent now — before React batches catch up — so initPlayer/onReady
+        // sees the correct play/cue decision even if isPlaying state is still stale.
+        userIntentToPlayRef.current = isPlayingRef.current;
         scheduleLoadingSafety();
         console.log('[YT] TRACK requested, player not ready yet, scheduling init, videoId:', videoId);
         runWhenYTReady(() => {
@@ -370,18 +388,24 @@ export function useYouTubePlayer(elementId) {
     }
 
     lastLoadedIdRef.current = videoId;
-    console.log('[YT] TRACK CHANGE → loadVideoById:', videoId, '(was:', previousId, ')');
+    // Snapshot the current play intent (isPlayingRef is already up-to-date via its own effect).
+    const shouldPlay = userIntentToPlayRef.current || isPlayingRef.current;
+    console.log('[YT] TRACK CHANGE → loadVideoById:', videoId, '(was:', previousId, ') shouldPlay:', shouldPlay);
+
+    // Mark a track-change in flight so onStateChange PAUSED is not misinterpreted.
+    trackChangePendingRef.current = true;
     scheduleLoadingSafety();
 
     try {
       if (typeof playerInstanceRef.current.loadVideoById === 'function') {
-        if (userIntentToPlayRef.current || isPlayingRef.current) {
+        if (shouldPlay) {
           playerInstanceRef.current.loadVideoById(videoId, 0);
         } else {
           playerInstanceRef.current.cueVideoById(videoId, 0);
         }
       }
     } catch (e) {
+      trackChangePendingRef.current = false;
       console.warn('[YT] loadVideoById error:', e);
     }
   }, [videoId, scheduleLoadingSafety]);
@@ -389,6 +413,8 @@ export function useYouTubePlayer(elementId) {
   useEffect(() => {
     const p = playerInstanceRef.current;
     if (!p) return;
+    // Do not interfere while a track-change is in flight — onStateChange handles resumption.
+    if (trackChangePendingRef.current) return;
     try {
       const state = p.getPlayerState?.();
       const YTState = window.YT?.PlayerState;
