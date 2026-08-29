@@ -322,7 +322,6 @@ export const festivals = [
     dayBn: 'শনিবার',
     category: 'mahalaya',
     emoji: '🌑',
-    icon: '/images/festivals/mahalaya-icon.png',
     theme: {
       bg: '#020408', accent: '#7c6d3a', accentLight: '#c9a84c',
       text: '#e8ddc8', particle: '#d4b896',

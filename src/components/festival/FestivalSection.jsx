@@ -401,21 +401,7 @@ function MahalayaSection({ festival, nextFestival, onExplore, lang, isBn, t, dat
         <p className="font-display text-2xl md:text-4xl text-puja-ivory/35 italic tracking-wide">She is coming…</p>
 
         <div className="mt-4 flex flex-col items-center gap-1.5 sm:gap-2">
-          <div className="flex items-center gap-3">
-            {festival.icon ? (
-              <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center">
-                <img
-                  src={getAssetUrl(festival.icon)}
-                  alt={festival.nameEn}
-                  className="w-full h-full object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)]"
-                  loading="lazy"
-                />
-              </div>
-            ) : (
-              <span className="text-3xl shrink-0" aria-hidden="true">🌑</span>
-            )}
-            <p className="bn-text text-xl sm:text-2xl text-puja-gold/80 font-medium">{festival.nameBn}</p>
-          </div>
+          <p className="bn-text text-xl sm:text-2xl text-puja-gold/80 font-medium">{festival.nameBn}</p>
           <h3 id="mahalaya-title" className="font-display text-4xl sm:text-6xl md:text-7xl text-puja-ivory tracking-widest uppercase mt-0.5 sm:mt-1">
             MAHALAYA
           </h3>
