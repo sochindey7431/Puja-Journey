@@ -8,7 +8,7 @@ import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festi
  * directly to their predefined YouTube playlist.
  */
 function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, className = '' }) {
-  const { loadFestivalMusic, currentPlaylistKey, isPlayerOpen, isPlaying, togglePlay } = useMusicContext();
+  const { loadFestivalMusic, currentPlaylistKey, isPlayerOpen, isPlaying, isLoading, isBuffering, togglePlay } = useMusicContext();
   const { isBn } = useLanguage();
 
   // If this festival has no configured playlist, do not show music button
@@ -27,6 +27,9 @@ function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, class
     activePlaylist.targetPlaylistId === thisPlaylist.targetPlaylistId
   );
 
+  const isThisPlaying = isThisActive && isPlaying;
+  const isThisLoading = isThisActive && (isLoading || isBuffering);
+
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,7 +45,7 @@ function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, class
       type="button"
       onClick={handleClick}
       className={`group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md active:scale-95 ${
-        isThisActive && isPlaying
+        isThisPlaying || isThisLoading
           ? 'border-puja-gold bg-puja-gold/25 text-puja-gold shadow-[0_0_20px_rgba(212,160,23,0.35)]'
           : isThisActive
             ? 'border-puja-gold/60 bg-puja-gold/15 text-puja-gold'
@@ -53,12 +56,14 @@ function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, class
     >
       <span className="text-sm" aria-hidden="true">🎵</span>
       <span className={isBn ? 'bn-text tracking-normal text-sm font-medium' : 'font-medium tracking-wider'}>
-        {isThisActive && isPlaying
+        {isThisPlaying
           ? (isBn ? 'চলছে…' : 'Playing…')
-          : (isBn ? `${festivalNameBn || thisPlaylist?.title || ''} সঙ্গীত` : `Play Music`)}
+          : isThisLoading
+            ? (isBn ? 'লোড হচ্ছে…' : 'Loading…')
+            : (isBn ? `${festivalNameBn || thisPlaylist?.title || ''} সঙ্গীত` : `Play Music`)}
       </span>
 
-      {isThisActive && isPlaying && (
+      {isThisPlaying && (
         <span className="flex items-end gap-[2px] h-3 ml-1" aria-hidden="true">
           {[2, 4, 3, 5, 2].map((h, i) => (
             <span
