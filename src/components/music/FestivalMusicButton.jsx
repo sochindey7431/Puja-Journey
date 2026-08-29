@@ -30,9 +30,7 @@ function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, class
   const isThisPlaying = isThisActive && isPlaying;
   const isThisLoading = isThisActive && (isLoading || isBuffering);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleClick = () => {
     if (isThisActive && currentPlaylistKey === festivalId) {
       togglePlay();
     } else {

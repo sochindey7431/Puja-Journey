@@ -42,9 +42,7 @@ const TrackRow = memo(function TrackRow({ track, index, isActive, isPlaying, onS
   return (
     <button
       type="button"
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      onClick={() => {
         onSelect(index);
       }}
       className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200 group
@@ -236,8 +234,7 @@ function FloatingMusicPlayer() {
             <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   nextTrack();
                 }}
                 className="px-2 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-100 rounded text-[11px] font-semibold tracking-wider uppercase transition-colors"
@@ -246,8 +243,7 @@ function FloatingMusicPlayer() {
               </button>
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   dismissError();
                 }}
                 className="p-1 hover:text-white transition-colors"
@@ -293,8 +289,7 @@ function FloatingMusicPlayer() {
               </div>
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   togglePlaylist();
                 }}
                 className="text-puja-ivory/40 hover:text-puja-gold p-1.5 rounded transition-colors"
@@ -313,8 +308,7 @@ function FloatingMusicPlayer() {
                   <button
                     type="button"
                     key={item.key}
-                    onClick={(e) => {
-                      e.preventDefault();
+                    onClick={() => {
                       loadFestivalMusic(item.key, true);
                     }}
                     className={`px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
@@ -390,8 +384,7 @@ function FloatingMusicPlayer() {
             </div>
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 loadFestivalMusic(exploringFestivalId, true);
               }}
               className="text-[11px] text-puja-gold hover:text-puja-gold-light tracking-wider font-medium uppercase transition-colors px-2 py-0.5 rounded bg-puja-gold/15 hover:bg-puja-gold/25"
@@ -452,8 +445,7 @@ function FloatingMusicPlayer() {
               {/* Previous */}
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   prevTrack();
                 }}
                 className="p-2 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded active:scale-95"
@@ -466,8 +458,7 @@ function FloatingMusicPlayer() {
               {/* Play / Pause with Glow */}
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   togglePlay();
                 }}
                 className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-full
@@ -488,8 +479,7 @@ function FloatingMusicPlayer() {
               {/* Next */}
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   nextTrack();
                 }}
                 className="p-2 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded active:scale-95"
@@ -515,8 +505,7 @@ function FloatingMusicPlayer() {
             <div className="relative hidden md:flex items-center gap-1.5">
               <button
                 type="button"
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   toggleMute();
                 }}
                 className="p-1.5 text-puja-ivory/60 hover:text-puja-gold transition-colors rounded"
@@ -539,8 +528,7 @@ function FloatingMusicPlayer() {
             {/* Video View Toggle */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 toggleVideo();
               }}
               className={`p-2 rounded transition-colors hidden sm:flex ${
@@ -557,8 +545,7 @@ function FloatingMusicPlayer() {
             {/* Playlist Drawer Button */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 togglePlaylist();
               }}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded transition-all ${
@@ -579,8 +566,7 @@ function FloatingMusicPlayer() {
             {/* Close Player */}
             <button
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 closePlayer();
               }}
               className="p-2 text-puja-ivory/40 hover:text-puja-ivory transition-colors rounded ml-0.5"
