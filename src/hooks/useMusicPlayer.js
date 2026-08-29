@@ -381,7 +381,23 @@ export function useYouTubePlayer(elementId) {
     };
   }, [stopTimePolling, clearLoadingSafety]);
 
+  const DEFAULT_INITIAL_VIDEO_ID = 'X5isMK80lLg';
   const videoId = currentTrack?.youtubeId || currentTrack?.id || null;
+
+  // Background pre-initialization on mount:
+  // Pre-warms the single persistent YouTube player on idle so that when the user taps
+  // ANY song or festival button, playerRef.current is ALREADY ready.
+  // The synchronous loadVideoById + playVideo will execute inside the user's active gesture.
+  useEffect(() => {
+    if (!playerInstanceRef.current && !isInitializingRef.current) {
+      const initialId = videoId || DEFAULT_INITIAL_VIDEO_ID;
+      lastLoadedIdRef.current = initialId;
+      console.log('[YT] Pre-initializing persistent player in background, videoId:', initialId);
+      runWhenYTReady(() => {
+        initPlayerRef.current?.();
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (!videoId) return;

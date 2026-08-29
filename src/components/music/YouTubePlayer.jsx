@@ -36,7 +36,7 @@ function YouTubePlayer() {
     <div
       className={`fixed z-[495] ${
         !isPlayerOpen
-          ? 'opacity-0 pointer-events-none -z-10 bottom-[92px] left-3 w-48 h-28'
+          ? 'bottom-0 left-0 w-1 h-1 opacity-[0.02] pointer-events-none'
           : isVideoExpanded
             ? 'bottom-[92px] left-3 sm:left-6 w-[90vw] sm:w-[480px] aspect-video rounded-xl border-2 border-puja-gold/60 bg-black overflow-hidden shadow-2xl'
             : 'bottom-[92px] left-3 md:left-6 w-48 h-28 md:w-60 md:h-34 rounded-lg border border-puja-gold/30 bg-black overflow-hidden shadow-xl'
