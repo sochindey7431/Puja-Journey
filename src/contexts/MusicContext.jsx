@@ -101,30 +101,34 @@ export function MusicProvider({ children }) {
   }, [isPlaying, play, pause]);
 
   // Next Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
-  // detects the new videoId and calls loadVideoById exactly once.
+  // detects the new videoId and calls loadVideoById or cueVideoById based on current playback state.
   const nextTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
-    console.log('[YT] NEXT track requested');
+    console.log('[YT] NEXT track requested, isPlaying:', isPlaying);
     setErrorMessage(null);
     setCurrentTime(0);
     const nextIdx = (currentTrackIndex + 1) % currentPlaylist.tracks.length;
     setCurrentTrackIndex(nextIdx);
-    setIsPlaying(true);
-    setIsLoading(true);
-  }, [currentPlaylist, currentTrackIndex]);
+    if (isPlaying) {
+      setIsPlaying(true);
+      setIsLoading(true);
+    }
+  }, [currentPlaylist, currentTrackIndex, isPlaying]);
 
   // Previous Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
-  // detects the new videoId and calls loadVideoById exactly once.
+  // detects the new videoId and calls loadVideoById or cueVideoById based on current playback state.
   const prevTrack = useCallback(() => {
     if (!currentPlaylist?.tracks?.length) return;
-    console.log('[YT] PREVIOUS track requested');
+    console.log('[YT] PREVIOUS track requested, isPlaying:', isPlaying);
     setErrorMessage(null);
     setCurrentTime(0);
     const prevIdx = currentTrackIndex === 0 ? currentPlaylist.tracks.length - 1 : currentTrackIndex - 1;
     setCurrentTrackIndex(prevIdx);
-    setIsPlaying(true);
-    setIsLoading(true);
-  }, [currentPlaylist, currentTrackIndex]);
+    if (isPlaying) {
+      setIsPlaying(true);
+      setIsLoading(true);
+    }
+  }, [currentPlaylist, currentTrackIndex, isPlaying]);
 
   // Select Track — ONLY updates React state. useMusicPlayer.js's useEffect([videoId])
   // detects the new videoId and calls loadVideoById exactly once.

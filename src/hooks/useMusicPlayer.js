@@ -284,16 +284,25 @@ export function useYouTubePlayer(elementId) {
               clearLoadingSafety();
               startPollingRef.current?.();
             } else if (e.data === YTState.PAUSED) {
-              // Only update playing state when no track-change is in flight.
-              // During a track switch, YouTube fires PAUSED between the old track
-              // ending and the new track buffering — ignore that intermediate state.
-              if (!trackChangePendingRef.current) {
-                setIsBufferingRef.current(false);
-                setIsLoadingRef.current(false);
-                clearLoadingSafety();
-                stopPollingRef.current?.();
-                setIsPlayingRef.current(false);
+              clearLoadingSafety();
+              stopPollingRef.current?.();
+
+              // If a track switch was in flight and user wants to play,
+              // mobile browsers often land in PAUSED after loadVideoById.
+              // Re-attempt playback once during track change:
+              if (trackChangePendingRef.current) {
+                trackChangePendingRef.current = false;
+                if (userIntentToPlayRef.current || isPlayingRef.current) {
+                  try {
+                    e.target.playVideo();
+                  } catch (err) {}
+                }
               }
+
+              // Always clear loading/buffering indicators on PAUSED
+              setIsBufferingRef.current(false);
+              setIsLoadingRef.current(false);
+              setIsPlayingRef.current(false);
             } else if (e.data === YTState.ENDED) {
               trackChangePendingRef.current = false;
               setIsPlayingRef.current(false);
@@ -312,13 +321,12 @@ export function useYouTubePlayer(elementId) {
               setIsBufferingRef.current(false);
               setIsLoadingRef.current(false);
               clearLoadingSafety();
+              trackChangePendingRef.current = false;
               if (userIntentToPlayRef.current || isPlayingRef.current) {
                 console.log('[YT] CUED → executing playVideo() for pending user play request');
                 try {
                   e.target.playVideo();
                 } catch (err) {}
-              } else {
-                trackChangePendingRef.current = false;
               }
             }
           },
