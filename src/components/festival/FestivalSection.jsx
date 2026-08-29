@@ -52,12 +52,12 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
       if (contentRef.current) {
         gsap.fromTo(
           contentRef.current.querySelectorAll('.reveal-item'),
-          { y: 40, opacity: 0 },
+          { y: 22, opacity: 0 },
           {
-            y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out',
+            y: 0, opacity: 1, duration: 0.75, stagger: 0.07, ease: 'power2.out',
             scrollTrigger: {
               trigger: contentRef.current,
-              start: 'top 78%',
+              start: 'top 82%',
               once: true,
             },
           }
@@ -181,24 +181,24 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
         className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-16 pt-16 pb-12 sm:pt-20 sm:pb-16 md:py-20 lg:py-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center"
       >
         {/* Left: text column */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 group/card transition-all duration-300">
           {/* Festival Title Block: [Icon] Bengali Name + English Name directly below */}
           <div className="reveal-item flex flex-col gap-1.5 sm:gap-2">
             <div className="flex items-center gap-3 sm:gap-3.5 flex-wrap sm:flex-nowrap">
               {festival.icon ? (
-                <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 flex-shrink-0 flex items-center justify-center transition-transform duration-400 ease-out group-hover/card:scale-[1.03]">
                   <img
                     src={getAssetUrl(festival.icon)}
                     alt={festival.nameEn}
-                    className="w-full h-full object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)]"
+                    className="w-full h-full object-contain object-center drop-shadow-[0_0_10px_rgba(212,160,23,0.35)] transition-all duration-400 ease-out group-hover/card:drop-shadow-[0_0_14px_rgba(212,160,23,0.45)]"
                     loading="lazy"
                   />
                 </div>
               ) : (
-                <span className="text-3xl sm:text-4xl shrink-0" aria-hidden="true">{festival.emoji}</span>
+                <span className="text-3xl sm:text-4xl shrink-0 transition-transform duration-300 group-hover/card:scale-[1.03]" aria-hidden="true">{festival.emoji}</span>
               )}
               <p
-                className="bn-text text-xl sm:text-2xl md:text-3xl font-medium leading-tight"
+                className="bn-text text-xl sm:text-2xl md:text-3xl font-medium leading-tight transition-colors duration-300 group-hover/card:brightness-110"
                 style={{ color: festival.theme?.accentLight || '#f0c040' }}
               >
                 {festival.nameBn}
@@ -208,7 +208,7 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
             {/* English title */}
             <h2
               id={`festival-title-${festival.id}`}
-              className="font-display leading-none text-puja-ivory mt-0.5 sm:mt-1"
+              className="font-display leading-none text-puja-ivory mt-0.5 sm:mt-1 transition-colors duration-300 group-hover/card:text-puja-ivory"
               style={{ fontSize: 'clamp(2.2rem, 5.2vw, 4.8rem)' }}
             >
               {festival.nameEn}
@@ -251,7 +251,7 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
             <button
               type="button"
               onClick={() => onExplore(festival)}
-              className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md active:scale-95 border-puja-gold/30 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold hover:border-puja-gold/60"
+              className="group/btn inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border text-xs tracking-wider uppercase transition-all duration-300 backdrop-blur-sm shadow-md hover:scale-[1.02] active:scale-95 border-puja-gold/30 bg-puja-gold/10 hover:bg-puja-gold/20 text-puja-gold hover:border-puja-gold/60 hover:shadow-[0_0_16px_rgba(212,160,23,0.22)]"
               aria-label={`Explore ${festival.nameEn}`}
             >
               {t('explore')}

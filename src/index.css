@@ -265,6 +265,24 @@ body {
   to   { opacity: 1; }
 }
 
+@keyframes pulseGentle {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-pulse-gentle {
+  animation: pulseGentle 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── Music Equalizer animation ────────────────────────── */
 @keyframes equalizerBar {
   0%, 100% { height: 4px;  }

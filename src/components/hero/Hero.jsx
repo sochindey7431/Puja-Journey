@@ -64,20 +64,20 @@ export default function Hero() {
   // GSAP entrance
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.3 });
+      const tl = gsap.timeline({ delay: 0.25 });
       tl.fromTo(titleRef.current,
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.4, ease: 'power3.out' }
+        { y: 35, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out' }
       )
       .fromTo(subtitleRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power2.out' },
-        '-=0.7'
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.0, ease: 'power2.out' },
+        '-=0.6'
       )
       .fromTo(scrollRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.8 },
-        '-=0.3'
+        { y: 15, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: 'power2.out' },
+        '-=0.4'
       );
     }, containerRef);
     return () => ctx.revert();
