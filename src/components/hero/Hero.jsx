@@ -90,7 +90,7 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative flex flex-col items-center justify-between min-h-screen min-h-[100dvh] pt-20 pb-8 sm:pb-10 overflow-hidden"
+      className="relative flex flex-col items-center justify-between min-h-screen min-h-[100dvh] pt-20 pb-16 sm:pb-20 md:pb-10 overflow-hidden"
       style={{ background: 'linear-gradient(to bottom, #050402 0%, #0a0805 50%, #0d0b06 100%)' }}
       aria-label="Puja Journey — Hero"
       id="top"
@@ -151,8 +151,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* 5. Scroll CTA (positioned at the bottom of the viewport) */}
-      <div ref={scrollRef} style={{ opacity: 0 }} className="relative z-10 flex flex-col items-center mt-auto">
+      {/* 5. Scroll CTA (comfortably positioned with extra clearance on mobile) */}
+      <div ref={scrollRef} style={{ opacity: 0 }} className="relative z-10 flex flex-col items-center mt-auto mb-4 sm:mb-6 md:mb-0">
         <button
           onClick={scrollToFestivals}
           className="group flex flex-col items-center gap-2 text-puja-ivory/40 hover:text-puja-gold transition-colors duration-500"
