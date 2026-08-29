@@ -90,14 +90,20 @@ export function MusicProvider({ children }) {
 
   const play = useCallback(() => {
     setErrorMessage(null);
-    setIsPlaying(true);
+    setIsLoading(true);
     if (playerRef.current?.playVideo) {
-      try { playerRef.current.playVideo(); } catch (e) {}
+      try {
+        playerRef.current.playVideo();
+      } catch (e) {
+        setIsLoading(false);
+      }
     }
   }, []);
 
   const pause = useCallback(() => {
     setIsPlaying(false);
+    setIsLoading(false);
+    setIsBuffering(false);
     if (playerRef.current?.pauseVideo) {
       try { playerRef.current.pauseVideo(); } catch (e) {}
     }
@@ -123,7 +129,6 @@ export function MusicProvider({ children }) {
     const targetId = nextTrackObj?.youtubeId || nextTrackObj?.id;
 
     if (isPlaying) {
-      setIsPlaying(true);
       setIsLoading(true);
       if (playerRef.current && targetId) {
         playerRef.current._lastLoadedId = targetId;
@@ -158,7 +163,6 @@ export function MusicProvider({ children }) {
     const targetId = prevTrackObj?.youtubeId || prevTrackObj?.id;
 
     if (isPlaying) {
-      setIsPlaying(true);
       setIsLoading(true);
       if (playerRef.current && targetId) {
         playerRef.current._lastLoadedId = targetId;
@@ -187,7 +191,6 @@ export function MusicProvider({ children }) {
     setErrorMessage(null);
     setCurrentTime(0);
     setCurrentTrackIndex(index);
-    setIsPlaying(true);
     setIsLoading(true);
 
     const trackObj = currentPlaylist.tracks[index];
