@@ -178,14 +178,14 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
       {/* ── Main Content ── */}
       <div
         ref={contentRef}
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-16 pt-28 pb-16 md:py-32 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20 items-center"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-16 pt-16 pb-12 sm:pt-20 sm:pb-16 md:py-20 lg:py-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center"
       >
         {/* Left: text column */}
         <div className="flex flex-col gap-5">
-          {/* Emoji / Icon + category tag */}
-          <div className="reveal-item flex items-center gap-3">
+          {/* Bengali name with Icon */}
+          <div className="reveal-item flex items-center gap-3.5 sm:gap-4 flex-wrap sm:flex-nowrap">
             {festival.icon ? (
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex-shrink-0 flex items-center justify-center">
+              <div className="w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 flex-shrink-0 flex items-center justify-center">
                 <img
                   src={getAssetUrl(festival.icon)}
                   alt={festival.nameEn}
@@ -194,20 +194,15 @@ export default function FestivalSection({ festival, nextFestival, onExplore }) {
                 />
               </div>
             ) : (
-              <span className="text-4xl" aria-hidden="true">{festival.emoji}</span>
+              <span className="text-3xl sm:text-4xl shrink-0" aria-hidden="true">{festival.emoji}</span>
             )}
-            <span className="text-xs tracking-[0.25em] uppercase text-puja-ivory/30 font-body">
-              {festival.category.replace('-', ' ')}
-            </span>
+            <p
+              className="bn-text text-xl sm:text-2xl md:text-3xl font-normal leading-tight"
+              style={{ color: festival.theme?.accentLight || '#f0c040' }}
+            >
+              {festival.nameBn}
+            </p>
           </div>
-
-          {/* Bengali name */}
-          <p
-            className="reveal-item bn-text text-xl md:text-2xl font-light"
-            style={{ color: festival.theme?.accentLight || '#f0c040' }}
-          >
-            {festival.nameBn}
-          </p>
 
           {/* English title */}
           <h2

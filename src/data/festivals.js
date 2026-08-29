@@ -555,6 +555,7 @@ export const festivals = [
     dayBn: 'রবিবার',
     category: 'puja',
     emoji: '🪷',
+    icon: '/images/festivals/lakshmi-puja-icon.png',
     theme: {
       bg: '#081a08', accent: '#27ae60', accentLight: '#2ecc71',
       text: '#f0fdf4', particle: '#a7f3d0',
@@ -593,6 +594,7 @@ export const festivals = [
     dayBn: 'রবিবার',
     category: 'puja',
     emoji: '🕉️',
+    icon: '/images/festivals/kali-puja-icon.png',
     theme: {
       bg: '#030303', accent: '#8b0000', accentLight: '#c0392b',
       text: '#f8e8e8', particle: '#e8a0a0',
@@ -631,6 +633,7 @@ export const festivals = [
     dayBn: 'বুধবার',
     category: 'puja',
     emoji: '🌸',
+    icon: '/images/festivals/jagaddhatri-puja-icon.png',
     theme: {
       bg: '#120805', accent: '#d4700a', accentLight: '#f0a040',
       text: '#fff8f0', particle: '#f5d8b0',

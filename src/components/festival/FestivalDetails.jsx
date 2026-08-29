@@ -60,23 +60,23 @@ export default function FestivalDetails({ festival, onClose }) {
             <X size={20} />
           </button>
 
-          {/* Emoji / Icon */}
-          {festival.icon ? (
-            <div className="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 flex items-center justify-center mb-4">
-              <img
-                src={getAssetUrl(festival.icon)}
-                alt={festival.nameEn}
-                className="w-full h-full object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)]"
-                loading="lazy"
-              />
-            </div>
-          ) : (
-            <div className="text-4xl mb-4" aria-hidden="true">{festival.emoji}</div>
-          )}
-
-          {/* Names */}
-          <p className={`bn-text text-sm text-puja-gold/60 mb-1`}>{festival.nameBn}</p>
-          <h2 className="font-display text-3xl text-puja-ivory mb-2">{festival.nameEn}</h2>
+          {/* Header Title: [Icon] Bengali Name + English Title below */}
+          <div className="flex items-center gap-3 mb-2 flex-wrap sm:flex-nowrap">
+            {festival.icon ? (
+              <div className="w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0 flex items-center justify-center">
+                <img
+                  src={getAssetUrl(festival.icon)}
+                  alt={festival.nameEn}
+                  className="w-full h-full object-contain object-center drop-shadow-[0_0_12px_rgba(212,160,23,0.4)]"
+                  loading="lazy"
+                />
+              </div>
+            ) : (
+              <div className="text-3xl shrink-0" aria-hidden="true">{festival.emoji}</div>
+            )}
+            <p className="bn-text text-lg sm:text-xl text-puja-gold/80 font-normal leading-tight">{festival.nameBn}</p>
+          </div>
+          <h2 className="font-display text-2xl sm:text-3xl text-puja-ivory mb-2">{festival.nameEn}</h2>
 
           {/* Date */}
           {date && (
