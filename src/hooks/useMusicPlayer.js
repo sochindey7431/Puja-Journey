@@ -23,14 +23,22 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useMusicContext } from '../contexts/MusicContext.jsx';
 import { AUTO_ADVANCE_PLAYLIST } from '../config/musicConfig.js';
 
-let isScriptLoading = false;
-let isScriptLoaded = false;
-const readyQueue = [];
+if (typeof window !== 'undefined') {
+  window.__YT_DEBUG__ = window.__YT_DEBUG__ || {
+    scriptLoaded: false,
+    apiReadyFired: false,
+    constructorCalled: false,
+    onReadyFired: false,
+    lastState: 'INIT',
+    lastErrorCode: null,
+  };
+}
 
 function loadYTAPI() {
   if (isScriptLoaded) return;
   if (typeof window !== 'undefined' && window.YT && window.YT.Player) {
     isScriptLoaded = true;
+    if (window.__YT_DEBUG__) window.__YT_DEBUG__.scriptLoaded = true;
     return;
   }
   if (isScriptLoading) return;
@@ -49,6 +57,10 @@ function loadYTAPI() {
       console.log('[YT] API SCRIPT LOADED');
       isScriptLoaded = true;
       isScriptLoading = false;
+      if (window.__YT_DEBUG__) {
+        window.__YT_DEBUG__.scriptLoaded = true;
+        window.__YT_DEBUG__.apiReadyFired = true;
+      }
       readyQueue.forEach(cb => {
         try { cb(); } catch (e) {
           console.warn('[YT] Callback error on ready:', e);
@@ -61,6 +73,14 @@ function loadYTAPI() {
   const tag = document.createElement('script');
   tag.src = 'https://www.youtube.com/iframe_api';
   tag.async = true;
+  tag.onerror = (err) => {
+    console.error('[YT] Failed to load iframe_api script:', err);
+    isScriptLoading = false;
+    if (window.__YT_DEBUG__) {
+      window.__YT_DEBUG__.scriptLoaded = false;
+      window.__YT_DEBUG__.lastState = 'SCRIPT_ERROR';
+    }
+  };
   document.head.appendChild(tag);
 }
 
@@ -214,7 +234,19 @@ export function useYouTubePlayer(elementId) {
     if (!initialVideoId) return;
 
     isInitializingRef.current = true;
+    if (window.__YT_DEBUG__) window.__YT_DEBUG__.constructorCalled = true;
     console.log('[YT] PLAYER INIT on element:', elementId, 'videoId:', initialVideoId);
+
+    // Timeout safety: if onReady does not fire within 4.5s (e.g. WebView sandbox delay), unblock UI
+    const initTimeout = setTimeout(() => {
+      if (isInitializingRef.current) {
+        console.warn('[YT] Init timeout (4.5s) — onReady did not fire in this WebView. Unblocking UI spinner.');
+        isInitializingRef.current = false;
+        setIsLoadingRef.current(false);
+        setIsBufferingRef.current(false);
+        if (window.__YT_DEBUG__) window.__YT_DEBUG__.lastState = 'INIT_TIMEOUT_CLEARED';
+      }
+    }, 4500);
 
     try {
       const safeOrigin = typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null'
@@ -238,6 +270,7 @@ export function useYouTubePlayer(elementId) {
         },
         events: {
           onReady: (e) => {
+            clearTimeout(initTimeout);
             console.log('[YT] PLAYER READY');
             playerInstanceRef.current = e.target;
             if (playerRef) playerRef.current = e.target;
@@ -245,6 +278,7 @@ export function useYouTubePlayer(elementId) {
             setPlayerReady(true);
             setIsLoadingRef.current(false);
             clearLoadingSafety();
+            if (window.__YT_DEBUG__) window.__YT_DEBUG__.onReadyFired = true;
 
             try {
               // Ensure iframe has all required media attributes for in-app WebViews (FB/Insta/Lite)
@@ -309,6 +343,7 @@ export function useYouTubePlayer(elementId) {
               e.data === 3 ? 'BUFFERING' :
               e.data === 5 ? 'CUED' : `UNSTARTED(${e.data})`;
             console.log('[YT] PLAYER STATE:', stateLabel);
+            if (window.__YT_DEBUG__) window.__YT_DEBUG__.lastState = stateLabel;
 
             if (e.data === YTState.PLAYING) {
               trackChangePendingRef.current = false;
@@ -364,8 +399,10 @@ export function useYouTubePlayer(elementId) {
             }
           },
           onError: (e) => {
+            clearTimeout(initTimeout);
             console.warn('[YT] ERROR code:', e.data,
               '(100=not found, 101/150=embed restricted, 2=invalid param, 5=HTML5 error)');
+            if (window.__YT_DEBUG__) window.__YT_DEBUG__.lastErrorCode = e.data;
             trackChangePendingRef.current = false;
             setIsBufferingRef.current(false);
             setIsLoadingRef.current(false);
@@ -388,8 +425,11 @@ export function useYouTubePlayer(elementId) {
         },
       });
     } catch (err) {
+      clearTimeout(initTimeout);
       isInitializingRef.current = false;
       clearLoadingSafety();
+      setIsLoadingRef.current(false);
+      setIsBufferingRef.current(false);
       console.warn('[YT] YT.Player() constructor error:', err);
     }
   }, [elementId, playerRef, setPlayerReady, clearLoadingSafety, scheduleLoadingSafety]);

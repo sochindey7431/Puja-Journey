@@ -9,6 +9,7 @@ import FestivalDetails from '../components/festival/FestivalDetails.jsx';
 import SearchBar from '../components/ui/SearchBar.jsx';
 import FloatingMusicPlayer from '../components/music/FloatingMusicPlayer.jsx';
 import YouTubePlayer from '../components/music/YouTubePlayer.jsx';
+import YTDebugPanel from '../components/music/YTDebugPanel.jsx';
 import { ENABLE_YOUTUBE_MUSIC } from '../config/musicConfig.js';
 import { festivals } from '../data/festivals.js';
 import { useFestivalProgress } from '../hooks/useFestivalProgress.js';
@@ -105,6 +106,7 @@ export default function Home() {
         <ErrorBoundary>
           <FloatingMusicPlayer />
           <YouTubePlayer />
+          <YTDebugPanel />
         </ErrorBoundary>
       )}
     </div>
