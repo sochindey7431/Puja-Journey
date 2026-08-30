@@ -1,39 +1,37 @@
 import { memo } from 'react';
-import { useLocalMusicContext } from '../../contexts/LocalMusicContext.jsx';
+import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
-import { hasLocalMusicForFestival } from '../../data/localMusicManifest.js';
-import { getPlaylistForFestival } from '../../data/festivalPlaylists.js';
+import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festivalPlaylists.js';
 
 /**
  * Per-section "🎵 Play Music" button that connects festival cards
- * directly to the native HTMLAudioElement local music player.
- * Only renders for festivals that have local music tracks available.
+ * directly to their predefined YouTube playlist.
  */
 function FestivalMusicButton({ festivalId, festivalNameEn, festivalNameBn, className = '' }) {
-  // If this festival has no local audio tracks, do not render button
-  if (!hasLocalMusicForFestival(festivalId)) {
+  const { loadFestivalMusic, currentPlaylistKey, isPlayerOpen, isPlaying, isLoading, isBuffering, togglePlay } = useMusicContext();
+  const { isBn } = useLanguage();
+
+  // If this festival has no configured playlist, do not show music button
+  if (!hasPlaylistForFestival(festivalId)) {
     return null;
   }
 
-  const {
-    loadFestivalMusic,
-    currentFestivalId,
-    isPlaying,
-    isLoading,
-    togglePlay,
-    isPlayerOpen,
-  } = useLocalMusicContext();
-  const { isBn } = useLanguage();
-
   const thisPlaylist = getPlaylistForFestival(festivalId);
+  const activePlaylist = currentPlaylistKey ? getPlaylistForFestival(currentPlaylistKey) : null;
 
-  // Active if player is open and matching this festivalId
-  const isThisActive = Boolean(isPlayerOpen && currentFestivalId === festivalId);
+  // Active if player is open and either matching exact festivalId or sharing the same target playlist
+  const isThisActive = Boolean(
+    isPlayerOpen &&
+    activePlaylist &&
+    thisPlaylist &&
+    activePlaylist.targetPlaylistId === thisPlaylist.targetPlaylistId
+  );
+
   const isThisPlaying = isThisActive && isPlaying;
-  const isThisLoading = isThisActive && isLoading;
+  const isThisLoading = isThisActive && (isLoading || isBuffering);
 
   const handleClick = () => {
-    if (isThisActive) {
+    if (isThisActive && currentPlaylistKey === festivalId) {
       togglePlay();
     } else {
       loadFestivalMusic(festivalId, true);

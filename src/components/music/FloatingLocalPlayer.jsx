@@ -24,18 +24,18 @@ export default function FloatingLocalPlayer() {
   const ctx = useLocalMusicContext();
   const [minimized, setMinimized] = useState(false);
 
-  // Only show when player is open and there is an active festival / track
-  if (!ctx.isPlayerOpen || (!ctx.currentTrack && !ctx.isPlaying && !ctx.isLoading)) return null;
+  // Only show when there's an active track
+  if (!ctx.currentTrack && !ctx.isPlaying) return null;
 
   const {
-    currentTrack, isPlaying, isLoading, currentTime, duration,
-    festivalName, festivalNameBn, festivalEmoji, accentColor, festivalImage,
+    currentTrack, isPlaying, currentTime, duration,
+    festivalName, festivalEmoji, accentColor, festivalImage,
     togglePlay, prevTrack, nextTrack, seek, dismiss,
   } = ctx;
 
   const accent = accentColor || '#d4a017';
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
-  const title = currentTrack?.title || fileToTitle(currentTrack?.filename) || (isLoading ? 'Loading track…' : '—');
+  const title = currentTrack?.title || fileToTitle(currentTrack?.filename) || '—';
 
   return (
     <AnimatePresence>

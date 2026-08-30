@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Music2 } from 'lucide-react';
-import { useLocalMusicContext } from '../../contexts/LocalMusicContext.jsx';
 import { useMusicContext } from '../../contexts/MusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
 
@@ -9,8 +8,7 @@ const SESSION_KEY = 'puja-journey-music-welcome-shown';
 
 export default function MusicWelcomePrompt() {
   const { isBn } = useLanguage();
-  const { setWelcomeShown } = useMusicContext();
-  const { loadFestivalMusic } = useLocalMusicContext();
+  const { loadPlaylist, setWelcomeShown, welcomeShown, setIsPlayerOpen } = useMusicContext();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -30,8 +28,12 @@ export default function MusicWelcomePrompt() {
 
   const enterWithMusic = () => {
     dismiss();
-    // Load the Mahalaya local music tracks directly via native HTMLAudioElement
-    loadFestivalMusic('mahalaya', true);
+    // Load the first upcoming/special festival playlist — Mahalaya is a great default
+    loadPlaylist('mahalaya', true);
+    // Small delay to let the player mount
+    setTimeout(() => {
+      setIsPlayerOpen(true);
+    }, 300);
   };
 
   return (

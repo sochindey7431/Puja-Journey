@@ -7,7 +7,6 @@ import FestivalSection from '../components/festival/FestivalSection.jsx';
 import FestivalProgress from '../components/festival/FestivalProgress.jsx';
 import FestivalDetails from '../components/festival/FestivalDetails.jsx';
 import SearchBar from '../components/ui/SearchBar.jsx';
-import FloatingLocalPlayer from '../components/music/FloatingLocalPlayer.jsx';
 import FloatingMusicPlayer from '../components/music/FloatingMusicPlayer.jsx';
 import YouTubePlayer from '../components/music/YouTubePlayer.jsx';
 import { ENABLE_YOUTUBE_MUSIC } from '../config/musicConfig.js';
@@ -101,12 +100,6 @@ export default function Home() {
           />
         )}
       </AnimatePresence>
-
-      {/* Native HTMLAudioElement Floating Music Player */}
-      <ErrorBoundary>
-        <FloatingLocalPlayer />
-      </ErrorBoundary>
-
       {/* YouTube music player bar + video window (when enabled) */}
       {ENABLE_YOUTUBE_MUSIC && (
         <ErrorBoundary>
