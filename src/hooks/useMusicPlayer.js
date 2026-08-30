@@ -142,6 +142,7 @@ export function useYouTubePlayer(elementId) {
   const startPollingRef     = useRef(null);
   const stopPollingRef      = useRef(null);
   const initPlayerRef       = useRef(null);
+  const gestureUnblockCleanupRef = useRef(null);
 
   useEffect(() => {
     isPlayingRef.current = isPlaying;
@@ -273,6 +274,43 @@ export function useYouTubePlayer(elementId) {
                 e.target.playVideo();
                 startPollingRef.current?.();
               }
+
+              // Persistent user-gesture unblock for in-app browsers (Instagram, Facebook, FB Lite).
+              // Uses a PERSISTENT listener (not { once: true }) because the FIRST user interaction
+              // (e.g. tapping "Play Music") fires this listener before React has re-rendered and
+              // updated the refs — so refs are still false at that moment. The listener must survive
+              // that first interaction and remain registered until refs become true on a LATER tap
+              // (e.g. clicking Next after autoplay was blocked). It removes itself only after it
+              // successfully dispatches playVideo().
+              const unblockEvents = ['touchstart', 'touchend', 'click', 'pointerdown', 'keydown'];
+              const handleGestureUnblock = () => {
+                try {
+                  const target = playerInstanceRef.current || e.target;
+                  if (target && typeof target.getPlayerState === 'function') {
+                    const st = target.getPlayerState();
+                    if (st === 1 || st === 3) {
+                      // Already playing or buffering — remove listener, nothing to do
+                      unblockEvents.forEach(evt => window.removeEventListener(evt, handleGestureUnblock, { capture: true }));
+                      gestureUnblockCleanupRef.current = null;
+                    } else if (userIntentToPlayRef.current || isPlayingRef.current) {
+                      // Play was intended but player is not playing — dispatch and remove
+                      target.playVideo?.();
+                      unblockEvents.forEach(evt => window.removeEventListener(evt, handleGestureUnblock, { capture: true }));
+                      gestureUnblockCleanupRef.current = null;
+                    }
+                    // If neither condition is true (refs false, no play intent yet),
+                    // leave the listener attached for the next interaction.
+                  }
+                } catch (err) {}
+              };
+              // Store cleanup so the unmount effect can remove it
+              const cleanupGestureUnblock = () => {
+                unblockEvents.forEach(evt => window.removeEventListener(evt, handleGestureUnblock, { capture: true }));
+              };
+              gestureUnblockCleanupRef.current = cleanupGestureUnblock;
+              unblockEvents.forEach(evt => {
+                window.addEventListener(evt, handleGestureUnblock, { capture: true, passive: true });
+              });
             } catch (err) {
               console.warn('[YT] onReady setup error:', err);
             }
@@ -378,6 +416,8 @@ export function useYouTubePlayer(elementId) {
     return () => {
       stopTimePolling();
       clearLoadingSafety();
+      gestureUnblockCleanupRef.current?.();
+      gestureUnblockCleanupRef.current = null;
     };
   }, [stopTimePolling, clearLoadingSafety]);
 

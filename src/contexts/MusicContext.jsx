@@ -142,6 +142,10 @@ export function MusicProvider({ children }) {
         } catch (e) {}
       }
     } else {
+      // Not currently playing — cue the track without starting playback,
+      // EXCEPT when userIntentToPlayRef is true (autoplay was blocked in-app browser).
+      // In that case the videoId effect in useMusicPlayer will see isPlayingRef=false
+      // but the gesture listener registered in onReady will kick playVideo on first touch.
       if (playerRef.current && targetId) {
         playerRef.current._lastLoadedId = targetId;
         try {
