@@ -62,7 +62,6 @@ export function MusicProvider({ children }) {
     }
 
     // Load new festival playlist - reset track index
-    // State update triggers useMusicPlayer's useEffect([videoId]) which will call loadVideoById.
     console.log('[YT] LOAD FESTIVAL PLAYLIST:', festivalId);
     setCurrentPlaylistKey(festivalId);
     setCurrentTrackIndex(0);

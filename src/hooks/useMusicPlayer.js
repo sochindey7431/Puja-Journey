@@ -215,8 +215,6 @@ export function useYouTubePlayer(elementId) {
     if (!initialVideoId) return;
 
     isInitializingRef.current = true;
-    console.log('[YT] PLAYER INIT on element:', elementId, 'videoId:', initialVideoId);
-
     try {
       const safeOrigin = typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null'
         ? window.location.origin
@@ -239,7 +237,6 @@ export function useYouTubePlayer(elementId) {
         },
         events: {
           onReady: (e) => {
-            console.log('[YT] PLAYER READY');
             playerInstanceRef.current = e.target;
             if (playerRef) playerRef.current = e.target;
             isInitializingRef.current = false;
@@ -260,8 +257,8 @@ export function useYouTubePlayer(elementId) {
               if (isMutedRef.current) e.target.mute();
 
               const latestId = lastLoadedIdRef.current;
+
               if (latestId && latestId !== initialVideoId) {
-                console.log('[YT] onReady → loading latest queued track:', latestId);
                 trackChangePendingRef.current = true;
                 if (userIntentToPlayRef.current || isPlayingRef.current) {
                   e.target.loadVideoById(latestId, 0);
@@ -270,18 +267,11 @@ export function useYouTubePlayer(elementId) {
                   e.target.cueVideoById(latestId, 0);
                 }
               } else if (userIntentToPlayRef.current || isPlayingRef.current) {
-                console.log('[YT] onReady → executing playVideo() for user intent');
                 e.target.playVideo();
                 startPollingRef.current?.();
               }
 
               // Persistent user-gesture unblock for in-app browsers (Instagram, Facebook, FB Lite).
-              // Uses a PERSISTENT listener (not { once: true }) because the FIRST user interaction
-              // (e.g. tapping "Play Music") fires this listener before React has re-rendered and
-              // updated the refs — so refs are still false at that moment. The listener must survive
-              // that first interaction and remain registered until refs become true on a LATER tap
-              // (e.g. clicking Next after autoplay was blocked). It removes itself only after it
-              // successfully dispatches playVideo().
               const unblockEvents = ['touchstart', 'touchend', 'click', 'pointerdown', 'keydown'];
               const handleGestureUnblock = () => {
                 try {
@@ -289,7 +279,7 @@ export function useYouTubePlayer(elementId) {
                   if (target && typeof target.getPlayerState === 'function') {
                     const st = target.getPlayerState();
                     if (st === 1 || st === 3) {
-                      // Already playing or buffering — remove listener, nothing to do
+                      // Already playing or buffering — remove listener
                       unblockEvents.forEach(evt => window.removeEventListener(evt, handleGestureUnblock, { capture: true }));
                       gestureUnblockCleanupRef.current = null;
                     } else if (userIntentToPlayRef.current || isPlayingRef.current) {
@@ -298,12 +288,11 @@ export function useYouTubePlayer(elementId) {
                       unblockEvents.forEach(evt => window.removeEventListener(evt, handleGestureUnblock, { capture: true }));
                       gestureUnblockCleanupRef.current = null;
                     }
-                    // If neither condition is true (refs false, no play intent yet),
-                    // leave the listener attached for the next interaction.
                   }
-                } catch (err) {}
+                } catch (err) {
+                  console.warn('[YT] Gesture unblock error:', err);
+                }
               };
-              // Store cleanup so the unmount effect can remove it
               const cleanupGestureUnblock = () => {
                 unblockEvents.forEach(evt => window.removeEventListener(evt, handleGestureUnblock, { capture: true }));
               };
@@ -315,16 +304,14 @@ export function useYouTubePlayer(elementId) {
               console.warn('[YT] onReady setup error:', err);
             }
           },
+          onAutoplayBlocked: () => {
+            setIsBufferingRef.current(false);
+            setIsLoadingRef.current(false);
+            clearLoadingSafety();
+          },
           onStateChange: (e) => {
             const YTState = window.YT?.PlayerState;
             if (!YTState) return;
-            const stateLabel =
-              e.data === 1 ? 'PLAYING' :
-              e.data === 2 ? 'PAUSED' :
-              e.data === 0 ? 'ENDED' :
-              e.data === 3 ? 'BUFFERING' :
-              e.data === 5 ? 'CUED' : `UNSTARTED(${e.data})`;
-            console.log('[YT] PLAYER STATE:', stateLabel);
 
             if (e.data === YTState.PLAYING) {
               trackChangePendingRef.current = false;
@@ -342,7 +329,6 @@ export function useYouTubePlayer(elementId) {
               clearLoadingSafety();
               trackChangePendingRef.current = false;
               if (userIntentToPlayRef.current || isPlayingRef.current) {
-                console.log('[YT] CUED → executing playVideo() for pending user play request');
                 try {
                   e.target.playVideo();
                 } catch (err) {}
@@ -374,7 +360,6 @@ export function useYouTubePlayer(elementId) {
               clearLoadingSafety();
               stopPollingRef.current?.();
               if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
-                console.log('[YT] ENDED — auto-advancing playlist');
                 nextTrackRef.current();
               }
             }
@@ -396,7 +381,6 @@ export function useYouTubePlayer(elementId) {
             } else if (e.data === 2) {
               msg = 'Invalid YouTube video ID.';
             }
-            console.warn('[YT] ERROR — showing inline message, not auto-advancing:', msg);
             if (typeof setErrorMessageRef.current === 'function') {
               setErrorMessageRef.current(msg);
             }
@@ -501,14 +485,12 @@ export function useYouTubePlayer(elementId) {
       if (isPlaying) {
         userIntentToPlayRef.current = true;
         if (state !== YTState?.PLAYING && state !== YTState?.BUFFERING) {
-          console.log('[YT] External play command → playVideo()');
           p.playVideo?.();
           startTimePolling();
         }
       } else {
         userIntentToPlayRef.current = false;
         if (state === YTState?.PLAYING || state === YTState?.BUFFERING) {
-          console.log('[YT] External pause command → pauseVideo()');
           p.pauseVideo?.();
           stopTimePolling();
         }
