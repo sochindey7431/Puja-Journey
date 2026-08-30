@@ -18,6 +18,7 @@ export function LocalMusicProvider({ children }) {
   const [duration, setDuration]             = useState(0);
   const [festivalName, setFestivalName]     = useState('');
   const [festivalEmoji, setFestivalEmoji]   = useState('🎵');
+  const [festivalIcon, setFestivalIcon]     = useState(null);
   const [accentColor, setAccentColor]       = useState('#d4a017');
   const [festivalImage, setFestivalImage]   = useState(null);
 
@@ -42,6 +43,7 @@ export function LocalMusicProvider({ children }) {
     setDuration(state.duration ?? 0);
     if (state.festivalName)  setFestivalName(state.festivalName);
     if (state.festivalEmoji) setFestivalEmoji(state.festivalEmoji);
+    setFestivalIcon(state.festivalIcon ?? null);
     if (state.accentColor)   setAccentColor(state.accentColor);
     setFestivalImage(state.festivalImage ?? null);
   }, []);
@@ -59,6 +61,7 @@ export function LocalMusicProvider({ children }) {
     duration,
     festivalName,
     festivalEmoji,
+    festivalIcon,
     accentColor,
     festivalImage,
     registerPlayer,

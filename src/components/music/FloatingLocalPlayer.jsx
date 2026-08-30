@@ -11,6 +11,7 @@ import { Play, Pause, SkipBack, SkipForward, X, ChevronUp, ChevronDown, Music } 
 import { useState } from 'react';
 import { useLocalMusicContext } from '../../contexts/LocalMusicContext.jsx';
 import { fileToTitle } from '../../hooks/useLocalMusic.js';
+import { getAssetUrl } from '../../utils/assetUtils.js';
 
 /** Format seconds as M:SS */
 function fmt(s) {
@@ -29,7 +30,7 @@ export default function FloatingLocalPlayer() {
 
   const {
     currentTrack, isPlaying, currentTime, duration,
-    festivalName, festivalEmoji, accentColor, festivalImage,
+    festivalName, festivalEmoji, festivalIcon, accentColor, festivalImage,
     togglePlay, prevTrack, nextTrack, seek, dismiss,
   } = ctx;
 
@@ -56,7 +57,15 @@ export default function FloatingLocalPlayer() {
           {/* ── Top bar ─────────────────────────────────────────── */}
           <div className="flp-topbar">
             <div className="flp-festival-tag" style={{ color: `${accent}90` }}>
-              <span>{festivalEmoji || '🎵'}</span>
+              {festivalIcon ? (
+                <img
+                  src={getAssetUrl(festivalIcon)}
+                  alt={festivalName}
+                  style={{ width: '1.1rem', height: '1.1rem', objectFit: 'contain', flexShrink: 0 }}
+                />
+              ) : (
+                <Music size={13} style={{ flexShrink: 0 }} />
+              )}
               <span className="flp-festival-name">{festivalName}</span>
             </div>
             <div className="flp-topbar-actions">

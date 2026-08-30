@@ -15,6 +15,7 @@ import {
 import { useLocalMusic, fileToTitle } from '../../hooks/useLocalMusic.js';
 import { useLocalMusicContext } from '../../contexts/LocalMusicContext.jsx';
 import { useLanguage } from '../../hooks/useLanguage.jsx';
+import { getAssetUrl } from '../../utils/assetUtils.js';
 
 function fmt(s) {
   if (!s || isNaN(s) || !isFinite(s)) return '0:00';
@@ -56,13 +57,14 @@ export default function FestivalMusicPlayer({ festival }) {
       duration:      player.duration,
       festivalName:  festival.nameEn,
       festivalEmoji: festival.emoji,
+      festivalIcon:  festival.icon || null,
       accentColor:   accent,
       festivalImage: festival.image || null,
     });
   }, [
     player.currentTrack, player.isPlaying,
     player.currentTime, player.duration,
-    festival.nameEn, festival.emoji, accent, festival.image, ctx,
+    festival.nameEn, festival.emoji, festival.icon, accent, festival.image, ctx,
   ]);
 
   // ── Empty / loading states ───────────────────────────────────────
@@ -129,7 +131,16 @@ export default function FestivalMusicPlayer({ festival }) {
         {/* ── Header ──────────────────────────────────────────────── */}
         <div className="fmp-header">
           <div className="fmp-header-left">
-            <span className="fmp-icon" style={{ color: accent }}>{festival.emoji}</span>
+            {festival.icon ? (
+              <img
+                src={getAssetUrl(festival.icon)}
+                alt={festival.nameEn}
+                className="fmp-icon"
+                style={{ width: '2rem', height: '2rem', objectFit: 'contain', filter: `drop-shadow(0 0 6px ${accent}66)` }}
+              />
+            ) : (
+              <Music className="fmp-icon" size={28} style={{ color: accent }} />
+            )}
             <div>
               <p className="fmp-playlist-label">
                 {isBn ? 'সঙ্গীত · ' : 'Music · '}

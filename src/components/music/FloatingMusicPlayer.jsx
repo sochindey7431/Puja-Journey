@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMusicContext, useMusicTime } from '../../contexts/MusicContext.jsx';
 import { festivals } from '../../data/festivals.js';
 import { getPlaylistForFestival, hasPlaylistForFestival } from '../../data/festivalPlaylists.js';
+import { getAssetUrl } from '../../utils/assetUtils.js';
 import {
   Play, Pause, SkipBack, SkipForward,
   ListMusic, X, ChevronDown, Music2,
@@ -199,21 +200,22 @@ function FloatingMusicPlayer() {
 
   const trackTitle = currentTrack?.titleBn || currentTrack?.title || 'Predefined Festival Track';
   const festivalTitle = currentPlaylist.title || 'Devotional Music';
+  const festivalIcon = festivals.find(f => f.id === currentPlaylist.festivalId)?.icon || null;
 
   // Configured festival keys for switching in drawer
   const availablePlaylists = [
-    { key: 'saraswati-puja', label: 'সরস্বতী পূজা', emoji: '📿' },
-    { key: 'shivaratri', label: 'মহাশিবরাত্রি', emoji: '🔱' },
-    { key: 'dol-purnima', label: 'দোল পূর্ণিমা', emoji: '🌸' },
-    { key: 'rath-yatra', label: 'রথযাত্রা', emoji: '🏛️' },
-    { key: 'janmashtami', label: 'জন্মাষ্টমী', emoji: '🦚' },
-    { key: 'ganesh-chaturthi', label: 'গণেশ চতুর্থী', emoji: '🐘' },
-    { key: 'vishwakarma-puja', label: 'বিশ্বকর্মা পূজা', emoji: '🔨' },
-    { key: 'mahalaya', label: 'মহালয়া', emoji: '🌑' },
-    { key: 'durga-puja-shasthi', label: 'দুর্গাপূজা', emoji: '🪔' },
-    { key: 'lakshmi-puja', label: 'লক্ষ্মী পূজা', emoji: '🪷' },
-    { key: 'kali-puja', label: 'কালী পূজা', emoji: '🕉️' },
-    { key: 'jagaddhatri-puja', label: 'জগদ্ধাত্রী পূজা', emoji: '🌸' },
+    { key: 'saraswati-puja', label: 'সরস্বতী পূজা' },
+    { key: 'shivaratri', label: 'মহাশিবরাত্রি' },
+    { key: 'dol-purnima', label: 'দোল পূর্ণিমা' },
+    { key: 'rath-yatra', label: 'রথযাত্রা' },
+    { key: 'janmashtami', label: 'জন্মাষ্টমী' },
+    { key: 'ganesh-chaturthi', label: 'গণেশ চতুর্থী' },
+    { key: 'vishwakarma-puja', label: 'বিশ্বকর্মা পূজা' },
+    { key: 'mahalaya', label: 'মহালয়া' },
+    { key: 'durga-puja-shasthi', label: 'দুর্গাপূজা' },
+    { key: 'lakshmi-puja', label: 'লক্ষ্মী পূজা' },
+    { key: 'kali-puja', label: 'কালী পূজা' },
+    { key: 'jagaddhatri-puja', label: 'জগদ্ধাত্রী পূজা' },
   ];
 
   return (
@@ -277,7 +279,16 @@ function FloatingMusicPlayer() {
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-puja-gold/15 bg-puja-gold/5 flex-shrink-0">
               <div className="flex items-center gap-3 min-w-0">
-                <span className="text-2xl" aria-hidden="true">{currentPlaylist.festivalEmoji || '🪔'}</span>
+                {festivalIcon ? (
+                  <img
+                    src={getAssetUrl(festivalIcon)}
+                    alt={festivalTitle}
+                    aria-hidden="true"
+                    style={{ width: '1.75rem', height: '1.75rem', objectFit: 'contain', flexShrink: 0 }}
+                  />
+                ) : (
+                  <Music2 size={22} className="text-puja-gold/70 flex-shrink-0" aria-hidden="true" />
+                )}
                 <div className="min-w-0">
                   <p className="bn-text text-base text-puja-gold leading-tight truncate font-semibold">
                     {currentPlaylist.title}
@@ -317,8 +328,21 @@ function FloatingMusicPlayer() {
                         : 'bg-white/5 text-puja-ivory/50 hover:text-puja-gold hover:bg-white/10'
                     }`}
                   >
-                    {item.emoji} {item.label}
-                  </button>
+                  {(() => {
+                    const tabIcon = festivals.find(f => f.id === item.key)?.icon || null;
+                    return tabIcon ? (
+                      <img
+                        src={getAssetUrl(tabIcon)}
+                        alt=""
+                        aria-hidden="true"
+                        style={{ width: '14px', height: '14px', objectFit: 'contain', flexShrink: 0, display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}
+                      />
+                    ) : (
+                      <Music2 size={12} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px', flexShrink: 0 }} aria-hidden="true" />
+                    );
+                  })()}
+                  {item.label}
+                </button>
                 );
               })}
             </div>
@@ -422,7 +446,16 @@ function FloatingMusicPlayer() {
 
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs" aria-hidden="true">{currentPlaylist.festivalEmoji || '🪔'}</span>
+                {festivalIcon ? (
+                  <img
+                    src={getAssetUrl(festivalIcon)}
+                    alt=""
+                    aria-hidden="true"
+                    style={{ width: '0.85rem', height: '0.85rem', objectFit: 'contain', flexShrink: 0 }}
+                  />
+                ) : (
+                  <Music2 size={11} className="text-puja-gold/60 flex-shrink-0" aria-hidden="true" />
+                )}
                 <p className="text-[10px] sm:text-xs text-puja-gold/80 truncate font-semibold uppercase tracking-wider">
                   {festivalTitle}
                 </p>
