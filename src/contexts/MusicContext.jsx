@@ -62,24 +62,27 @@ export function MusicProvider({ children }) {
     }
 
     // Load new festival playlist - reset track index
-    console.log('[YT] LOAD FESTIVAL PLAYLIST:', festivalId);
+    console.log('[PujaMusic] loadFestivalMusic requested for festivalId:', festivalId, 'autoPlay:', autoPlay);
     setCurrentPlaylistKey(festivalId);
     setCurrentTrackIndex(0);
     setCurrentTime(0);
     setDuration(0);
     if (autoPlay) {
-      setIsPlaying(true);
       setIsLoading(true);
       const firstTrackObj = playlist.tracks[0];
       const targetId = firstTrackObj?.youtubeId || firstTrackObj?.id;
+      console.log('[PujaMusic] Synchronous user click dispatch on playerRef for track ID:', targetId, 'playerReady:', Boolean(playerRef.current));
       if (playerRef.current && targetId) {
         playerRef.current._lastLoadedId = targetId;
         try {
           if (typeof playerRef.current.loadVideoById === 'function') {
+            console.log('[PujaMusic] Executing loadVideoById + playVideo synchronously');
             playerRef.current.loadVideoById(targetId, 0);
             playerRef.current.playVideo?.();
           }
-        } catch (e) {}
+        } catch (e) {
+          console.warn('[PujaMusic] Error calling loadVideoById:', e);
+        }
       }
     }
   }, [currentPlaylistKey]);
@@ -88,13 +91,15 @@ export function MusicProvider({ children }) {
   const loadPlaylist = loadFestivalMusic;
 
   const play = useCallback(() => {
+    console.log('[PujaMusic] play() invoked directly by user action. playerRef available:', Boolean(playerRef.current));
     setErrorMessage(null);
     setIsLoading(true);
-    setIsPlaying(true);
     if (playerRef.current?.playVideo) {
       try {
+        console.log('[PujaMusic] Executing playerRef.playVideo() synchronously');
         playerRef.current.playVideo();
       } catch (e) {
+        console.warn('[PujaMusic] playVideo error:', e);
         setIsLoading(false);
         setIsPlaying(false);
       }
@@ -102,6 +107,7 @@ export function MusicProvider({ children }) {
   }, []);
 
   const pause = useCallback(() => {
+    console.log('[PujaMusic] pause() invoked by user action');
     setIsPlaying(false);
     setIsLoading(false);
     setIsBuffering(false);
@@ -141,10 +147,7 @@ export function MusicProvider({ children }) {
         } catch (e) {}
       }
     } else {
-      // Not currently playing — cue the track without starting playback,
-      // EXCEPT when userIntentToPlayRef is true (autoplay was blocked in-app browser).
-      // In that case the videoId effect in useMusicPlayer will see isPlayingRef=false
-      // but the gesture listener registered in onReady will kick playVideo on first touch.
+      // Not currently playing — cue the track without starting playback
       if (playerRef.current && targetId) {
         playerRef.current._lastLoadedId = targetId;
         try {
@@ -197,7 +200,6 @@ export function MusicProvider({ children }) {
     setCurrentTime(0);
     setCurrentTrackIndex(index);
     setIsLoading(true);
-    setIsPlaying(true);
 
     const trackObj = currentPlaylist.tracks[index];
     const targetId = trackObj?.youtubeId || trackObj?.id;

@@ -226,7 +226,7 @@ export function useYouTubePlayer(elementId) {
         videoId: initialVideoId,
         host: 'https://www.youtube.com',
         playerVars: {
-          autoplay: 1,
+          autoplay: 0,
           controls: 1,
           rel: 0,
           modestbranding: 1,
@@ -253,8 +253,12 @@ export function useYouTubePlayer(elementId) {
                 iframe.setAttribute('webkit-playsinline', '1');
               }
 
-              e.target.setVolume(volumeRef.current);
-              if (isMutedRef.current) e.target.mute();
+              e.target.setVolume(volumeRef.current || 80);
+              if (isMutedRef.current) {
+                e.target.mute();
+              } else {
+                e.target.unMute();
+              }
 
               const latestId = lastLoadedIdRef.current;
 
@@ -305,6 +309,8 @@ export function useYouTubePlayer(elementId) {
             }
           },
           onAutoplayBlocked: () => {
+            console.warn('[PujaMusic] onAutoplayBlocked event fired by YouTube IFrame API');
+            setIsPlayingRef.current(false);
             setIsBufferingRef.current(false);
             setIsLoadingRef.current(false);
             clearLoadingSafety();
@@ -312,6 +318,13 @@ export function useYouTubePlayer(elementId) {
           onStateChange: (e) => {
             const YTState = window.YT?.PlayerState;
             if (!YTState) return;
+            const stateLabel =
+              e.data === 1 ? 'PLAYING(1)' :
+              e.data === 2 ? 'PAUSED(2)' :
+              e.data === 0 ? 'ENDED(0)' :
+              e.data === 3 ? 'BUFFERING(3)' :
+              e.data === 5 ? 'CUED(5)' : `UNSTARTED(${e.data})`;
+            console.log('[PujaMusic] onStateChange →', stateLabel);
 
             if (e.data === YTState.PLAYING) {
               trackChangePendingRef.current = false;
@@ -324,11 +337,13 @@ export function useYouTubePlayer(elementId) {
               setIsBufferingRef.current(true);
               scheduleLoadingSafety();
             } else if (e.data === YTState.CUED) {
+              setIsPlayingRef.current(false);
               setIsBufferingRef.current(false);
               setIsLoadingRef.current(false);
               clearLoadingSafety();
               trackChangePendingRef.current = false;
               if (userIntentToPlayRef.current || isPlayingRef.current) {
+                console.log('[PujaMusic] CUED state with play intent → triggering playVideo()');
                 try {
                   e.target.playVideo();
                 } catch (err) {}
@@ -345,7 +360,7 @@ export function useYouTubePlayer(elementId) {
               setIsLoadingRef.current(false);
 
               if (wasTrackChange && (userIntentToPlayRef.current || isPlayingRef.current)) {
-                // Mobile WebViews often land in PAUSED after video cue. Kick playVideo once:
+                console.log('[PujaMusic] PAUSED after track change with play intent → kicking playVideo()');
                 try {
                   e.target.playVideo();
                 } catch (err) {}
@@ -360,12 +375,13 @@ export function useYouTubePlayer(elementId) {
               clearLoadingSafety();
               stopPollingRef.current?.();
               if (AUTO_ADVANCE_PLAYLIST && typeof nextTrackRef.current === 'function') {
+                console.log('[PujaMusic] ENDED → auto advancing');
                 nextTrackRef.current();
               }
             }
           },
           onError: (e) => {
-            console.warn('[YT] ERROR code:', e.data,
+            console.warn('[PujaMusic] onError code:', e.data,
               '(100=not found, 101/150=embed restricted, 2=invalid param, 5=HTML5 error)');
             trackChangePendingRef.current = false;
             setIsBufferingRef.current(false);
@@ -416,7 +432,7 @@ export function useYouTubePlayer(elementId) {
     if (!playerInstanceRef.current && !isInitializingRef.current) {
       const initialId = videoId || DEFAULT_INITIAL_VIDEO_ID;
       lastLoadedIdRef.current = initialId;
-      console.log('[YT] Pre-initializing persistent player in background, videoId:', initialId);
+      console.log('[PujaMusic] Pre-initializing persistent player in background, videoId:', initialId);
       runWhenYTReady(() => {
         initPlayerRef.current?.();
       });
@@ -435,7 +451,7 @@ export function useYouTubePlayer(elementId) {
         // sees the correct play/cue decision even if isPlaying state is still stale.
         userIntentToPlayRef.current = isPlayingRef.current;
         scheduleLoadingSafety();
-        console.log('[YT] TRACK requested, player not ready yet, scheduling init, videoId:', videoId);
+        console.log('[PujaMusic] Track requested but player not initialized yet, scheduling init for videoId:', videoId);
         runWhenYTReady(() => {
           initPlayerRef.current?.();
         });
@@ -454,7 +470,7 @@ export function useYouTubePlayer(elementId) {
     lastLoadedIdRef.current = videoId;
     // Snapshot the current play intent (isPlayingRef is already up-to-date via its own effect).
     const shouldPlay = userIntentToPlayRef.current || isPlayingRef.current;
-    console.log('[YT] TRACK CHANGE (effect) → loadVideoById:', videoId, '(was:', previousId, ') shouldPlay:', shouldPlay);
+    console.log('[PujaMusic] Track change effect → loadVideoById:', videoId, 'shouldPlay:', shouldPlay);
 
     // Mark a track-change in flight so onStateChange PAUSED is not misinterpreted.
     trackChangePendingRef.current = true;
@@ -470,32 +486,17 @@ export function useYouTubePlayer(elementId) {
       }
     } catch (e) {
       trackChangePendingRef.current = false;
-      console.warn('[YT] loadVideoById error:', e);
+      console.warn('[PujaMusic] loadVideoById error in effect:', e);
     }
   }, [videoId, scheduleLoadingSafety]);
 
+  // Sync time polling with isPlaying state without issuing unwanted pause/play commands
   useEffect(() => {
-    const p = playerInstanceRef.current;
-    if (!p) return;
-    // Do not interfere while a track-change is in flight — onStateChange handles resumption.
-    if (trackChangePendingRef.current) return;
-    try {
-      const state = p.getPlayerState?.();
-      const YTState = window.YT?.PlayerState;
-      if (isPlaying) {
-        userIntentToPlayRef.current = true;
-        if (state !== YTState?.PLAYING && state !== YTState?.BUFFERING) {
-          p.playVideo?.();
-          startTimePolling();
-        }
-      } else {
-        userIntentToPlayRef.current = false;
-        if (state === YTState?.PLAYING || state === YTState?.BUFFERING) {
-          p.pauseVideo?.();
-          stopTimePolling();
-        }
-      }
-    } catch (e) {}
+    if (isPlaying) {
+      startTimePolling();
+    } else {
+      stopTimePolling();
+    }
   }, [isPlaying, startTimePolling, stopTimePolling]);
 
   useEffect(() => {
